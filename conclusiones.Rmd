@@ -1,0 +1,18 @@
+---
+title: "Conclusiones y recomendaciones"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    collapsed: TRUE
+    smooth_scroll: TRUE
+    code_download: TRUE
+    theme: lumen
+
+---
+Son conclusiones son las siguientes: 
+
+<div style="text-align: justify">
+- Este análisis estadístico realizado puede ser una herramienta que ofrece un panorama a la situación de los hurtos en Colombia, sin embargo, en la base de datos proporcionada hay una falta de cobertura geográfica lo que puede traer como consecuencia sesgos a la hora de analizar el fenómeno. Para poder ofrecer una visión más precisa recae la necesidad de recolectar más datos donde se incluyan más regiones y más municipios, esto con el fin de comprender mejor las dinámicas de hurto del país y esto recae en la responsabilidad de conocer completamente la diversidad de los datos en estos entornos sociales. 
+<div/>
+<br>

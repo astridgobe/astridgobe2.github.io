@@ -1,0 +1,34 @@
+---
+title: "Análisis descriptivo del conjunto de datos"
+subtitle: "Descripción de tendencias y situaciones clave del conjunto de datos"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    collapsed: TRUE
+    smooth_scroll: TRUE
+    code_download: TRUE
+    theme: lumen
+bibliography: biblio.bib
+csl: apa.csl.txt 
+---
+```{r setup, include=FALSE}
+library(tidyverse)
+library(janitor)
+library(flextable)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+knitr::opts_chunk$set(echo = TRUE)  
+```
+```{css,echo=FALSE}
+.column {display:flex;}
+h1{color:rgb(26, 72, 112)}
+h2{color:rgb(26, 72, 112)}
+h3{color:rgb(26, 72, 112)}
+```
+<br>
+<div style="text-align: justify">
+En este apartado se busca realizar los procedimientos pertinentes para una buena descripción estadística del conjunto de datos, es decir, una vez identificado las dimensiones y tipos de variables a tratar, se pretende organizar y resumir la información mediante el empelo medidas de tendencia central y dispersión, así como, el desarrollo y creación de tablas de frecuencia y graficas pertinentes que muestren de manera clara y concisa la información sobre hurtos y delincuencia en las distintas regiones del territorio nacional, para así poder realizar conclusiones útiles sobre la basa de datos. 
+<div/>
+<br>

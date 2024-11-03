@@ -1,0 +1,24 @@
+name: "my-website"
+output_dir: "."
+navbar:
+  title: "🧠 Redes Sociales y Salud Mental"
+  left:
+    - text: "Introducción"
+      icon: fa-home
+      href: index.html
+    - text: "Análisis descriptivo"
+      icon: fa-gear
+      href: about.html
+    - text: "Conclusiones"
+      icon: fa-question
+      href: conclusiones.html
+output:
+  html_document:
+    theme: yeti
+    highlight: tango
+    toc: true                
+    toc_float: false          
+    toc_depth: 3              
+    css: styles.css          
+    include:
+      after_body: footer.html

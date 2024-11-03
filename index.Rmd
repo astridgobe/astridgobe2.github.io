@@ -1,0 +1,23 @@
+---
+title: "Introducción y Contexto General"
+subtitle: "Relevancia y objetivos de estudio"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    collapsed: TRUE
+    smooth_scroll: TRUE
+    code_download: TRUE
+    theme: lumen
+bibliography: biblio.bib
+csl: apa.csl.txt  
+---
+<br>
+<div style="text-align: justify">
+Sin duda alguna, la delincuencia es una preocupación diaria para los colombianos, pues noticias sobre hurtos y demás actos delictivos están al orden del día, tan solo hay que observar los datos publicados por Probogotá Región en 2023, los cuales mostraron que la extorsión, el hurto a personas, el homicidio, el hurto de automotores y el hurto a residencias son delitos en crecimiento en las diversas regiones del país, lo cual supone un gran desafío para las autoridades y una amplia preocupación para los ciudadanos [@saavedra2024delitos]. Por tanto, analizar una base de datos que comprenda información sobre esta cuestión supone un punto de partida beneficioso que puede llegar a aportar mayor compresión sobre las modalidades de hurto y delincuencia que predominan en el territorio nacional y posibles soluciones para disipar la presente problemática. 
+<div/>
+<br>
+<div style="text-align: justify">
+Teniendo en cuenta lo anterior, el objetivo principal de esta pagina web, es realizar un análisis estadístico descriptivo a partir del Dataset **hurtos2.csv**, mediante la realización de tablas de frecuencias, gráficos estadísticos y análisis de asimetría y dispersión que permitan obtener conclusiones coherentes y objetivas con la realidad que exponen los datos. 
+<div/>
+<br>

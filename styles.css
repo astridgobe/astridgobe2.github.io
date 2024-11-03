@@ -1,0 +1,51 @@
+.tocify {
+    background-color: #f8f9fa;      
+    width: 300px;                   
+    padding: 15px;                  
+    border-right: 1px solid #ddd;   
+    height: calc(100vh - 30px);     
+    overflow-y: auto;               
+    position: fixed;                
+    top: 30px;                      
+    left: 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1); 
+}
+
+.tocify .tocify-item {
+    display: block !important;      
+    visibility: visible !important;
+    opacity: 1 !important;
+    max-height: none !important;    
+    overflow: visible !important;   
+}
+
+.content {
+    margin-left: 320px;             
+    padding: 20px;                  
+    max-width: 75%;                 
+}
+
+.tocify-item a {
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    display: block;
+    padding: 8px 0;
+}
+
+.tocify-item a:hover {
+    color: #007acc;
+}
+
+
+.tocify-header {
+    font-size: 1.1em;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.tocify-item {
+    margin-left: 10px;
+    line-height: 1.5;
+}
