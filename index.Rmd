@@ -1,6 +1,5 @@
 ---
 title: "Introducción y Contexto General"
-subtitle: "Relevancia y objetivos de estudio"
 output:
   html_document:
     toc: TRUE
@@ -10,6 +9,8 @@ output:
     code_download: TRUE
     theme: lumen
 ---
+# 1.Relevancia temática y objetivos de estudio 
+
 <br>
 <div style="text-align: justify">
 Sin duda alguna, la delincuencia es una preocupación diaria para los colombianos, pues noticias sobre hurtos y demás actos delictivos están al orden del día, tan solo hay que observar los datos publicados por Probogotá Región en 2023, los cuales mostraron que la extorsión, el hurto a personas, el homicidio, el hurto de automotores y el hurto a residencias son delitos en crecimiento en las diversas regiones del país, lo cual supone un gran desafío para las autoridades y una amplia preocupación para los ciudadanos. Por tanto, analizar una base de datos que comprenda información sobre esta cuestión supone un punto de partida beneficioso que puede llegar a aportar mayor compresión sobre las modalidades de hurto y delincuencia que predominan en el territorio nacional y posibles soluciones para disipar la presente problemática. 
@@ -38,7 +39,7 @@ library(moments)
 library(explore)
 library(lessR)
 
-trabajo <- read_csv("violencia_genero_3.csv")
+violencia_genero <- read_csv("Violencia_genero_5.csv")
 knitr::opts_chunk$set(echo = TRUE)  
 ```
 ```{css,echo=FALSE}
@@ -47,27 +48,24 @@ h1{color:rgb(26, 72, 112)}
 h2{color:rgb(26, 72, 112)}
 ```
 
-# 1. Descripción técnica del dataset y contextualización
-
-Este estudio utiliza una base de datos robusta y detallada sobre violencia de género e intrafamiliar en España, abarcando incidentes registrados semanalmente entre enero de 2015 y marzo de 2023. Esta base de datos, con 12,161 registros y 32 variables en su versión original, constituye un recurso invaluable para el análisis de un fenómeno de alta complejidad social y relevancia, permitiendo investigar en profundidad los factores demográficos, socioeconómicos y contextuales asociados a los incidentes de violencia. La amplitud y riqueza de las variables, que incluyen características detalladas de víctimas y agresores, la relación entre ambos, y las circunstancias específicas de cada evento, aportan una perspectiva integral sobre los perfiles y patrones subyacentes en estos casos.
-
-Para maximizar la relevancia y aplicabilidad de la base de datos en el contexto de los objetivos y preguntas de investigación, se realizó una depuración exhaustiva de las variables. Este proceso implicó la eliminación de columnas redundantes y de baja contribución analítica, preservando solo aquellas que resultan críticas para el análisis. Además, se transformaron codificaciones complejas en etiquetas descriptivas, mejorando así la accesibilidad y claridad interpretativa de los datos. El conjunto depurado, compuesto ahora por 12,193 registros y 19 variables clave, se centra en la información esencial que permite una exploración precisa de patrones, factores de riesgo, y contextos de violencia en los distintos incidentes registrados.
-
+# 2. Descripción técnica del dataset y contextualización
+<br>
+<div style="text-align: justify">
+Este estudio utiliza una base de datos robusta y detallada sobre violencia de género e intrafamiliar en Colombia, abarcando incidentes registrados semanalmente entre enero de 2015 y marzo de 2023. Esta base de datos, con 12,193 registros y 32 variables en su versión original, constituye un recurso invaluable para el análisis de un fenómeno de alta complejidad social y relevancia, permitiendo investigar en profundidad los factores demográficos, socioeconómicos y contextuales asociados a los incidentes de violencia de género. La amplitud y riqueza de las variables, que incluyen características detalladas de víctimas y agresores, la relación entre ambos, y las circunstancias específicas de cada evento, aportan una perspectiva integral sobre los perfiles y patrones subyacentes en estos casos. Sin embargo, algunas variables son redundantes, otras tienen bajo valor explicativo para identificar patrones de violencia o perfiles de riesgo,algunas columnas se encuentran incomplentas y algunas contienen datos administrativos o contextuales que no contribuyen de manera significativa al análisis de la violencia de género e intrafamiliar. Simplificar el conjunto de datos permite concentrarse en la información esencial, optimizando la claridad y precisión analítica para responder a las preguntas de investigación de manera eficaz.
+<div/>
+<br>
+<div style="text-align: justify">
+Para maximizar la relevancia y aplicabilidad de la base de datos en el contexto de los objetivos y preguntas de investigación, se realizó una depuración exhaustiva de las variables. Este proceso implicó la eliminación de columnas redundantes y de baja contribución analítica, preservando solo aquellas que resultan críticas para el análisis. Además, se transformaron codificaciones complejas en etiquetas descriptivas, mejorando así la accesibilidad y claridad interpretativa de los datos. El conjunto depurado, compuesto ahora por 12,193 registros y 19 variables clave, se centra en la información esencial que permite una exploración precisa de patrones, factores de riesgo, y contextos de violencia en los distintos incidentes registrados.A continuación se exponen las variables a estudiar de la base de datos modificada, las cuales se configuran como parametros bajo estudio  bajo estudio que capturan una gama de aspectos de los individuos y las circunstancias que rodean cada incidente de violencia de género, permitiendo explorar temas como los perfiles sociodemográficos de víctimas y agresores, las condiciones y escenarios de los eventos, y el rol de factores como la relación entre víctima y agresor, el entorno del incidente y las condiciones de salud y seguridad social de los involucrados. Además, se incluye información clave sobre antecedentes de agresión, estados de captura y la presencia de sustancias, aportando una base integral para estudiar la violencia desde múltiples dimensiones y comprender sus patrones y determinantes:
+<div/>
+<br>
 ```{r}
-names(trabajo) #Nombre de las columnas y por tanto de las variables
+names(violencia_genero) #Nombre de las columnas y por tanto de las variables
 ```
-
-Por otro lado, el conjunto de datos cuenta con 10,000 filas, que corresponden al total de observaciones o unidades experimentales en el dataset. Cada fila representa a un participante con datos específicos para cada una de las 14 variables, formando un perfil detallado en términos de uso de tecnología, estilo de vida y salud mental. Con 10,000 unidades experimentales y 14 variables, el dataset contiene un total de 140,000 entradas, lo cual permite un análisis estadístico tanto descriptivo como inferencial sobre los patrones y factores relacionados con el bienestar. En resumen, las dimensiones del conjunto de datos son las siguientes:
-
-```{r}
-num_rows <- nrow(trabajo) #Número de observaciones (filas)
-num_colums <- ncol(trabajo) #Número de variables (columnas)
-total_values <- num_rows*num_colums #Total de datos 
-
-num_rows
-num_colums
-total_values
-```
+<br>
+<div style="text-align: justify">
+Por otro lado, como bien se mencionó, el conjunto de datos actual cuenta con 12,193 filas, que corresponden al total de observaciones o unidades experimentales en el dataset. Cada fila representa una unidad experimental, es decir, un incidente específico de violencia de género o intrafamiliar, documentado con datos detallados en cada una de las 19 variables, lo que permite construir un perfil exhaustivo que incluye características demográficas de la víctima y el agresor, el contexto del incidente y otros factores relevantes. Con 12,193 unidades experimentales y 19 variables, el conjunto de datos contiene un total de 231,667 entradas, lo cual habilita un análisis estadístico tanto descriptivo como inferencial sobre los patrones y factores asociados a la violencia de género.
+<div/>
+<br>
 ```{r}
 num_rows <- nrow(trabajo) #Número de observaciones (filas)
 num_colums <- ncol(trabajo) #Número de variables (columnas)
@@ -77,11 +75,19 @@ num_rows
 num_colums
 total_values
 ```
+<br>
+<div style="text-align: justify">
+La descripción técnica inicial de nuestra base de datos modificada es relevante porque define su capacidad y alcance en términos de número de observaciones y variables. Con 12,193 observaciones y 19 variables, este conjunto de datos ofrece un volumen adecuado para realizar análisis significativos y permite explorar patrones, perfiles y relaciones clave en el contexto de la violencia de género e intrafamiliar. El número de observaciones asegura suficiente representatividad y robustez estadística, mientras que la selección de variables permite un enfoque directo en aspectos críticos del fenómeno, alineándose con los objetivos y las preguntas de investigación del estudio.
+<div/>
+<br>
 
-# 1.2 Clasificación de variables
+# 2.1 Clasificación de variables
 
-Para realizar un análisis descriptivo adecuado del conjunto de datos seleccionado, es esencial identificar el tipo de variables que contiene. Este dataset abarca información sobre el uso de tecnología, factores de estilo de vida y aspectos de salud mental de los participantes, y comprende tanto variables categóricas como numéricas. La distinción entre estos tipos de variables es fundamental, ya que determina las herramientas y métodos de análisis a emplear: las variables categóricas permiten examinar frecuencias y distribuciones de categorías, mientras que las variables numéricas requieren medidas de tendencia central y dispersión, como la media, mediana y desviación estándar, para describir su comportamiento. Clasificar correctamente las variables facilita la aplicación de técnicas analíticas apropiadas y la obtención de conclusiones válidas y precisas sobre las relaciones entre el uso de tecnología y el bienestar. A continuación, se presenta la clasificación principal de las variables, obtenida mediante la siguiente función:
-
+<br>
+<div style="text-align: justify">
+Para realizar un análisis descriptivo adecuado del conjunto de datos seleccionado, es esencial clasificar las variables en función de su tipo. Esta base de datos sobre violencia de género incluye tanto variables categóricas como numéricas, una distinción fundamental para seleccionar las herramientas y métodos analíticos apropiados. Las variables categóricas permiten examinar la distribución de frecuencias en categorías clave, como el género, el parentesco entre víctima y agresor, y el escenario del incidente. Por su parte, las variables numéricas se analizan mediante medidas de tendencia central y dispersión (media, mediana y desviación estándar), lo cual facilita la comprensión de patrones en factores como la edad de los involucrados. Esta clasificación asegura que las técnicas analíticas aplicadas sean adecuadas para describir de manera precisa las características y patrones presentes en los datos. A continuación, se presenta la clasificación principal de las variables:
+<div/>
+<br>
 ```{r include=FALSE, paged.print=FALSE}
 trabajo_df <- data.frame(trabajo)
 ```
@@ -89,76 +95,107 @@ trabajo_df <- data.frame(trabajo)
 ```{r}
 str(trabajo_df) #Visualización de la estructura interna del conjunto de datos
 ```
-como se observa, la función `str()` nos expone 2 tipos de varaibles: `char()` y `num()`, las cuales hacen referencia a las variables cualitativas y cuantitativas respectivamente. Como se observa la clasificación de las varaibles es la siguiente: 
+<br>
+<div style="text-align: justify">
+La función str() revela que el conjunto de datos contiene dos tipos principales de variables: char() y num(), correspondientes a variables cualitativas y cuantitativas, respectivamente. Esta distinción guía el tipo de análisis que puede realizarse, ya que las variables cualitativas (char()) se prestan al análisis de frecuencias y categorías, mientras que las cuantitativas (num()) permiten el uso de estadísticas de tendencia central y dispersión.
+<div/>
+<br>
 
-## 1.2.1 Variables Categóricas
+## 2.1.1 Variables Categóricas
+<br>
+<div style="text-align: justify">
+Las variables cualitativas describen características no numéricas y permiten clasificar los datos en distintas categorías. Son esenciales para comprender los perfiles y contextos específicos de cada incidente de violencia. En este conjunto de datos, estas variables se centran en características de ubicación, relación, y condiciones de los involucrados y el incidente. 
+<div/>
+<br>
 
-Comprenden nombres o etiquetas que indican atributos de algún elemento, además de ser variables que no son cuantificables o con las cuales no se pueden realizar operaciones aritméticas. 
+  - **Departamento:**: es una **etiqueta geográfica** que clasifica el lugar donde ocurrió cada incidente, sin aportar un valor cuantitativo. Su importancia radica en permitir la identificación de patrones regionales, lo que es crucial para entender si existen áreas con mayor incidencia de violencia y, por tanto, para orientar políticas y recursos específicos a esas regiones.
   
-  - **User_ID:**: Actúa como una **etiqueta única** para identificar individualmente a cada participante en el estudio, sin implicar un valor cuantitativo o clasificatorio. Su importancia radica en la capacidad de distinguir cada observación de manera anónima, esencial para el seguimiento y análisis individualizado sin comprometer la privacidad. Sin embargo, para el presente análisis el ID no se empleará.
+  - **Ciclo de vida**: representa una **categoría de etapa de vida** de la víctima, como infancia, adolescencia o adultez. Esta clasificación permite analizar cómo el riesgo de sufrir violencia puede variar a lo largo de distintas etapas, sin que estas tengan un orden numérico. Es particularmente útil para enfocar las medidas de prevención y atención en función de la edad y etapa de desarrollo de la víctima.
   
-  - **Gender**: Representa **categorías de género**, utilizadas para clasificar a los participantes según su identidad de género sin orden numérico. Esta variable es relevante para explorar diferencias en el uso de tecnología y la salud mental entre grupos de género.
+  - **Sexo de la víctima**: es una **categoría de género** que identifica si la víctima es masculina o femenina. Como variable cualitativa, es clave para analizar cómo la violencia de género se distribuye entre diferentes géneros, ayudando a entender las dinámicas y particularidades de la violencia contra cada género.
   
-  - **Mental_Health_Status**: Describe **categorías de estado de salud mental**, evaluadas por cada participante. Esta variable es esencial para comprender el bienestar subjetivo y su posible relación con otros factores como el uso de tecnología y el estilo de vida.
+  - **Estrato socioeconómico**: se presenta en la base de datos como un indicador categórico numérico. Aunque está registrado con valores numéricos (por ejemplo, 1, 2, 3), estos valores no implican un orden o magnitud cuantitativa, sino que funcionan como **etiquetas para diferentes niveles socioeconómicos** (bajo, medio, alto, etc.). Su importancia radica en la posibilidad de analizar cómo el contexto económico afecta la vulnerabilidad y el riesgo de las víctimas de violencia, permitiendo identificar patrones de incidencia en función del nivel socioeconómico y orientar programas de apoyo a sectores específicos que puedan estar en mayor riesgo.
   
-  - **Stress_Level**: Refleja **categorías de nivel de estrés**, en las cuales los participantes se autoevalúan. Es clave para analizar cómo diferentes niveles de estrés pueden estar asociados con patrones en el uso de tecnología y hábitos diarios.
+  - **Tipo de Seguridad Social **: es una variable cualitativa que clasifica el tipo de cobertura de seguridad social de la víctima, indicando si pertenece a un sistema de cobertura público o privado. Esta distinción es fundamental, ya que permite evaluar si el tipo de cobertura influye en el acceso a recursos de atención y apoyo tras un incidente de violencia, así como en la calidad y rapidez de la respuesta sanitaria y social que la víctima puede recibir.
   
-  - **Support_Systems_Access**: Indica el **acceso a sistemas de apoyo emocional**, categorizado en función de la disponibilidad de redes de apoyo para los participantes. Su relevancia radica en contextualizar el respaldo social y su posible influencia en la resiliencia y salud mental.
+  - **Paciente hospitalizado**:  actúa como un **indicador de gravedad** del incidente al señalar si la víctima requirió hospitalización como consecuencia de la agresión. Esta variable binaria (con opciones de "sí" o "no") permite diferenciar entre casos que necesitaron atención médica de emergencia y aquellos que no, proporcionando información esencial sobre la severidad del incidente. Su análisis es crucial para evaluar el impacto de la violencia en la salud física de las víctimas, además de permitir identificar patrones en la intensidad de los incidentes y las necesidades de atención médica derivadas..
   
-  - **Work_Environment_Impact**:  Representa la percepción del impacto del entorno laboral sobre el bienestar mental, clasificada en **categorías**. Esta variable es importante para evaluar la influencia de factores externos en el bienestar mental de los participantes.
+  - **Condición final**: describe el **estado de la víctima** tras el incidente, con posibles valores como "vivo", "muerto" o "desconocido". Esta variable cualitativa proporciona información clave sobre el desenlace inmediato de cada caso, permitiendo evaluar la gravedad del incidente en términos de riesgo de mortalidad. La inclusión de la categoría "desconocido" también indica situaciones donde el resultado no fue registrado o es incierto, lo cual puede reflejar limitaciones en el seguimiento del caso o falta de información.
   
-  - **Online_Support_Usage**: Representa el uso de recursos de apoyo en línea, categorizando la preferencia o dependencia de servicios digitales de asistencia. Esta variable es fundamental para analizar el papel del soporte digital en el bienestar mental, permitiendo explorar su influencia en la gestión del estrés y la salud emocional de los participantes.
+  - **Naturaleza de la violencia**:  proporciona una **clasificación** detallada del tipo de violencia ejercida en cada incidente, con categorías como "física", "psicológica", "sexual", entre otras. Esta variable cualitativa es fundamental para desglosar y entender los diferentes tipos de agresión que experimentan las víctimas, permitiendo observar cuáles son las formas de violencia más prevalentes y cómo se distribuyen entre los casos.
   
+  - **Descripción de naturaleza**:  proporciona un detalle específico sobre los daños o efectos concretos derivados del acto de violencia, como "amenaza", "lesión física", "abuso psicológico", entre otros. A diferencia de la categoría general de "Naturaleza de la violencia", que clasifica el tipo amplio de agresión (física, psicológica, etc.), esta variable cualitativa permite profundizar en el resultado directo o la manifestación específica de la violencia ejercida.
   
-## 1.2.2 Variables Cuantitativas
+  - **Sexo del agresor**:  es una categoría de género para el agresor (masculino, femenino,intersexual). Es clave en el análisis de violencia de género, ya que permite observar los patrones de agresión según el género del agresor, proporcionando datos útiles para estrategias de prevención y perfilamiento.
+  
+  - **Parentesco con la víctima**: es una **categoría de relación** que define el tipo de vínculo entre la víctima y el agresor (pareja, familiar, desconocido). Esto permite un análisis específico de cómo los lazos familiares o cercanos pueden influir en la dinámica de la violencia, aspecto crucial para entender los contextos en los que ocurre.
+  
+  - **Escenario del incidente**: describe el **contexto físico** del incidente (hogar, espacio público). Esta variable cualitativa permite identificar los lugares más comunes donde ocurre la violencia, lo que es importante para desarrollar estrategias de prevención y seguridad adaptadas a esos entornos.
+  
+  - **Captura del agresor**:  es un **indicador legal** que señala si el agresor fue detenido tras el incidente (sí, no o desconocido). Este indicador es relevante para evaluar la respuesta institucional frente a los casos de violencia, permitiendo analizar la efectividad y rapidez de las intervenciones legales.
+  
+  - **Antecedentes del agresor**:  es un **historial de comportamiento** que muestra si el agresor tenía un historial previo de violencia. Esta variable cualitativa es útil para entender patrones de reincidencia, contribuyendo a la identificación de perfiles de riesgo y la necesidad de medidas preventivas específicas.
+  
+  - **Sustancias en la víctima**:  Sustancias en la víctima es una variable cualitativa que actúa como un **indicador binario de influencia de sustancias** en la víctima al momento del incidente. Aunque en la base de datos está codificada con valores numéricos (1 o 2), estos representan categorías cualitativas donde 1 indica "sí" (la víctima estaba bajo la influencia de sustancias) y 2 indica "no" (la víctima no estaba bajo la influencia de sustancias). Este indicador es importante para explorar la posible relación entre el consumo de sustancias y la ocurrencia de incidentes de violencia, ayudando a identificar factores de riesgo adicionales en el perfilamiento de casos.
 
-  - **Age**:  Edad del participante en años, una variable cuantificable que mide el tiempo de vida de cada individuo. Su inclusión es fundamental para identificar tendencias en el uso de tecnología y la salud mental que varían con la edad, proporcionando una dimensión demográfica clave en el análisis.
+## 2.1.2 Variables Cuantitativas
+
+  - **Año**: es una **dimensión temporal** que indica el año en que ocurrió el incidente. Al tratarse de un valor numérico, permite analizar la evolución de los casos a lo largo del tiempo y detectar tendencias en la frecuencia de los incidentes de violencia.
   
-  - **Technology_Usage_Hours**: Horas diarias dedicadas al uso de tecnología, una variable cuantitativa que captura el tiempo exacto de exposición tecnológica. Es una medida esencial para estudiar el impacto del tiempo de pantalla en la salud mental y su relación con otros factores de estilo de vida.
+  - **Edad de la víctima**: es una **medida de edad** numérica que permite analizar patrones de violencia según los diferentes grupos de edad de las víctimas. Esta variable es esencial para identificar los rangos etarios más vulnerables y orientar las intervenciones preventivas.
   
-  - **Social_Media_Usage_Hours**: Horas diarias dedicadas a redes sociales, cuantificables y expresadas en unidades de tiempo. Permite analizar de manera precisa cómo el tiempo en redes sociales afecta el estrés y la salud mental de los participantes.
+  - **Edad del agresor**: también es una **medida de edad** numérica, en este caso del agresor, y es útil para observar patrones de agresión en función de la edad del agresor. Este análisis contribuye a la identificación de perfiles etarios específicos asociados a comportamientos violentos.
   
-  - **Gaming_Hours**: Horas diarias dedicadas a videojuegos, cuantificadas para reflejar el tiempo exacto invertido en esta actividad. Esta medida permite evaluar si el tiempo de juego se correlaciona con otros aspectos del bienestar mental y social.
-  
-   - **Screen_Time_Hours**: Tiempo total de pantalla al día, medido en horas y cuantificado para reflejar la exposición total a dispositivos digitales. Es relevante para analizar cómo la exposición prolongada a pantallas puede influir en la salud mental y el bienestar general.
-  
-  - **Sleep_Hours**: Promedio de horas de sueño diario, cuantificable en unidades de tiempo. Es crucial para entender la relación entre un descanso adecuado, el estrés y el bienestar general de los participantes.
-  
-  - **Physical_Activity_Hours**: Horas diarias dedicadas a actividad física, una medida cuantitativa que cuantifica el nivel de actividad física. Es clave en estudios de salud mental y bienestar, ya que la actividad física se relaciona con la reducción del estrés y el fortalecimiento del bienestar general.
-  
-  
-# 1.3  Subclasificación de variables y escalas de medición
+
+# 2.2  Subclasificación de variables y escalas de medición
+
 <div style="text-align: justify">
 Si bien las variables se clasifican principalmente en cualitativas y cuantitativas, estás también se pueden dividir en subcategorías dependiendo si son numéricas o categóricas y, además, pueden adaptar diversas escalas de medición. A continuación, se presentan 2 tablas que resumen esta información. 
 <div/>
 
-## 1.3.1 Variables Categóricas
+## 2.2.1 Variables Categóricas
 
 <center>
- ![Nota: Tabla de elaboración propia](tabla 3.png){width=700}
+ ![Nota: Tabla de elaboración propia](Variable_violencia1.png){width=700}
 
 </center>
 <br>
 <div style="text-align: justify"> 
-Las variables categóricas en este conjunto de datos se dividen en nominales y ordinales, cada una con su respectiva relevancia en el análisis de bienestar y uso de tecnología. Las variables nominales, que incluyen User_ID, Gender, Support_Systems_Access, Work_Environment_Impact, y Online_Support_Usage, permiten clasificar a los participantes en categorías sin un orden jerárquico. Esto es fundamental para identificar patrones de pertenencia y realizar análisis de frecuencia, facilitando una comprensión de características como el acceso a sistemas de apoyo o el impacto percibido del entorno laboral sin asumir una progresión entre las categorías.
+Las variables categóricas en este conjunto de datos se clasifican en nominales y ordinales, cada una con un rol específico en el análisis de los incidentes de violencia de género. Las variables nominales, como "Departamento", "Sexo de la víctima", "Tipo de Seguridad Social" y "Escenario del incidente", permiten agrupar los datos en categorías sin un orden jerárquico. Estas variables son esenciales para identificar patrones de distribución geográfica, perfiles de género y tipos de cobertura social en los casos, además de analizar los contextos en los que ocurren los incidentes. La naturaleza nominal de estas variables facilita el uso de análisis de frecuencia y distribución, que son cruciales para describir cómo se agrupan los incidentes en función de estos atributos sin asumir progresión o jerarquía entre las categorías.
 <div/>
 <br>
-Por otro lado, las variables ordinales, como Mental_Health_Status y Stress_Level, poseen un orden implícito que permite jerarquizar los estados de salud mental y niveles de estrés. Aunque no se cuantifica la distancia exacta entre cada categoría, este orden facilita el análisis de tendencias en el bienestar percibido y el estrés, proporcionando una visión de cómo estas variables se relacionan con el uso de tecnología y otros factores de estilo de vida. Esta clasificación entre nominales y ordinales es esencial para aplicar métodos estadísticos adecuados a cada tipo de variable y obtener resultados significativos en el análisis del conjunto de datos.
+<div style="text-align: justify"> 
+Por otro lado, las variables ordinales, como "Ciclo de vida", "Estrato socioeconómico" y "Condición final", poseen un orden implícito que permite jerarquizar las categorías. Por ejemplo, "Ciclo de vida" organiza a las víctimas en etapas como infancia, adolescencia y adultez, lo que facilita el análisis de cómo el riesgo de violencia puede variar en función de la etapa de desarrollo. De manera similar, "Estrato socioeconómico" categoriza el nivel económico en niveles de menor a mayor, permitiendo estudiar la relación entre el estatus socioeconómico y la vulnerabilidad ante la violencia. Aunque estas variables no cuantifican la distancia exacta entre las categorías, el orden jerárquico permite realizar análisis de tendencias y comparaciones relativas, proporcionando una visión de cómo ciertos factores sociales y económicos se correlacionan con la incidencia de la violencia.
+<div/>
+<br>
+<div style="text-align: justify"> 
+La distinción entre variables nominales y ordinales es esencial para aplicar métodos estadísticos adecuados y para obtener conclusiones significativas sobre los perfiles y factores de riesgo en la violencia de género e intrafamiliar. Las nominales permiten identificar patrones generales de pertenencia, mientras que las ordinales ofrecen una base para el análisis de jerarquías y tendencias, ambos aspectos fundamentales para una comprensión integral de los datos.
 <div/>
 <br>
 
-## 1.3.2 Variables Cuantitativas
+## 2.2.2 Variables Cuantitativas
+
 <center>
- ![Nota: Tabla de elaboración propia](tabla 4.png){width=700}
+ ![Nota: Tabla de elaboración propia](variable_violencia2.png){width=700}
 
 </center>
 <br>
 <div style="text-align: justify"> 
-Las variables cuantitativas en este conjunto de datos se dividen en continuas y discretas, cada una con una escala de medición adecuada para el análisis. La única variable discreta es Age, medida en años enteros y clasificada en una escala de razón, ya que cuenta con un cero absoluto que representa la ausencia de tiempo de vida. Esto permite comparaciones proporcionales, como afirmar que alguien de 30 años tiene el doble de edad que alguien de 15 años, lo cual es útil en el análisis demográfico y en la identificación de patrones de edad en el uso de tecnología y bienestar.
+Las variables cuantitativas en este conjunto de datos se dividen en discretas y se miden en escalas adecuadas para el análisis de patrones temporales y demográficos en el contexto de violencia de género. Las variables Edad de la víctima y Edad del agresor son discretas, ya que se miden en años enteros, sin decimales, y están clasificadas en una escala de razón. Esta escala cuenta con un cero absoluto que representa la ausencia de edad, permitiendo comparaciones proporcionales, como decir que una persona de 40 años es el doble de mayor que alguien de 20 años. Este tipo de análisis facilita la identificación de patrones de edad en víctimas y agresores, ayudando a explorar cómo el riesgo o la tendencia a comportamientos violentos pueden variar con la edad.
 <div/>
 <br>
-Las demás variables cuantitativas Technology_Usage_Hours, Social_Media_Usage_Hours, Gaming_Hours, Screen_Time_Hours, Sleep_Hours y Physical_Activity_Hours— son continuas. Estas variables se miden en una escala de razón con un cero absoluto, que representa la ausencia total de la actividad medida (por ejemplo, cero horas de uso de tecnología o de sueño). Esto permite operaciones aritméticas y análisis detallados, como el cálculo de promedios, variaciones y proporciones, para estudiar la relación entre el uso de tecnología, el tiempo dedicado a actividades específicas y su impacto en el bienestar general.
+<div style="text-align: justify"> 
+Por otro lado, la variable Año también es discreta, ya que se registra en años específicos, pero se clasifica en una escala de intervalo. Aunque permite calcular la diferencia entre años para observar tendencias temporales, no tiene un cero absoluto que indique ausencia de tiempo; el año "0" es simplemente un punto de referencia en la cronología, no una ausencia de tiempo. Esta escala de intervalo permite analizar la evolución de los incidentes a lo largo de los años, identificando patrones temporales y cambios en la incidencia de violencia.
 <div/>
 <br>
+<div style="text-align: justify"> 
+Esta clasificación entre escala de razón y escala de intervalo es esencial para aplicar técnicas analíticas apropiadas. Las variables de razón (edad) permiten cálculos proporcionales y detallados análisis demográficos, mientras que la variable de intervalo (año) facilita el estudio de tendencias y patrones a lo largo del tiempo, proporcionando una visión integral sobre cómo la violencia de género e intrafamiliar se relaciona tanto con factores demográficos como temporales.
+<div/>
+<br>
+
+
+
+
+
 
 

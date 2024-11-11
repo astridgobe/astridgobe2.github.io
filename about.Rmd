@@ -177,18 +177,13 @@ library(kableExtra)
 violencia_genero$edad_victima <- as.numeric(as.character(violencia_genero$edad_victima))
 violencia_genero <- violencia_genero %>% filter(!is.na(edad_victima) & edad_victima >= 0 & edad_victima <= 100)
 
-# Crear intervalos de 10 en 10 con el intervalo [90-100] cerrado en ambos extremos
 violencia_genero$edad_intervalo <- cut(
   violencia_genero$edad_victima, 
   breaks = c(seq(0, 90, by = 10), 100), 
   labels = c("[0-10)", "[10-20)", "[20-30)", "[30-40)", "[40-50)", "[50-60)", "[60-70)", "[70-80)", "[80-90)", "[90-100]"),
-  right = FALSE,  # Incluir el límite superior en los intervalos
-  include.lowest = TRUE  # Asegurar que el límite inferior de 0 esté incluido
+  right = FALSE,  
+  include.lowest = TRUE 
 )
-
-# Modificar el último intervalo para que sea cerrado en 90 y 100
-violencia_genero$edad_intervalo <- recode(violencia_genero$edad_intervalo,
-                                           `"[90-100]"` = "[90-100]") # No se requiere cambio, solo asegurar la claridad
 
 tabla_frecuencia <- violencia_genero %>%
   group_by(edad_intervalo) %>%
@@ -199,18 +194,11 @@ tabla_frecuencia <- violencia_genero %>%
   mutate(
     Fi = cumsum(fi),
     Hi = round(cumsum(hi), 4),
-    `hi (%)` = round(hi * 100, 4),
+    `hi (%)` = round(hi * 100, 4),     # Nombres con caracteres especiales usando comillas invertidas
     `Hi (%)` = round(Hi * 100, 4)
   )
 
 tabla_frecuencia %>%
-  rename(
-    `Edad Intervalo` = edad_intervalo,
-    `fi` = fi,
-    `hi` = hi,
-    `Fi` = Fi,
-    `Hi` = Hi
-  ) %>%
   kable("html", align = "c", digits = 4, caption = "Tabla de Frecuencia de Edades de las Víctimas") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), full_width = F, position = "center") %>%
   row_spec(0, bold = T, background = "#d0e4f5")
@@ -219,11 +207,11 @@ tabla_frecuencia %>%
 ```
 <br>
 <div style="text-align: justify">
-La tabla de frecuencia de edades de las víctimas revela que el grupo de edad de 0 a 10 años tiene la mayor frecuencia absoluta con 4,721 casos, representando el 38.72% de los incidentes. Este hallazgo sugiere que los niños en la primera infancia son especialmente vulnerables, probablemente debido a su dependencia de adultos y a su falta de recursos para protegerse. Además, este alto porcentaje podría estar relacionado con factores socioeconómicos y familiares que incrementan la exposición de los menores a situaciones de riesgo. La tendencia se mantiene en el grupo de 10 a 20 años, que incluye tanto a adolescentes como a jóvenes adultos, donde se reportan 3,292 casos (27.00%), lo que lleva la acumulación total al 65.72%. Esto indica que esta franja etaria representa un grupo significativo en el contexto de la violencia, sugiriendo que tanto la adolescencia como la juventud son periodos críticos de vulnerabilidad.
+La tabla de frecuencia de edades de las víctimas ofrece una visión detallada de la distribución etaria, destacando la vulnerabilidad en ciertos grupos de edad. Los datos están organizados en intervalos de diez años, con frecuencias absolutas y relativas, además de frecuencias acumuladas y sus porcentajes, lo que permite identificar patrones claros en la concentración de víctimas por edad. El grupo de 0-10 años sobresale con la mayor cantidad de casos, representando el 38.72% del total de víctimas, seguido del grupo de 10-20 años con el 27.0%. En conjunto, estos dos intervalos abarcan casi dos tercios de las víctimas, acumulando un 65.72% del total en los primeros 20 años de vida. Este patrón muestra una alta concentración de víctimas en las edades más jóvenes, lo cual es un dato significativo para entender la vulnerabilidad en la población infantil y juvenil.
 <div/>
 <br>
 <div style="text-align: justify">
-A medida que avanzamos en los intervalos de edad, la frecuencia de víctimas disminuye notablemente. El grupo de 20 a 30 años representa el 15.81% de los casos, lo que sigue siendo relevante, pero la tendencia decreciente se acentúa en los adultos mayores, donde los intervalos de 50-65 y 65-100 años tienen frecuencias mucho menores, alcanzando solo el 2.96% y 0.85% respectivamente. Esta disminución puede reflejar una menor exposición a la violencia en las etapas más avanzadas de la vida o un cambio en la naturaleza de los incidentes a medida que las personas envejecen y asumen roles sociales distintos. Además, los factores culturales y la percepción de la violencia pueden evolucionar con la edad, llevando a que las personas mayores sean menos propensas a reportar incidentes de violencia o a estar en situaciones de riesgo. En resumen, los datos sugieren que los niños y jóvenes son los más afectados por la violencia, probablemente debido a su mayor exposición y vulnerabilidad, lo que resalta la necesidad de abordar la problemática de la violencia desde una perspectiva que considere el contexto social y cultural en el que se desarrollan estas dinámicas. A continuación, se puede observar de mejor manera la distribución de las edades de las víctimas de los diferentes tipos de violencia de género:
+A medida que se avanza en los rangos de edad, la frecuencia de víctimas disminuye notablemente. El grupo de 20-30 años representa solo el 15.77%, y cada intervalo posterior continúa disminuyendo, hasta alcanzar solo un 0.85% en el grupo de 90-100 años. Este descenso progresivo sugiere que la incidencia de victimización es mucho menor en edades avanzadas, consolidando la alta concentración de casos en los primeros años de vida.En resumen, esta tabla evidencia que la mayoría de las víctimas se concentran en las edades más jóvenes, con un descenso claro y progresivo en los grupos de mayor edad. Los primeros 20 años abarcan casi dos tercios de las víctimas, lo que indica una alta vulnerabilidad en estas edades. La acumulación de frecuencias en los primeros años refleja la importancia de este grupo etario dentro del conjunto de víctimas, destacando la vulnerabilidad de la población infantil y juvenil en los casos registrados. A continuación, se puede observar de mejor manera la distribución de las edades de las víctimas de los diferentes tipos de violencia de género:
 <div/>
 <br>
 ```{r, echo=FALSE, warning=FALSE}
@@ -380,28 +368,36 @@ library(dplyr)
 library(tidyr)
 library(kableExtra)
 
+# Convertir def_naturaleza a factor
 violencia_genero$def_naturaleza <- as.factor(violencia_genero$def_naturaleza)
 
+# Agrupar y resumir datos
 tabla_violencia <- violencia_genero %>%
   group_by(def_naturaleza, `Ciclo de vida`) %>%
   summarise(n = n(), .groups = 'drop') %>%
   arrange(def_naturaleza, `Ciclo de vida`)
 
+# Convertir a formato ancho
 tabla_ancha <- tabla_violencia %>%
-  pivot_wider(names_from = `Ciclo de vida`, values_from = n, values_fill = list(n = 0))
+  pivot_wider(id_cols = def_naturaleza, names_from = `Ciclo de vida`, values_from = n, values_fill = list(n = 0))
 
-column_order <- c("Primera infancia", "Infancia", "Adolescencia", "Juventud", "Adultez", "Persona Mayor")
-tabla_ancha <- tabla_ancha[, c("def_naturaleza", column_order)]
+# Ordenar columnas y seleccionar las necesarias
+column_order <- c("def_naturaleza", "Primera infancia", "Infancia", "Adolescencia", "Juventud", "Adultez", "Persona Mayor")
+tabla_ancha <- tabla_ancha %>%
+  select(any_of(column_order))
 
-tabla_final <- tabla_ancha %>%
-  rename(`Tipos de Violencia` = def_naturaleza)
+# Renombrar columna fuera de la canalización
+names(tabla_ancha)[names(tabla_ancha) == "def_naturaleza"] <- "Tipos de Violencia"
 
-tabla_final %>%
+# Generar la tabla HTML
+tabla_ancha %>%
   kable("html", align = "c", digits = 0, 
         caption = "Frecuencia de Casos de Violencia por Tipos de Violencia y Etapas de Vida") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
                 full_width = F, position = "center") %>%
   row_spec(0, bold = TRUE, background = "#d0e4f5")
+
+
 
 ```
 <br>
@@ -859,13 +855,12 @@ column_order_tipo <- c("Vivo", "Muerto", "Desconocido")
 
 tabla_ancha_tipo <- violencia_genero %>%
   count(def_naturaleza, con_fin_) %>%
-  pivot_wider(names_from = con_fin_, values_from = n, values_fill = 0) %>%
+  pivot_wider(names_from = con_fin_, values_from = n, values_fill = list(n = 0)) %>%
   select(def_naturaleza, all_of(column_order_tipo))
 
-tabla_final_tipo <- tabla_ancha_tipo %>%
-  rename(`Tipos de Violencia` = def_naturaleza)
+names(tabla_ancha_tipo)[names(tabla_ancha_tipo) == "def_naturaleza"] <- "Tipos de Violencia"
 
-tabla_final_tipo %>%
+tabla_ancha_tipo %>%
   kable("html", align = "c", digits = 0, 
         caption = "Frecuencia de Casos de Violencia por Tipos de Violencia y Estado de la Víctima") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
@@ -1433,16 +1428,10 @@ tabla_frecuencia_agresores <- violencia_genero %>%
   )
 
 tabla_frecuencia_agresores %>%
-  rename(
-    `Edad Intervalo` = edad_intervalo_agresor,
-    `fi` = fi,
-    `hi` = hi,
-    `Fi` = Fi,
-    `Hi` = Hi
-  ) %>%
   kable("html", align = "c", digits = 4, caption = "Tabla de Frecuencia de Edades de los Agresores") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), full_width = F, position = "center") %>%
   row_spec(0, bold = T, background = "#d0e4f5")
+
 
 ```
 <br>
@@ -1451,7 +1440,7 @@ La tabla de frecuencia de edades de los agresores revela que el intervalo de 20 
 <div/>
 <br>
 <div style="text-align: justify">
-El análisis de la frecuencia acumulada y su porcentaje acumulado indica que la mayoría de los agresores se concentran en los grupos etarios de 20 a 50 años, un rango asociado con etapas social y laboralmente activas. Este patrón podría estar influido por factores culturales, personales y contextuales que aumentan la probabilidad de involucrarse en actos de violencia en estas etapas de la vida. Por otro lado, la baja frecuencia de agresores en el grupo de 0 a 10 años es coherente con lo que se esperaría, considerando las limitaciones naturales de esta etapa en términos de desarrollo. Aunque no se puede afirmar categóricamente, es probable que la falta de registros en este rango refleje factores como la inmadurez física, emocional y social que caracterizan a los individuos en esta edad, los cuales pueden disminuir significativamente su participación en este tipo de comportamientos violentos.
+El análisis de la frecuencia acumulada y su porcentaje acumulado indica que la mayoría de los agresores se concentran en los grupos etarios de 20 a 50 años, un rango asociado con etapas social y laboralmente activas. Este patrón podría estar influido por factores culturales, personales y contextuales que aumentan la probabilidad de involucrarse en actos de violencia en estas etapas de la vida. Por otro lado, la baja frecuencia de agresores en el grupo de 0 a 10 años es coherente con lo que se esperaría, considerando las limitaciones naturales de esta etapa en términos de desarrollo. Aunque no se puede afirmar categóricamente, es probable que la falta de registros en este rango (0-10) refleje factores como la inmadurez física, emocional y social que caracterizan a los individuos en esta edad, los cuales pueden disminuir significativamente su participación en este tipo de comportamientos violentos.
 <div/>
 <br>
 <div style="text-align: justify">
@@ -1553,10 +1542,8 @@ En conclusión, la distribución de probabilidades en estos intervalos sugiere q
 library(dplyr)
 library(kableExtra)
 
-# Convertir el tipo de violencia a factor si aún no está
 violencia_genero$def_naturaleza <- as.factor(violencia_genero$def_naturaleza)
 
-# Calcular estadísticos por tipo de violencia para las edades de los agresores
 estadisticos_por_naturaleza_agresores <- violencia_genero %>%
   group_by(def_naturaleza) %>%
   summarise(
@@ -1572,7 +1559,6 @@ estadisticos_por_naturaleza_agresores <- violencia_genero %>%
     `Cuartil 3` = quantile(edad_agre, 0.75, na.rm = TRUE)
   )
 
-# Mostrar la tabla con formato
 estadisticos_por_naturaleza_agresores %>%
   select(`Tipo de Violencia`, `Media de Edad`, `Mediana de Edad`, `Moda de Edad`, `Desviación Estándar`, `Varianza`, `Coeficiente de Variación`, `Cuartil 1`, `Cuartil 2`, `Cuartil 3`) %>%
   kable("html", align = "c", digits = 2, 
@@ -1609,18 +1595,19 @@ violencia_genero$edad_intervalo_agresor <- cut(
   right = FALSE,
   include.lowest = TRUE
 )
-
 tabla_contingencia_agre <- violencia_genero %>%
   group_by(def_naturaleza, edad_intervalo_agresor) %>%
   summarise(frecuencia = n(), .groups = 'drop') %>%
   complete(def_naturaleza, edad_intervalo_agresor, fill = list(frecuencia = 0)) %>%
-  pivot_wider(names_from = edad_intervalo_agresor, values_from = frecuencia) %>%
-  rename(`Tipo de Violencia` = def_naturaleza)
+  pivot_wider(names_from = edad_intervalo_agresor, values_from = frecuencia)
+
+names(tabla_contingencia_agre)[names(tabla_contingencia_agre) == "def_naturaleza"] <- "Tipo de Violencia"
 
 tabla_contingencia_agre %>%
   kable("html", align = "c", digits = 4, caption = "Tabla de Contingencia entre Tipos de Violencia y Edades de los Agresores") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), full_width = F, position = "center") %>%
   row_spec(0, bold = T, background = "#d0e4f5")
+
 
 ```
 <br>
@@ -1760,29 +1747,32 @@ Esta distribución de género de los agresores sugiere que las intervenciones pr
 library(dplyr)
 library(kableExtra)
 
-intervalos_edad_agre <- c("[0-10)", "[10-20)", "[20-30)", "[30-40)", "[40-50)", "[50-60)", "[60-70)", "[70-80)", "[80-90)", "[90-100]")
+violencia_genero$edad_agre <- as.numeric(as.character(violencia_genero$edad_agre))
+violencia_genero <- violencia_genero %>% filter(!is.na(edad_agre) & edad_agre >= 0 & edad_agre <= 100)
 
-violencia_genero <- violencia_genero %>%
-  mutate(intervalos_edad_agre = cut(
-    edad_agre,
-    breaks = c(seq(0, 90, by = 10), 100),
-    labels = intervalos_edad_agre,
-    right = FALSE,
-    include.lowest = TRUE
-  ))
+violencia_genero$edad_intervalo_agresor <- cut(
+  violencia_genero$edad_agre, 
+  breaks = c(seq(0, 90, by = 10), 100), 
+  labels = c("[0-10)", "[10-20)", "[20-30)", "[30-40)", "[40-50)", "[50-60)", "[60-70)", "[70-80)", "[80-90)", "[90-100]"),
+  right = FALSE,
+  include.lowest = TRUE
+)
 
 tabla_frecuencia_gea <- violencia_genero %>%
-  group_by(intervalos_edad_agre, sexo_agre) %>%
+  group_by(edad_intervalo_agresor, sexo_agre) %>%
   summarise(frecuencia = n(), .groups = 'drop') %>%
-  pivot_wider(names_from = sexo_agre, values_from = frecuencia, values_fill = 0) %>%
-  rename(`Intervalos de Edad` = intervalos_edad_agre)
+  pivot_wider(names_from = sexo_agre, values_from = frecuencia, values_fill = list(frecuencia = 0))
+
+names(tabla_frecuencia_gea)[names(tabla_frecuencia_gea) == "edad_intervalo_agresor"] <- "Intervalos de Edad"
 
 tabla_frecuencia_gea %>%
-  kable("html", align = "c", digits = 2, 
+  kable("html", align = "c", digits = 4, 
         caption = "Frecuencia de Agresores por Intervalo de Edad y Género") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
                 full_width = F, position = "center") %>%
   row_spec(0, bold = TRUE, background = "#d0e4f5")
+
+
 
 ```
 <br>
@@ -1815,15 +1805,15 @@ En conclusión, esta distribución por intervalo de edad y género sugiere que l
 
 <br>
 ```{r, echo=FALSE, warning=FALSE}
-
 library(dplyr)
 library(kableExtra)
 
 tabla_frecuencia_violencia_genero1 <- violencia_genero %>%
   group_by(def_naturaleza, sexo_agre) %>%
   summarise(frecuencia = n(), .groups = 'drop') %>%
-  pivot_wider(names_from = sexo_agre, values_from = frecuencia, values_fill = 0) %>%
-  rename(`Tipo de Violencia` = def_naturaleza)
+  pivot_wider(names_from = sexo_agre, values_from = frecuencia, values_fill = list(frecuencia = 0))
+
+names(tabla_frecuencia_violencia_genero1)[names(tabla_frecuencia_violencia_genero1) == "def_naturaleza"] <- "Tipo de Violencia"
 
 tabla_frecuencia_violencia_genero1 %>%
   kable("html", align = "c", digits = 2, 
@@ -1831,6 +1821,7 @@ tabla_frecuencia_violencia_genero1 %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
                 full_width = F, position = "center") %>%
   row_spec(0, bold = TRUE, background = "#d0e4f5")
+
 
 ```
 <br>
@@ -1862,7 +1853,7 @@ En general, esta distribución sugiere una marcada diferencia de género en la p
 a continuación se presenta una tabla que presenta las probabilidades condicionales de que un agresor, en función de su género, se encuentre en un intervalo de edad específico dado el tipo de violencia que ejerce, considerando únicamente los 3 casos de violencia más registrados para facilidad del análisis. Al analizar estos datos, se pueden identificar patrones de riesgo asociados a ciertos tipos de violencia según las características demográficas de los agresores, lo que permite una comprensión más precisa de los perfiles comunes en cada tipo de agresión.
 <div/>
 <br>
-```{r}
+```{r,echo=FALSE,warning=FALSE}
 library(dplyr)
 library(DT)
 
@@ -1885,12 +1876,15 @@ total_por_violencia <- data_filtrada_agresores %>%
 
 conteo_violencia_genero_edad <- data_filtrada_agresores %>%
   group_by(def_naturaleza, sexo_agre, intervalo_edad_agresor) %>%
-  summarise(cantidad = n(), .groups = 'drop')
+  summarise(frecuencia = n(), .groups = 'drop') 
+
+print(head(conteo_violencia_genero_edad))
+print(head(total_por_violencia))
 
 tabla_probabilidades_violencia <- conteo_violencia_genero_edad %>%
   left_join(total_por_violencia, by = "def_naturaleza") %>%
   mutate(
-    probabilidad = round(cantidad / total_violencia, 4),
+    probabilidad = round(frecuencia / total_violencia, 4),
     porcentaje = paste0(round(probabilidad * 100, 2), "%"),
     enunciado = paste0("P(", sexo_agre, " ∩ ", intervalo_edad_agresor, " | ", def_naturaleza, ")")
   ) %>%
@@ -1988,10 +1982,8 @@ Para observar lo anterior con mayor claridad, se procederá a presentar una tabl
 ```{r,echo=FALSE,warning=FALSE}
 library(dplyr)
 library(DT)
-
 parentesco_counts <- violencia_genero %>%
-  count(parentezco_vict) %>%
-  rename(cantidad = n)
+  count(parentezco_vict, name = "cantidad")
 
 total_casos4 <- sum(parentesco_counts$cantidad)
 
@@ -1999,7 +1991,7 @@ tabla_probabilidades_parentesco <- parentesco_counts %>%
   mutate(
     probabilidad = round(cantidad / total_casos4, 4),
     porcentaje = paste0(round(probabilidad * 100, 2), "%"),
-    enunciado = paste0("P(",parentezco_vict , ")")
+    enunciado = paste0("P(", parentezco_vict, ")")
   ) %>%
   select(enunciado, probabilidad, porcentaje)
 
@@ -2016,6 +2008,7 @@ datatable(tabla_probabilidades_parentesco,
                            "}")),
           class = "cell-border stripe") %>%  
   formatRound(columns = c("probabilidad"), digits = 4)
+
 ```
 <br>
 <div style="text-align: justify">
@@ -2080,5 +2073,20 @@ pie(captura_agresores_count, labels = labels, col = colors,
     clockwise = TRUE, init.angle = 90)
 
 ```
-
+<br>
+<div style="text-align: justify">
+La gráfica presenta la distribución de agresores en función de su estado de captura, dividida en tres categorías: "Sí" para aquellos capturados (32%), "No" para los no capturados (35.3%), y "Desconocido" (32.7%) para los casos donde no se dispone de información. Esta distribución permite un análisis probabilístico relevante de los eventos de captura, ausencia de captura y falta de información.
+<div/>
+<br>
+<div style="text-align: justify">
+Desde una perspectiva de probabilidad, cada segmento representa un suceso distinto dentro de la población de agresores registrados. El suceso de captura (P(Captura = Sí)) muestra una probabilidad aproximada de 0.32, indicando que en poco menos de un tercio de los casos registrados se ha logrado detener al agresor. Este dato puede interpretarse como un indicador de la efectividad en las acciones de aprehensión, aunque limitado al análisis de los casos con información disponible.
+<div/>
+<br>
+<div style="text-align: justify">
+La probabilidad de que un agresor no sea capturado, P(Captura = No), es de 0.353, ligeramente superior a la de captura. Esto sugiere que en más de un tercio de los casos, el suceso "no capturado" ocurre, un factor que podría ser indicativo de fallas en la respuesta judicial o de dificultades en la localización de los agresores. Al comparar estos dos sucesos, se observa que la probabilidad de no captura supera marginalmente la de captura, lo cual plantea interrogantes sobre la eficiencia del sistema de justicia en estos casos.
+<div/>
+<br>
+<div style="text-align: justify">
+Finalmente, el suceso "Desconocido" (P(Captura = Desconocido) ≈ 0.327) constituye una proporción considerable de la muestra. La presencia de un alto porcentaje de datos desconocidos introduce una variable de incertidumbre significativa, que limita la precisión de las estimaciones probabilísticas sobre la efectividad de la captura de agresores. En términos estadísticos, esta incertidumbre puede afectar la representatividad de las conclusiones, ya que la falta de información en casi un tercio de los casos reduce la claridad de la situación real.
+<div/>
 <br>
