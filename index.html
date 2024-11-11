@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Introducción y Contexto General</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">👥 Casos de Violencia de Género</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Introducción
+  </a>
+</li>
+<li>
+  <a href="about.html">
+    <span class="fa fa-gear"></span>
+     
+    Análisis descriptivo
+  </a>
+</li>
+<li>
+  <a href="conclusiones.html">
+    <span class="fa fa-question"></span>
+     
+    Conclusiones
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Introducción y Contexto General</h1>
+<h3 class="subtitle">Relevancia y objetivos de estudio</h3>
+
+</div>
+
+
+<br>
+<div style="text-align: justify">
+Sin duda alguna, la delincuencia es una preocupación diaria para los
+colombianos, pues noticias sobre hurtos y demás actos delictivos están
+al orden del día, tan solo hay que observar los datos publicados por
+Probogotá Región en 2023, los cuales mostraron que la extorsión, el
+hurto a personas, el homicidio, el hurto de automotores y el hurto a
+residencias son delitos en crecimiento en las diversas regiones del
+país, lo cual supone un gran desafío para las autoridades y una amplia
+preocupación para los ciudadanos. Por tanto, analizar una base de datos
+que comprenda información sobre esta cuestión supone un punto de partida
+beneficioso que puede llegar a aportar mayor compresión sobre las
+modalidades de hurto y delincuencia que predominan en el territorio
+nacional y posibles soluciones para disipar la presente problemática.
+<div/>
+<br>
+<div style="text-align: justify">
+Teniendo en cuenta lo anterior, el objetivo principal de esta pagina
+web, es realizar un análisis estadístico descriptivo a partir del
+Dataset <strong>hurtos2.csv</strong>, mediante la realización de tablas
+de frecuencias, gráficos estadísticos y análisis de asimetría y
+dispersión que permitan obtener conclusiones coherentes y objetivas con
+la realidad que exponen los datos.
+<div/>
+<p><br></p>
+<style type="text/css">
+.column {display:flex;}
+h1{color:rgb(26, 72, 112)}
+h2{color:rgb(26, 72, 112)}
+</style>
+<div id="descripción-del-dataset" class="section level1">
+<h1>1. Descripción del Dataset</h1>
+<p>El conjunto de datos se compone de 10,000 filas y 14 columnas, donde
+cada columna representa una variable relacionada con el uso de
+tecnología, factores de estilo de vida y aspectos de salud mental de los
+participantes. Estas 14 columnas corresponden a características bajo
+estudio que capturan diversos aspectos de cada individuo, permitiendo
+analizar temas como el tiempo total dedicado a la tecnología, redes
+sociales y videojuegos, así como el estado de salud mental, los niveles
+de estrés, las horas de sueño y la actividad física. Además, el conjunto
+incluye información sobre el acceso a sistemas de apoyo y la percepción
+del impacto del entorno laboral en la salud mental, proporcionando una
+base integral para explorar las relaciones entre el uso de tecnología y
+el bienestar general. A continuación, se presentan las variables:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">names</span>(trabajo) <span class="co">#Nombre de las columnas y por tanto de las variables</span></span></code></pre></div>
+<pre><code>##  [1] &quot;Departamento&quot;             &quot;año&quot;                     
+##  [3] &quot;edad_victima&quot;             &quot;Ciclo de vida&quot;           
+##  [5] &quot;sexo_victima&quot;             &quot;estrato&quot;                 
+##  [7] &quot;Tipo de Seguridad Social&quot; &quot;pac_hos_&quot;                
+##  [9] &quot;con_fin_&quot;                 &quot;naturaleza&quot;              
+## [11] &quot;def_naturaleza&quot;           &quot;edad_agre&quot;               
+## [13] &quot;sexo_agre&quot;                &quot;parentezco_vict&quot;         
+## [15] &quot;escenario&quot;                &quot;captura_agresor&quot;         
+## [17] &quot;hora_hecho&quot;               &quot;antecedentes_agresor&quot;    
+## [19] &quot;sust_vic&quot;</code></pre>
+<p>Por otro lado, el conjunto de datos cuenta con 10,000 filas, que
+corresponden al total de observaciones o unidades experimentales en el
+dataset. Cada fila representa a un participante con datos específicos
+para cada una de las 14 variables, formando un perfil detallado en
+términos de uso de tecnología, estilo de vida y salud mental. Con 10,000
+unidades experimentales y 14 variables, el dataset contiene un total de
+140,000 entradas, lo cual permite un análisis estadístico tanto
+descriptivo como inferencial sobre los patrones y factores relacionados
+con el bienestar. En resumen, las dimensiones del conjunto de datos son
+las siguientes:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>num_rows <span class="ot">&lt;-</span> <span class="fu">nrow</span>(trabajo) <span class="co">#Número de observaciones (filas)</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>num_colums <span class="ot">&lt;-</span> <span class="fu">ncol</span>(trabajo) <span class="co">#Número de variables (columnas)</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>total_values <span class="ot">&lt;-</span> num_rows<span class="sc">*</span>num_colums <span class="co">#Total de datos </span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>num_rows</span></code></pre></div>
+<pre><code>## [1] 12193</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>num_colums</span></code></pre></div>
+<pre><code>## [1] 19</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>total_values</span></code></pre></div>
+<pre><code>## [1] 231667</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>num_rows <span class="ot">&lt;-</span> <span class="fu">nrow</span>(trabajo) <span class="co">#Número de observaciones (filas)</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>num_colums <span class="ot">&lt;-</span> <span class="fu">ncol</span>(trabajo) <span class="co">#Número de variables (columnas)</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>total_values <span class="ot">&lt;-</span> num_rows<span class="sc">*</span>num_colums <span class="co">#Total de datos </span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>num_rows</span></code></pre></div>
+<pre><code>## [1] 12193</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>num_colums</span></code></pre></div>
+<pre><code>## [1] 19</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>total_values</span></code></pre></div>
+<pre><code>## [1] 231667</code></pre>
+</div>
+<div id="clasificación-de-variables" class="section level1">
+<h1>1.2 Clasificación de variables</h1>
+<p>Para realizar un análisis descriptivo adecuado del conjunto de datos
+seleccionado, es esencial identificar el tipo de variables que contiene.
+Este dataset abarca información sobre el uso de tecnología, factores de
+estilo de vida y aspectos de salud mental de los participantes, y
+comprende tanto variables categóricas como numéricas. La distinción
+entre estos tipos de variables es fundamental, ya que determina las
+herramientas y métodos de análisis a emplear: las variables categóricas
+permiten examinar frecuencias y distribuciones de categorías, mientras
+que las variables numéricas requieren medidas de tendencia central y
+dispersión, como la media, mediana y desviación estándar, para describir
+su comportamiento. Clasificar correctamente las variables facilita la
+aplicación de técnicas analíticas apropiadas y la obtención de
+conclusiones válidas y precisas sobre las relaciones entre el uso de
+tecnología y el bienestar. A continuación, se presenta la clasificación
+principal de las variables, obtenida mediante la siguiente función:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">str</span>(trabajo_df) <span class="co">#Visualización de la estructura interna del conjunto de datos</span></span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    12193 obs. of  19 variables:
+##  $ Departamento            : chr  &quot;QUINDÍO&quot; &quot;CAUCA&quot; &quot;VALLE DEL CAUCA&quot; &quot;MAGDALENA&quot; ...
+##  $ año                     : num  2015 2015 2015 2015 2015 ...
+##  $ edad_victima            : num  16 17 16 16 13 14 13 16 7 20 ...
+##  $ Ciclo.de.vida           : chr  &quot;Adolescencia&quot; &quot;Adolescencia&quot; &quot;Adolescencia&quot; &quot;Adolescencia&quot; ...
+##  $ sexo_victima            : chr  &quot;Masculino&quot; &quot;Masculino&quot; &quot;Femenino&quot; &quot;Femenino&quot; ...
+##  $ estrato                 : num  1 1 2 2 1 3 1 3 3 1 ...
+##  $ Tipo.de.Seguridad.Social: chr  &quot;No asegurado&quot; &quot;Subsidiado&quot; &quot;Subsidiado&quot; &quot;Subsidiado&quot; ...
+##  $ pac_hos_                : chr  &quot;No&quot; &quot;No&quot; &quot;Sí&quot; &quot;No&quot; ...
+##  $ con_fin_                : chr  &quot;Desconocido&quot; &quot;Desconocido&quot; &quot;Vivo&quot; &quot;Desconocido&quot; ...
+##  $ naturaleza              : chr  &quot;Daño psicológico o emocional&quot; &quot;Lesión física leve&quot; &quot;Daño psicológico o emocional&quot; &quot;Lesión física leve&quot; ...
+##  $ def_naturaleza          : chr  &quot;Negligencia y abandono&quot; &quot;Violencia física&quot; &quot;Negligencia y abandono&quot; &quot;Violencia física&quot; ...
+##  $ edad_agre               : num  33 27 39 14 46 15 32 38 36 27 ...
+##  $ sexo_agre               : chr  &quot;Masculino&quot; &quot;Masculino&quot; &quot;Femenino&quot; &quot;Femenino&quot; ...
+##  $ parentezco_vict         : chr  &quot;Padre&quot; &quot;Otros&quot; &quot;Madre&quot; &quot;Otros&quot; ...
+##  $ escenario               : chr  &quot;Vía pública&quot; &quot;Vía pública&quot; &quot;Vivienda&quot; &quot;Vía pública&quot; ...
+##  $ captura_agresor         : chr  &quot;Desconocido&quot; &quot;Sí&quot; &quot;Sí&quot; &quot;No&quot; ...
+##  $ hora_hecho              : &#39;hms&#39; num  06:51:28 14:42:07 20:38:57 18:22:10 ...
+##   ..- attr(*, &quot;units&quot;)= chr &quot;secs&quot;
+##  $ antecedentes_agresor    : chr  &quot;No&quot; &quot;Sí&quot; &quot;No&quot; &quot;Sí&quot; ...
+##  $ sust_vic                : num  2 2 2 2 2 2 2 2 2 2 ...</code></pre>
+<p>como se observa, la función <code>str()</code> nos expone 2 tipos de
+varaibles: <code>char()</code> y <code>num()</code>, las cuales hacen
+referencia a las variables cualitativas y cuantitativas respectivamente.
+Como se observa la clasificación de las varaibles es la siguiente:</p>
+<div id="variables-categóricas" class="section level2">
+<h2>1.2.1 Variables Categóricas</h2>
+<p>Comprenden nombres o etiquetas que indican atributos de algún
+elemento, además de ser variables que no son cuantificables o con las
+cuales no se pueden realizar operaciones aritméticas.</p>
+<ul>
+<li><p><strong>User_ID:</strong>: Actúa como una <strong>etiqueta
+única</strong> para identificar individualmente a cada participante en
+el estudio, sin implicar un valor cuantitativo o clasificatorio. Su
+importancia radica en la capacidad de distinguir cada observación de
+manera anónima, esencial para el seguimiento y análisis individualizado
+sin comprometer la privacidad. Sin embargo, para el presente análisis el
+ID no se empleará.</p></li>
+<li><p><strong>Gender</strong>: Representa <strong>categorías de
+género</strong>, utilizadas para clasificar a los participantes según su
+identidad de género sin orden numérico. Esta variable es relevante para
+explorar diferencias en el uso de tecnología y la salud mental entre
+grupos de género.</p></li>
+<li><p><strong>Mental_Health_Status</strong>: Describe
+<strong>categorías de estado de salud mental</strong>, evaluadas por
+cada participante. Esta variable es esencial para comprender el
+bienestar subjetivo y su posible relación con otros factores como el uso
+de tecnología y el estilo de vida.</p></li>
+<li><p><strong>Stress_Level</strong>: Refleja <strong>categorías de
+nivel de estrés</strong>, en las cuales los participantes se
+autoevalúan. Es clave para analizar cómo diferentes niveles de estrés
+pueden estar asociados con patrones en el uso de tecnología y hábitos
+diarios.</p></li>
+<li><p><strong>Support_Systems_Access</strong>: Indica el <strong>acceso
+a sistemas de apoyo emocional</strong>, categorizado en función de la
+disponibilidad de redes de apoyo para los participantes. Su relevancia
+radica en contextualizar el respaldo social y su posible influencia en
+la resiliencia y salud mental.</p></li>
+<li><p><strong>Work_Environment_Impact</strong>: Representa la
+percepción del impacto del entorno laboral sobre el bienestar mental,
+clasificada en <strong>categorías</strong>. Esta variable es importante
+para evaluar la influencia de factores externos en el bienestar mental
+de los participantes.</p></li>
+<li><p><strong>Online_Support_Usage</strong>: Representa el uso de
+recursos de apoyo en línea, categorizando la preferencia o dependencia
+de servicios digitales de asistencia. Esta variable es fundamental para
+analizar el papel del soporte digital en el bienestar mental,
+permitiendo explorar su influencia en la gestión del estrés y la salud
+emocional de los participantes.</p></li>
+</ul>
+</div>
+<div id="variables-cuantitativas" class="section level2">
+<h2>1.2.2 Variables Cuantitativas</h2>
+<ul>
+<li><p><strong>Age</strong>: Edad del participante en años, una variable
+cuantificable que mide el tiempo de vida de cada individuo. Su inclusión
+es fundamental para identificar tendencias en el uso de tecnología y la
+salud mental que varían con la edad, proporcionando una dimensión
+demográfica clave en el análisis.</p></li>
+<li><p><strong>Technology_Usage_Hours</strong>: Horas diarias dedicadas
+al uso de tecnología, una variable cuantitativa que captura el tiempo
+exacto de exposición tecnológica. Es una medida esencial para estudiar
+el impacto del tiempo de pantalla en la salud mental y su relación con
+otros factores de estilo de vida.</p></li>
+<li><p><strong>Social_Media_Usage_Hours</strong>: Horas diarias
+dedicadas a redes sociales, cuantificables y expresadas en unidades de
+tiempo. Permite analizar de manera precisa cómo el tiempo en redes
+sociales afecta el estrés y la salud mental de los
+participantes.</p></li>
+<li><p><strong>Gaming_Hours</strong>: Horas diarias dedicadas a
+videojuegos, cuantificadas para reflejar el tiempo exacto invertido en
+esta actividad. Esta medida permite evaluar si el tiempo de juego se
+correlaciona con otros aspectos del bienestar mental y social.</p></li>
+<li><p><strong>Screen_Time_Hours</strong>: Tiempo total de pantalla al
+día, medido en horas y cuantificado para reflejar la exposición total a
+dispositivos digitales. Es relevante para analizar cómo la exposición
+prolongada a pantallas puede influir en la salud mental y el bienestar
+general.</p></li>
+<li><p><strong>Sleep_Hours</strong>: Promedio de horas de sueño diario,
+cuantificable en unidades de tiempo. Es crucial para entender la
+relación entre un descanso adecuado, el estrés y el bienestar general de
+los participantes.</p></li>
+<li><p><strong>Physical_Activity_Hours</strong>: Horas diarias dedicadas
+a actividad física, una medida cuantitativa que cuantifica el nivel de
+actividad física. Es clave en estudios de salud mental y bienestar, ya
+que la actividad física se relaciona con la reducción del estrés y el
+fortalecimiento del bienestar general.</p></li>
+</ul>
+</div>
+</div>
+<div id="subclasificación-de-variables-y-escalas-de-medición"
+class="section level1">
+<h1>1.3 Subclasificación de variables y escalas de medición</h1>
+<div style="text-align: justify">
+Si bien las variables se clasifican principalmente en cualitativas y
+cuantitativas, estás también se pueden dividir en subcategorías
+dependiendo si son numéricas o categóricas y, además, pueden adaptar
+diversas escalas de medición. A continuación, se presentan 2 tablas que
+resumen esta información.
+<div/>
+
+<div id="variables-categóricas-1" class="section level2">
+<h2>1.3.1 Variables Categóricas</h2>
+<center>
+<div class="float">
+<img src="tabla%203.png" width="700"
+alt="Nota: Tabla de elaboración propia" />
+<div class="figcaption">Nota: Tabla de elaboración propia</div>
+</div>
+</center>
+<br>
+<div style="text-align: justify">
+Las variables categóricas en este conjunto de datos se dividen en
+nominales y ordinales, cada una con su respectiva relevancia en el
+análisis de bienestar y uso de tecnología. Las variables nominales, que
+incluyen User_ID, Gender, Support_Systems_Access,
+Work_Environment_Impact, y Online_Support_Usage, permiten clasificar a
+los participantes en categorías sin un orden jerárquico. Esto es
+fundamental para identificar patrones de pertenencia y realizar análisis
+de frecuencia, facilitando una comprensión de características como el
+acceso a sistemas de apoyo o el impacto percibido del entorno laboral
+sin asumir una progresión entre las categorías.
+<div/>
+<br> Por otro lado, las variables ordinales, como Mental_Health_Status y
+Stress_Level, poseen un orden implícito que permite jerarquizar los
+estados de salud mental y niveles de estrés. Aunque no se cuantifica la
+distancia exacta entre cada categoría, este orden facilita el análisis
+de tendencias en el bienestar percibido y el estrés, proporcionando una
+visión de cómo estas variables se relacionan con el uso de tecnología y
+otros factores de estilo de vida. Esta clasificación entre nominales y
+ordinales es esencial para aplicar métodos estadísticos adecuados a cada
+tipo de variable y obtener resultados significativos en el análisis del
+conjunto de datos.
+<div/>
+<p><br></p>
+</div>
+<div id="variables-cuantitativas-1" class="section level2">
+<h2>1.3.2 Variables Cuantitativas</h2>
+<center>
+<div class="float">
+<img src="tabla%204.png" width="700"
+alt="Nota: Tabla de elaboración propia" />
+<div class="figcaption">Nota: Tabla de elaboración propia</div>
+</div>
+</center>
+<br>
+<div style="text-align: justify">
+Las variables cuantitativas en este conjunto de datos se dividen en
+continuas y discretas, cada una con una escala de medición adecuada para
+el análisis. La única variable discreta es Age, medida en años enteros y
+clasificada en una escala de razón, ya que cuenta con un cero absoluto
+que representa la ausencia de tiempo de vida. Esto permite comparaciones
+proporcionales, como afirmar que alguien de 30 años tiene el doble de
+edad que alguien de 15 años, lo cual es útil en el análisis demográfico
+y en la identificación de patrones de edad en el uso de tecnología y
+bienestar.
+<div/>
+<br> Las demás variables cuantitativas Technology_Usage_Hours,
+Social_Media_Usage_Hours, Gaming_Hours, Screen_Time_Hours, Sleep_Hours y
+Physical_Activity_Hours— son continuas. Estas variables se miden en una
+escala de razón con un cero absoluto, que representa la ausencia total
+de la actividad medida (por ejemplo, cero horas de uso de tecnología o
+de sueño). Esto permite operaciones aritméticas y análisis detallados,
+como el cálculo de promedios, variaciones y proporciones, para estudiar
+la relación entre el uso de tecnología, el tiempo dedicado a actividades
+específicas y su impacto en el bienestar general.
+<div/>
+<p><br></p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkludHJvZHVjY2nDs24geSBDb250ZXh0byBHZW5lcmFsIg0Kc3VidGl0bGU6ICJSZWxldmFuY2lhIHkgb2JqZXRpdm9zIGRlIGVzdHVkaW8iDQpvdXRwdXQ6DQogIGh0bWxfZG9jdW1lbnQ6DQogICAgdG9jOiBUUlVFDQogICAgdG9jX2Zsb2F0OiBUUlVFDQogICAgY29sbGFwc2VkOiBUUlVFDQogICAgc21vb3RoX3Njcm9sbDogVFJVRQ0KICAgIGNvZGVfZG93bmxvYWQ6IFRSVUUNCiAgICB0aGVtZTogbHVtZW4NCi0tLQ0KPGJyPg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjoganVzdGlmeSI+DQpTaW4gZHVkYSBhbGd1bmEsIGxhIGRlbGluY3VlbmNpYSBlcyB1bmEgcHJlb2N1cGFjacOzbiBkaWFyaWEgcGFyYSBsb3MgY29sb21iaWFub3MsIHB1ZXMgbm90aWNpYXMgc29icmUgaHVydG9zIHkgZGVtw6FzIGFjdG9zIGRlbGljdGl2b3MgZXN0w6FuIGFsIG9yZGVuIGRlbCBkw61hLCB0YW4gc29sbyBoYXkgcXVlIG9ic2VydmFyIGxvcyBkYXRvcyBwdWJsaWNhZG9zIHBvciBQcm9ib2dvdMOhIFJlZ2nDs24gZW4gMjAyMywgbG9zIGN1YWxlcyBtb3N0cmFyb24gcXVlIGxhIGV4dG9yc2nDs24sIGVsIGh1cnRvIGEgcGVyc29uYXMsIGVsIGhvbWljaWRpbywgZWwgaHVydG8gZGUgYXV0b21vdG9yZXMgeSBlbCBodXJ0byBhIHJlc2lkZW5jaWFzIHNvbiBkZWxpdG9zIGVuIGNyZWNpbWllbnRvIGVuIGxhcyBkaXZlcnNhcyByZWdpb25lcyBkZWwgcGHDrXMsIGxvIGN1YWwgc3Vwb25lIHVuIGdyYW4gZGVzYWbDrW8gcGFyYSBsYXMgYXV0b3JpZGFkZXMgeSB1bmEgYW1wbGlhIHByZW9jdXBhY2nDs24gcGFyYSBsb3MgY2l1ZGFkYW5vcy4gUG9yIHRhbnRvLCBhbmFsaXphciB1bmEgYmFzZSBkZSBkYXRvcyBxdWUgY29tcHJlbmRhIGluZm9ybWFjacOzbiBzb2JyZSBlc3RhIGN1ZXN0acOzbiBzdXBvbmUgdW4gcHVudG8gZGUgcGFydGlkYSBiZW5lZmljaW9zbyBxdWUgcHVlZGUgbGxlZ2FyIGEgYXBvcnRhciBtYXlvciBjb21wcmVzacOzbiBzb2JyZSBsYXMgbW9kYWxpZGFkZXMgZGUgaHVydG8geSBkZWxpbmN1ZW5jaWEgcXVlIHByZWRvbWluYW4gZW4gZWwgdGVycml0b3JpbyBuYWNpb25hbCB5IHBvc2libGVzIHNvbHVjaW9uZXMgcGFyYSBkaXNpcGFyIGxhIHByZXNlbnRlIHByb2JsZW3DoXRpY2EuIA0KPGRpdi8+DQo8YnI+DQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBqdXN0aWZ5Ij4NClRlbmllbmRvIGVuIGN1ZW50YSBsbyBhbnRlcmlvciwgZWwgb2JqZXRpdm8gcHJpbmNpcGFsIGRlIGVzdGEgcGFnaW5hIHdlYiwgZXMgcmVhbGl6YXIgdW4gYW7DoWxpc2lzIGVzdGFkw61zdGljbyBkZXNjcmlwdGl2byBhIHBhcnRpciBkZWwgRGF0YXNldCAqKmh1cnRvczIuY3N2KiosIG1lZGlhbnRlIGxhIHJlYWxpemFjacOzbiBkZSB0YWJsYXMgZGUgZnJlY3VlbmNpYXMsIGdyw6FmaWNvcyBlc3RhZMOtc3RpY29zIHkgYW7DoWxpc2lzIGRlIGFzaW1ldHLDrWEgeSBkaXNwZXJzacOzbiBxdWUgcGVybWl0YW4gb2J0ZW5lciBjb25jbHVzaW9uZXMgY29oZXJlbnRlcyB5IG9iamV0aXZhcyBjb24gbGEgcmVhbGlkYWQgcXVlIGV4cG9uZW4gbG9zIGRhdG9zLiANCjxkaXYvPg0KPGJyPg0KYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9DQojI1Byb3llY3RvIGRlIGVzdGFkw61zdGljYSAzDQojI0xlZXIgQ3N2DQpsaWJyYXJ5KGdncGxvdDIpDQpsaWJyYXJ5KHNmKQ0KbGlicmFyeShkcGx5cikNCmxpYnJhcnkocmVhZHhsKQ0KbGlicmFyeShmZHRoKQ0KbGlicmFyeShwbG90bHkpDQpsaWJyYXJ5KHFjYykNCmxpYnJhcnkocmVhZHIpDQpsaWJyYXJ5KGxlYWZsZXQpDQpsaWJyYXJ5KGh0bWx0b29scykNCmxpYnJhcnkoRFQpDQpsaWJyYXJ5IChtb2RlZXN0KQ0KbGlicmFyeShtb21lbnRzKQ0KbGlicmFyeShleHBsb3JlKQ0KbGlicmFyeShsZXNzUikNCg0KdHJhYmFqbyA8LSByZWFkX2NzdigidmlvbGVuY2lhX2dlbmVyb18zLmNzdiIpDQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUpICANCmBgYA0KYGBge2NzcyxlY2hvPUZBTFNFfQ0KLmNvbHVtbiB7ZGlzcGxheTpmbGV4O30NCmgxe2NvbG9yOnJnYigyNiwgNzIsIDExMil9DQpoMntjb2xvcjpyZ2IoMjYsIDcyLCAxMTIpfQ0KYGBgDQoNCiMgMS4gRGVzY3JpcGNpw7NuIGRlbCBEYXRhc2V0DQoNCkVsIGNvbmp1bnRvIGRlIGRhdG9zIHNlIGNvbXBvbmUgZGUgMTAsMDAwIGZpbGFzIHkgMTQgY29sdW1uYXMsIGRvbmRlIGNhZGEgY29sdW1uYSByZXByZXNlbnRhIHVuYSB2YXJpYWJsZSByZWxhY2lvbmFkYSBjb24gZWwgdXNvIGRlIHRlY25vbG9nw61hLCBmYWN0b3JlcyBkZSBlc3RpbG8gZGUgdmlkYSB5IGFzcGVjdG9zIGRlIHNhbHVkIG1lbnRhbCBkZSBsb3MgcGFydGljaXBhbnRlcy4gRXN0YXMgMTQgY29sdW1uYXMgY29ycmVzcG9uZGVuIGEgY2FyYWN0ZXLDrXN0aWNhcyBiYWpvIGVzdHVkaW8gcXVlIGNhcHR1cmFuIGRpdmVyc29zIGFzcGVjdG9zIGRlIGNhZGEgaW5kaXZpZHVvLCBwZXJtaXRpZW5kbyBhbmFsaXphciB0ZW1hcyBjb21vIGVsIHRpZW1wbyB0b3RhbCBkZWRpY2FkbyBhIGxhIHRlY25vbG9nw61hLCByZWRlcyBzb2NpYWxlcyB5IHZpZGVvanVlZ29zLCBhc8OtIGNvbW8gZWwgZXN0YWRvIGRlIHNhbHVkIG1lbnRhbCwgbG9zIG5pdmVsZXMgZGUgZXN0csOpcywgbGFzIGhvcmFzIGRlIHN1ZcOxbyB5IGxhIGFjdGl2aWRhZCBmw61zaWNhLiBBZGVtw6FzLCBlbCBjb25qdW50byBpbmNsdXllIGluZm9ybWFjacOzbiBzb2JyZSBlbCBhY2Nlc28gYSBzaXN0ZW1hcyBkZSBhcG95byB5IGxhIHBlcmNlcGNpw7NuIGRlbCBpbXBhY3RvIGRlbCBlbnRvcm5vIGxhYm9yYWwgZW4gbGEgc2FsdWQgbWVudGFsLCBwcm9wb3JjaW9uYW5kbyB1bmEgYmFzZSBpbnRlZ3JhbCBwYXJhIGV4cGxvcmFyIGxhcyByZWxhY2lvbmVzIGVudHJlIGVsIHVzbyBkZSB0ZWNub2xvZ8OtYSB5IGVsIGJpZW5lc3RhciBnZW5lcmFsLiBBIGNvbnRpbnVhY2nDs24sIHNlIHByZXNlbnRhbiBsYXMgdmFyaWFibGVzOg0KDQpgYGB7cn0NCm5hbWVzKHRyYWJham8pICNOb21icmUgZGUgbGFzIGNvbHVtbmFzIHkgcG9yIHRhbnRvIGRlIGxhcyB2YXJpYWJsZXMNCmBgYA0KDQpQb3Igb3RybyBsYWRvLCBlbCBjb25qdW50byBkZSBkYXRvcyBjdWVudGEgY29uIDEwLDAwMCBmaWxhcywgcXVlIGNvcnJlc3BvbmRlbiBhbCB0b3RhbCBkZSBvYnNlcnZhY2lvbmVzIG8gdW5pZGFkZXMgZXhwZXJpbWVudGFsZXMgZW4gZWwgZGF0YXNldC4gQ2FkYSBmaWxhIHJlcHJlc2VudGEgYSB1biBwYXJ0aWNpcGFudGUgY29uIGRhdG9zIGVzcGVjw61maWNvcyBwYXJhIGNhZGEgdW5hIGRlIGxhcyAxNCB2YXJpYWJsZXMsIGZvcm1hbmRvIHVuIHBlcmZpbCBkZXRhbGxhZG8gZW4gdMOpcm1pbm9zIGRlIHVzbyBkZSB0ZWNub2xvZ8OtYSwgZXN0aWxvIGRlIHZpZGEgeSBzYWx1ZCBtZW50YWwuIENvbiAxMCwwMDAgdW5pZGFkZXMgZXhwZXJpbWVudGFsZXMgeSAxNCB2YXJpYWJsZXMsIGVsIGRhdGFzZXQgY29udGllbmUgdW4gdG90YWwgZGUgMTQwLDAwMCBlbnRyYWRhcywgbG8gY3VhbCBwZXJtaXRlIHVuIGFuw6FsaXNpcyBlc3RhZMOtc3RpY28gdGFudG8gZGVzY3JpcHRpdm8gY29tbyBpbmZlcmVuY2lhbCBzb2JyZSBsb3MgcGF0cm9uZXMgeSBmYWN0b3JlcyByZWxhY2lvbmFkb3MgY29uIGVsIGJpZW5lc3Rhci4gRW4gcmVzdW1lbiwgbGFzIGRpbWVuc2lvbmVzIGRlbCBjb25qdW50byBkZSBkYXRvcyBzb24gbGFzIHNpZ3VpZW50ZXM6DQoNCmBgYHtyfQ0KbnVtX3Jvd3MgPC0gbnJvdyh0cmFiYWpvKSAjTsO6bWVybyBkZSBvYnNlcnZhY2lvbmVzIChmaWxhcykNCm51bV9jb2x1bXMgPC0gbmNvbCh0cmFiYWpvKSAjTsO6bWVybyBkZSB2YXJpYWJsZXMgKGNvbHVtbmFzKQ0KdG90YWxfdmFsdWVzIDwtIG51bV9yb3dzKm51bV9jb2x1bXMgI1RvdGFsIGRlIGRhdG9zIA0KDQpudW1fcm93cw0KbnVtX2NvbHVtcw0KdG90YWxfdmFsdWVzDQpgYGANCmBgYHtyfQ0KbnVtX3Jvd3MgPC0gbnJvdyh0cmFiYWpvKSAjTsO6bWVybyBkZSBvYnNlcnZhY2lvbmVzIChmaWxhcykNCm51bV9jb2x1bXMgPC0gbmNvbCh0cmFiYWpvKSAjTsO6bWVybyBkZSB2YXJpYWJsZXMgKGNvbHVtbmFzKQ0KdG90YWxfdmFsdWVzIDwtIG51bV9yb3dzKm51bV9jb2x1bXMgI1RvdGFsIGRlIGRhdG9zIA0KDQpudW1fcm93cw0KbnVtX2NvbHVtcw0KdG90YWxfdmFsdWVzDQpgYGANCg0KIyAxLjIgQ2xhc2lmaWNhY2nDs24gZGUgdmFyaWFibGVzDQoNClBhcmEgcmVhbGl6YXIgdW4gYW7DoWxpc2lzIGRlc2NyaXB0aXZvIGFkZWN1YWRvIGRlbCBjb25qdW50byBkZSBkYXRvcyBzZWxlY2Npb25hZG8sIGVzIGVzZW5jaWFsIGlkZW50aWZpY2FyIGVsIHRpcG8gZGUgdmFyaWFibGVzIHF1ZSBjb250aWVuZS4gRXN0ZSBkYXRhc2V0IGFiYXJjYSBpbmZvcm1hY2nDs24gc29icmUgZWwgdXNvIGRlIHRlY25vbG9nw61hLCBmYWN0b3JlcyBkZSBlc3RpbG8gZGUgdmlkYSB5IGFzcGVjdG9zIGRlIHNhbHVkIG1lbnRhbCBkZSBsb3MgcGFydGljaXBhbnRlcywgeSBjb21wcmVuZGUgdGFudG8gdmFyaWFibGVzIGNhdGVnw7NyaWNhcyBjb21vIG51bcOpcmljYXMuIExhIGRpc3RpbmNpw7NuIGVudHJlIGVzdG9zIHRpcG9zIGRlIHZhcmlhYmxlcyBlcyBmdW5kYW1lbnRhbCwgeWEgcXVlIGRldGVybWluYSBsYXMgaGVycmFtaWVudGFzIHkgbcOpdG9kb3MgZGUgYW7DoWxpc2lzIGEgZW1wbGVhcjogbGFzIHZhcmlhYmxlcyBjYXRlZ8OzcmljYXMgcGVybWl0ZW4gZXhhbWluYXIgZnJlY3VlbmNpYXMgeSBkaXN0cmlidWNpb25lcyBkZSBjYXRlZ29yw61hcywgbWllbnRyYXMgcXVlIGxhcyB2YXJpYWJsZXMgbnVtw6lyaWNhcyByZXF1aWVyZW4gbWVkaWRhcyBkZSB0ZW5kZW5jaWEgY2VudHJhbCB5IGRpc3BlcnNpw7NuLCBjb21vIGxhIG1lZGlhLCBtZWRpYW5hIHkgZGVzdmlhY2nDs24gZXN0w6FuZGFyLCBwYXJhIGRlc2NyaWJpciBzdSBjb21wb3J0YW1pZW50by4gQ2xhc2lmaWNhciBjb3JyZWN0YW1lbnRlIGxhcyB2YXJpYWJsZXMgZmFjaWxpdGEgbGEgYXBsaWNhY2nDs24gZGUgdMOpY25pY2FzIGFuYWzDrXRpY2FzIGFwcm9waWFkYXMgeSBsYSBvYnRlbmNpw7NuIGRlIGNvbmNsdXNpb25lcyB2w6FsaWRhcyB5IHByZWNpc2FzIHNvYnJlIGxhcyByZWxhY2lvbmVzIGVudHJlIGVsIHVzbyBkZSB0ZWNub2xvZ8OtYSB5IGVsIGJpZW5lc3Rhci4gQSBjb250aW51YWNpw7NuLCBzZSBwcmVzZW50YSBsYSBjbGFzaWZpY2FjacOzbiBwcmluY2lwYWwgZGUgbGFzIHZhcmlhYmxlcywgb2J0ZW5pZGEgbWVkaWFudGUgbGEgc2lndWllbnRlIGZ1bmNpw7NuOg0KDQpgYGB7ciBpbmNsdWRlPUZBTFNFLCBwYWdlZC5wcmludD1GQUxTRX0NCnRyYWJham9fZGYgPC0gZGF0YS5mcmFtZSh0cmFiYWpvKQ0KYGBgDQoNCmBgYHtyfQ0Kc3RyKHRyYWJham9fZGYpICNWaXN1YWxpemFjacOzbiBkZSBsYSBlc3RydWN0dXJhIGludGVybmEgZGVsIGNvbmp1bnRvIGRlIGRhdG9zDQpgYGANCmNvbW8gc2Ugb2JzZXJ2YSwgbGEgZnVuY2nDs24gYHN0cigpYCBub3MgZXhwb25lIDIgdGlwb3MgZGUgdmFyYWlibGVzOiBgY2hhcigpYCB5IGBudW0oKWAsIGxhcyBjdWFsZXMgaGFjZW4gcmVmZXJlbmNpYSBhIGxhcyB2YXJpYWJsZXMgY3VhbGl0YXRpdmFzIHkgY3VhbnRpdGF0aXZhcyByZXNwZWN0aXZhbWVudGUuIENvbW8gc2Ugb2JzZXJ2YSBsYSBjbGFzaWZpY2FjacOzbiBkZSBsYXMgdmFyYWlibGVzIGVzIGxhIHNpZ3VpZW50ZTogDQoNCiMjIDEuMi4xIFZhcmlhYmxlcyBDYXRlZ8OzcmljYXMNCg0KQ29tcHJlbmRlbiBub21icmVzIG8gZXRpcXVldGFzIHF1ZSBpbmRpY2FuIGF0cmlidXRvcyBkZSBhbGfDum4gZWxlbWVudG8sIGFkZW3DoXMgZGUgc2VyIHZhcmlhYmxlcyBxdWUgbm8gc29uIGN1YW50aWZpY2FibGVzIG8gY29uIGxhcyBjdWFsZXMgbm8gc2UgcHVlZGVuIHJlYWxpemFyIG9wZXJhY2lvbmVzIGFyaXRtw6l0aWNhcy4gDQogIA0KICAtICoqVXNlcl9JRDoqKjogQWN0w7phIGNvbW8gdW5hICoqZXRpcXVldGEgw7puaWNhKiogcGFyYSBpZGVudGlmaWNhciBpbmRpdmlkdWFsbWVudGUgYSBjYWRhIHBhcnRpY2lwYW50ZSBlbiBlbCBlc3R1ZGlvLCBzaW4gaW1wbGljYXIgdW4gdmFsb3IgY3VhbnRpdGF0aXZvIG8gY2xhc2lmaWNhdG9yaW8uIFN1IGltcG9ydGFuY2lhIHJhZGljYSBlbiBsYSBjYXBhY2lkYWQgZGUgZGlzdGluZ3VpciBjYWRhIG9ic2VydmFjacOzbiBkZSBtYW5lcmEgYW7Ds25pbWEsIGVzZW5jaWFsIHBhcmEgZWwgc2VndWltaWVudG8geSBhbsOhbGlzaXMgaW5kaXZpZHVhbGl6YWRvIHNpbiBjb21wcm9tZXRlciBsYSBwcml2YWNpZGFkLiBTaW4gZW1iYXJnbywgcGFyYSBlbCBwcmVzZW50ZSBhbsOhbGlzaXMgZWwgSUQgbm8gc2UgZW1wbGVhcsOhLg0KICANCiAgLSAqKkdlbmRlcioqOiBSZXByZXNlbnRhICoqY2F0ZWdvcsOtYXMgZGUgZ8OpbmVybyoqLCB1dGlsaXphZGFzIHBhcmEgY2xhc2lmaWNhciBhIGxvcyBwYXJ0aWNpcGFudGVzIHNlZ8O6biBzdSBpZGVudGlkYWQgZGUgZ8OpbmVybyBzaW4gb3JkZW4gbnVtw6lyaWNvLiBFc3RhIHZhcmlhYmxlIGVzIHJlbGV2YW50ZSBwYXJhIGV4cGxvcmFyIGRpZmVyZW5jaWFzIGVuIGVsIHVzbyBkZSB0ZWNub2xvZ8OtYSB5IGxhIHNhbHVkIG1lbnRhbCBlbnRyZSBncnVwb3MgZGUgZ8OpbmVyby4NCiAgDQogIC0gKipNZW50YWxfSGVhbHRoX1N0YXR1cyoqOiBEZXNjcmliZSAqKmNhdGVnb3LDrWFzIGRlIGVzdGFkbyBkZSBzYWx1ZCBtZW50YWwqKiwgZXZhbHVhZGFzIHBvciBjYWRhIHBhcnRpY2lwYW50ZS4gRXN0YSB2YXJpYWJsZSBlcyBlc2VuY2lhbCBwYXJhIGNvbXByZW5kZXIgZWwgYmllbmVzdGFyIHN1YmpldGl2byB5IHN1IHBvc2libGUgcmVsYWNpw7NuIGNvbiBvdHJvcyBmYWN0b3JlcyBjb21vIGVsIHVzbyBkZSB0ZWNub2xvZ8OtYSB5IGVsIGVzdGlsbyBkZSB2aWRhLg0KICANCiAgLSAqKlN0cmVzc19MZXZlbCoqOiBSZWZsZWphICoqY2F0ZWdvcsOtYXMgZGUgbml2ZWwgZGUgZXN0csOpcyoqLCBlbiBsYXMgY3VhbGVzIGxvcyBwYXJ0aWNpcGFudGVzIHNlIGF1dG9ldmFsw7phbi4gRXMgY2xhdmUgcGFyYSBhbmFsaXphciBjw7NtbyBkaWZlcmVudGVzIG5pdmVsZXMgZGUgZXN0csOpcyBwdWVkZW4gZXN0YXIgYXNvY2lhZG9zIGNvbiBwYXRyb25lcyBlbiBlbCB1c28gZGUgdGVjbm9sb2fDrWEgeSBow6FiaXRvcyBkaWFyaW9zLg0KICANCiAgLSAqKlN1cHBvcnRfU3lzdGVtc19BY2Nlc3MqKjogSW5kaWNhIGVsICoqYWNjZXNvIGEgc2lzdGVtYXMgZGUgYXBveW8gZW1vY2lvbmFsKiosIGNhdGVnb3JpemFkbyBlbiBmdW5jacOzbiBkZSBsYSBkaXNwb25pYmlsaWRhZCBkZSByZWRlcyBkZSBhcG95byBwYXJhIGxvcyBwYXJ0aWNpcGFudGVzLiBTdSByZWxldmFuY2lhIHJhZGljYSBlbiBjb250ZXh0dWFsaXphciBlbCByZXNwYWxkbyBzb2NpYWwgeSBzdSBwb3NpYmxlIGluZmx1ZW5jaWEgZW4gbGEgcmVzaWxpZW5jaWEgeSBzYWx1ZCBtZW50YWwuDQogIA0KICAtICoqV29ya19FbnZpcm9ubWVudF9JbXBhY3QqKjogIFJlcHJlc2VudGEgbGEgcGVyY2VwY2nDs24gZGVsIGltcGFjdG8gZGVsIGVudG9ybm8gbGFib3JhbCBzb2JyZSBlbCBiaWVuZXN0YXIgbWVudGFsLCBjbGFzaWZpY2FkYSBlbiAqKmNhdGVnb3LDrWFzKiouIEVzdGEgdmFyaWFibGUgZXMgaW1wb3J0YW50ZSBwYXJhIGV2YWx1YXIgbGEgaW5mbHVlbmNpYSBkZSBmYWN0b3JlcyBleHRlcm5vcyBlbiBlbCBiaWVuZXN0YXIgbWVudGFsIGRlIGxvcyBwYXJ0aWNpcGFudGVzLg0KICANCiAgLSAqKk9ubGluZV9TdXBwb3J0X1VzYWdlKio6IFJlcHJlc2VudGEgZWwgdXNvIGRlIHJlY3Vyc29zIGRlIGFwb3lvIGVuIGzDrW5lYSwgY2F0ZWdvcml6YW5kbyBsYSBwcmVmZXJlbmNpYSBvIGRlcGVuZGVuY2lhIGRlIHNlcnZpY2lvcyBkaWdpdGFsZXMgZGUgYXNpc3RlbmNpYS4gRXN0YSB2YXJpYWJsZSBlcyBmdW5kYW1lbnRhbCBwYXJhIGFuYWxpemFyIGVsIHBhcGVsIGRlbCBzb3BvcnRlIGRpZ2l0YWwgZW4gZWwgYmllbmVzdGFyIG1lbnRhbCwgcGVybWl0aWVuZG8gZXhwbG9yYXIgc3UgaW5mbHVlbmNpYSBlbiBsYSBnZXN0acOzbiBkZWwgZXN0csOpcyB5IGxhIHNhbHVkIGVtb2Npb25hbCBkZSBsb3MgcGFydGljaXBhbnRlcy4NCiAgDQogIA0KIyMgMS4yLjIgVmFyaWFibGVzIEN1YW50aXRhdGl2YXMNCg0KICAtICoqQWdlKio6ICBFZGFkIGRlbCBwYXJ0aWNpcGFudGUgZW4gYcOxb3MsIHVuYSB2YXJpYWJsZSBjdWFudGlmaWNhYmxlIHF1ZSBtaWRlIGVsIHRpZW1wbyBkZSB2aWRhIGRlIGNhZGEgaW5kaXZpZHVvLiBTdSBpbmNsdXNpw7NuIGVzIGZ1bmRhbWVudGFsIHBhcmEgaWRlbnRpZmljYXIgdGVuZGVuY2lhcyBlbiBlbCB1c28gZGUgdGVjbm9sb2fDrWEgeSBsYSBzYWx1ZCBtZW50YWwgcXVlIHZhcsOtYW4gY29uIGxhIGVkYWQsIHByb3BvcmNpb25hbmRvIHVuYSBkaW1lbnNpw7NuIGRlbW9ncsOhZmljYSBjbGF2ZSBlbiBlbCBhbsOhbGlzaXMuDQogIA0KICAtICoqVGVjaG5vbG9neV9Vc2FnZV9Ib3VycyoqOiBIb3JhcyBkaWFyaWFzIGRlZGljYWRhcyBhbCB1c28gZGUgdGVjbm9sb2fDrWEsIHVuYSB2YXJpYWJsZSBjdWFudGl0YXRpdmEgcXVlIGNhcHR1cmEgZWwgdGllbXBvIGV4YWN0byBkZSBleHBvc2ljacOzbiB0ZWNub2zDs2dpY2EuIEVzIHVuYSBtZWRpZGEgZXNlbmNpYWwgcGFyYSBlc3R1ZGlhciBlbCBpbXBhY3RvIGRlbCB0aWVtcG8gZGUgcGFudGFsbGEgZW4gbGEgc2FsdWQgbWVudGFsIHkgc3UgcmVsYWNpw7NuIGNvbiBvdHJvcyBmYWN0b3JlcyBkZSBlc3RpbG8gZGUgdmlkYS4NCiAgDQogIC0gKipTb2NpYWxfTWVkaWFfVXNhZ2VfSG91cnMqKjogSG9yYXMgZGlhcmlhcyBkZWRpY2FkYXMgYSByZWRlcyBzb2NpYWxlcywgY3VhbnRpZmljYWJsZXMgeSBleHByZXNhZGFzIGVuIHVuaWRhZGVzIGRlIHRpZW1wby4gUGVybWl0ZSBhbmFsaXphciBkZSBtYW5lcmEgcHJlY2lzYSBjw7NtbyBlbCB0aWVtcG8gZW4gcmVkZXMgc29jaWFsZXMgYWZlY3RhIGVsIGVzdHLDqXMgeSBsYSBzYWx1ZCBtZW50YWwgZGUgbG9zIHBhcnRpY2lwYW50ZXMuDQogIA0KICAtICoqR2FtaW5nX0hvdXJzKio6IEhvcmFzIGRpYXJpYXMgZGVkaWNhZGFzIGEgdmlkZW9qdWVnb3MsIGN1YW50aWZpY2FkYXMgcGFyYSByZWZsZWphciBlbCB0aWVtcG8gZXhhY3RvIGludmVydGlkbyBlbiBlc3RhIGFjdGl2aWRhZC4gRXN0YSBtZWRpZGEgcGVybWl0ZSBldmFsdWFyIHNpIGVsIHRpZW1wbyBkZSBqdWVnbyBzZSBjb3JyZWxhY2lvbmEgY29uIG90cm9zIGFzcGVjdG9zIGRlbCBiaWVuZXN0YXIgbWVudGFsIHkgc29jaWFsLg0KICANCiAgIC0gKipTY3JlZW5fVGltZV9Ib3VycyoqOiBUaWVtcG8gdG90YWwgZGUgcGFudGFsbGEgYWwgZMOtYSwgbWVkaWRvIGVuIGhvcmFzIHkgY3VhbnRpZmljYWRvIHBhcmEgcmVmbGVqYXIgbGEgZXhwb3NpY2nDs24gdG90YWwgYSBkaXNwb3NpdGl2b3MgZGlnaXRhbGVzLiBFcyByZWxldmFudGUgcGFyYSBhbmFsaXphciBjw7NtbyBsYSBleHBvc2ljacOzbiBwcm9sb25nYWRhIGEgcGFudGFsbGFzIHB1ZWRlIGluZmx1aXIgZW4gbGEgc2FsdWQgbWVudGFsIHkgZWwgYmllbmVzdGFyIGdlbmVyYWwuDQogIA0KICAtICoqU2xlZXBfSG91cnMqKjogUHJvbWVkaW8gZGUgaG9yYXMgZGUgc3Vlw7FvIGRpYXJpbywgY3VhbnRpZmljYWJsZSBlbiB1bmlkYWRlcyBkZSB0aWVtcG8uIEVzIGNydWNpYWwgcGFyYSBlbnRlbmRlciBsYSByZWxhY2nDs24gZW50cmUgdW4gZGVzY2Fuc28gYWRlY3VhZG8sIGVsIGVzdHLDqXMgeSBlbCBiaWVuZXN0YXIgZ2VuZXJhbCBkZSBsb3MgcGFydGljaXBhbnRlcy4NCiAgDQogIC0gKipQaHlzaWNhbF9BY3Rpdml0eV9Ib3VycyoqOiBIb3JhcyBkaWFyaWFzIGRlZGljYWRhcyBhIGFjdGl2aWRhZCBmw61zaWNhLCB1bmEgbWVkaWRhIGN1YW50aXRhdGl2YSBxdWUgY3VhbnRpZmljYSBlbCBuaXZlbCBkZSBhY3RpdmlkYWQgZsOtc2ljYS4gRXMgY2xhdmUgZW4gZXN0dWRpb3MgZGUgc2FsdWQgbWVudGFsIHkgYmllbmVzdGFyLCB5YSBxdWUgbGEgYWN0aXZpZGFkIGbDrXNpY2Egc2UgcmVsYWNpb25hIGNvbiBsYSByZWR1Y2Npw7NuIGRlbCBlc3Ryw6lzIHkgZWwgZm9ydGFsZWNpbWllbnRvIGRlbCBiaWVuZXN0YXIgZ2VuZXJhbC4NCiAgDQogIA0KIyAxLjMgIFN1YmNsYXNpZmljYWNpw7NuIGRlIHZhcmlhYmxlcyB5IGVzY2FsYXMgZGUgbWVkaWNpw7NuDQo8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBqdXN0aWZ5Ij4NClNpIGJpZW4gbGFzIHZhcmlhYmxlcyBzZSBjbGFzaWZpY2FuIHByaW5jaXBhbG1lbnRlIGVuIGN1YWxpdGF0aXZhcyB5IGN1YW50aXRhdGl2YXMsIGVzdMOhcyB0YW1iacOpbiBzZSBwdWVkZW4gZGl2aWRpciBlbiBzdWJjYXRlZ29yw61hcyBkZXBlbmRpZW5kbyBzaSBzb24gbnVtw6lyaWNhcyBvIGNhdGVnw7NyaWNhcyB5LCBhZGVtw6FzLCBwdWVkZW4gYWRhcHRhciBkaXZlcnNhcyBlc2NhbGFzIGRlIG1lZGljacOzbi4gQSBjb250aW51YWNpw7NuLCBzZSBwcmVzZW50YW4gMiB0YWJsYXMgcXVlIHJlc3VtZW4gZXN0YSBpbmZvcm1hY2nDs24uIA0KPGRpdi8+DQoNCiMjIDEuMy4xIFZhcmlhYmxlcyBDYXRlZ8OzcmljYXMNCg0KPGNlbnRlcj4NCiAhW05vdGE6IFRhYmxhIGRlIGVsYWJvcmFjacOzbiBwcm9waWFdKHRhYmxhIDMucG5nKXt3aWR0aD03MDB9DQoNCjwvY2VudGVyPg0KPGJyPg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjoganVzdGlmeSI+IA0KTGFzIHZhcmlhYmxlcyBjYXRlZ8OzcmljYXMgZW4gZXN0ZSBjb25qdW50byBkZSBkYXRvcyBzZSBkaXZpZGVuIGVuIG5vbWluYWxlcyB5IG9yZGluYWxlcywgY2FkYSB1bmEgY29uIHN1IHJlc3BlY3RpdmEgcmVsZXZhbmNpYSBlbiBlbCBhbsOhbGlzaXMgZGUgYmllbmVzdGFyIHkgdXNvIGRlIHRlY25vbG9nw61hLiBMYXMgdmFyaWFibGVzIG5vbWluYWxlcywgcXVlIGluY2x1eWVuIFVzZXJfSUQsIEdlbmRlciwgU3VwcG9ydF9TeXN0ZW1zX0FjY2VzcywgV29ya19FbnZpcm9ubWVudF9JbXBhY3QsIHkgT25saW5lX1N1cHBvcnRfVXNhZ2UsIHBlcm1pdGVuIGNsYXNpZmljYXIgYSBsb3MgcGFydGljaXBhbnRlcyBlbiBjYXRlZ29yw61hcyBzaW4gdW4gb3JkZW4gamVyw6FycXVpY28uIEVzdG8gZXMgZnVuZGFtZW50YWwgcGFyYSBpZGVudGlmaWNhciBwYXRyb25lcyBkZSBwZXJ0ZW5lbmNpYSB5IHJlYWxpemFyIGFuw6FsaXNpcyBkZSBmcmVjdWVuY2lhLCBmYWNpbGl0YW5kbyB1bmEgY29tcHJlbnNpw7NuIGRlIGNhcmFjdGVyw61zdGljYXMgY29tbyBlbCBhY2Nlc28gYSBzaXN0ZW1hcyBkZSBhcG95byBvIGVsIGltcGFjdG8gcGVyY2liaWRvIGRlbCBlbnRvcm5vIGxhYm9yYWwgc2luIGFzdW1pciB1bmEgcHJvZ3Jlc2nDs24gZW50cmUgbGFzIGNhdGVnb3LDrWFzLg0KPGRpdi8+DQo8YnI+DQpQb3Igb3RybyBsYWRvLCBsYXMgdmFyaWFibGVzIG9yZGluYWxlcywgY29tbyBNZW50YWxfSGVhbHRoX1N0YXR1cyB5IFN0cmVzc19MZXZlbCwgcG9zZWVuIHVuIG9yZGVuIGltcGzDrWNpdG8gcXVlIHBlcm1pdGUgamVyYXJxdWl6YXIgbG9zIGVzdGFkb3MgZGUgc2FsdWQgbWVudGFsIHkgbml2ZWxlcyBkZSBlc3Ryw6lzLiBBdW5xdWUgbm8gc2UgY3VhbnRpZmljYSBsYSBkaXN0YW5jaWEgZXhhY3RhIGVudHJlIGNhZGEgY2F0ZWdvcsOtYSwgZXN0ZSBvcmRlbiBmYWNpbGl0YSBlbCBhbsOhbGlzaXMgZGUgdGVuZGVuY2lhcyBlbiBlbCBiaWVuZXN0YXIgcGVyY2liaWRvIHkgZWwgZXN0csOpcywgcHJvcG9yY2lvbmFuZG8gdW5hIHZpc2nDs24gZGUgY8OzbW8gZXN0YXMgdmFyaWFibGVzIHNlIHJlbGFjaW9uYW4gY29uIGVsIHVzbyBkZSB0ZWNub2xvZ8OtYSB5IG90cm9zIGZhY3RvcmVzIGRlIGVzdGlsbyBkZSB2aWRhLiBFc3RhIGNsYXNpZmljYWNpw7NuIGVudHJlIG5vbWluYWxlcyB5IG9yZGluYWxlcyBlcyBlc2VuY2lhbCBwYXJhIGFwbGljYXIgbcOpdG9kb3MgZXN0YWTDrXN0aWNvcyBhZGVjdWFkb3MgYSBjYWRhIHRpcG8gZGUgdmFyaWFibGUgeSBvYnRlbmVyIHJlc3VsdGFkb3Mgc2lnbmlmaWNhdGl2b3MgZW4gZWwgYW7DoWxpc2lzIGRlbCBjb25qdW50byBkZSBkYXRvcy4NCjxkaXYvPg0KPGJyPg0KDQojIyAxLjMuMiBWYXJpYWJsZXMgQ3VhbnRpdGF0aXZhcw0KPGNlbnRlcj4NCiAhW05vdGE6IFRhYmxhIGRlIGVsYWJvcmFjacOzbiBwcm9waWFdKHRhYmxhIDQucG5nKXt3aWR0aD03MDB9DQoNCjwvY2VudGVyPg0KPGJyPg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjoganVzdGlmeSI+IA0KTGFzIHZhcmlhYmxlcyBjdWFudGl0YXRpdmFzIGVuIGVzdGUgY29uanVudG8gZGUgZGF0b3Mgc2UgZGl2aWRlbiBlbiBjb250aW51YXMgeSBkaXNjcmV0YXMsIGNhZGEgdW5hIGNvbiB1bmEgZXNjYWxhIGRlIG1lZGljacOzbiBhZGVjdWFkYSBwYXJhIGVsIGFuw6FsaXNpcy4gTGEgw7puaWNhIHZhcmlhYmxlIGRpc2NyZXRhIGVzIEFnZSwgbWVkaWRhIGVuIGHDsW9zIGVudGVyb3MgeSBjbGFzaWZpY2FkYSBlbiB1bmEgZXNjYWxhIGRlIHJhesOzbiwgeWEgcXVlIGN1ZW50YSBjb24gdW4gY2VybyBhYnNvbHV0byBxdWUgcmVwcmVzZW50YSBsYSBhdXNlbmNpYSBkZSB0aWVtcG8gZGUgdmlkYS4gRXN0byBwZXJtaXRlIGNvbXBhcmFjaW9uZXMgcHJvcG9yY2lvbmFsZXMsIGNvbW8gYWZpcm1hciBxdWUgYWxndWllbiBkZSAzMCBhw7FvcyB0aWVuZSBlbCBkb2JsZSBkZSBlZGFkIHF1ZSBhbGd1aWVuIGRlIDE1IGHDsW9zLCBsbyBjdWFsIGVzIMO6dGlsIGVuIGVsIGFuw6FsaXNpcyBkZW1vZ3LDoWZpY28geSBlbiBsYSBpZGVudGlmaWNhY2nDs24gZGUgcGF0cm9uZXMgZGUgZWRhZCBlbiBlbCB1c28gZGUgdGVjbm9sb2fDrWEgeSBiaWVuZXN0YXIuDQo8ZGl2Lz4NCjxicj4NCkxhcyBkZW3DoXMgdmFyaWFibGVzIGN1YW50aXRhdGl2YXMgVGVjaG5vbG9neV9Vc2FnZV9Ib3VycywgU29jaWFsX01lZGlhX1VzYWdlX0hvdXJzLCBHYW1pbmdfSG91cnMsIFNjcmVlbl9UaW1lX0hvdXJzLCBTbGVlcF9Ib3VycyB5IFBoeXNpY2FsX0FjdGl2aXR5X0hvdXJz4oCUIHNvbiBjb250aW51YXMuIEVzdGFzIHZhcmlhYmxlcyBzZSBtaWRlbiBlbiB1bmEgZXNjYWxhIGRlIHJhesOzbiBjb24gdW4gY2VybyBhYnNvbHV0bywgcXVlIHJlcHJlc2VudGEgbGEgYXVzZW5jaWEgdG90YWwgZGUgbGEgYWN0aXZpZGFkIG1lZGlkYSAocG9yIGVqZW1wbG8sIGNlcm8gaG9yYXMgZGUgdXNvIGRlIHRlY25vbG9nw61hIG8gZGUgc3Vlw7FvKS4gRXN0byBwZXJtaXRlIG9wZXJhY2lvbmVzIGFyaXRtw6l0aWNhcyB5IGFuw6FsaXNpcyBkZXRhbGxhZG9zLCBjb21vIGVsIGPDoWxjdWxvIGRlIHByb21lZGlvcywgdmFyaWFjaW9uZXMgeSBwcm9wb3JjaW9uZXMsIHBhcmEgZXN0dWRpYXIgbGEgcmVsYWNpw7NuIGVudHJlIGVsIHVzbyBkZSB0ZWNub2xvZ8OtYSwgZWwgdGllbXBvIGRlZGljYWRvIGEgYWN0aXZpZGFkZXMgZXNwZWPDrWZpY2FzIHkgc3UgaW1wYWN0byBlbiBlbCBiaWVuZXN0YXIgZ2VuZXJhbC4NCjxkaXYvPg0KPGJyPg0KDQoNCg==</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("index.Rmd");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,51 +1,55 @@
+/* Estilos para el menú de navegación lateral */
 .tocify {
     background-color: #f8f9fa;      
-    width: 300px;                   
+    width: 350px;                   /* Aumenta el ancho del menú */
     padding: 15px;                  
     border-right: 1px solid #ddd;   
-    height: calc(100vh - 30px);     
+    height: calc(100vh - 50px);     /* Aumenta el alto del panel para que llegue más abajo */
     overflow-y: auto;               
     position: fixed;                
-    top: 30px;                      
+    top: 50px;                      /* Espacio superior para alejarlo del encabezado */
     left: 0;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1); 
 }
 
-.tocify .tocify-item {
-    display: block !important;      
+/* Asegurarse de que todos los elementos del menú estén siempre visibles */
+.tocify-item {
+    display: block !important;      /* Asegura que todos los elementos estén visibles */
     visibility: visible !important;
     opacity: 1 !important;
     max-height: none !important;    
     overflow: visible !important;   
+    margin-left: 10px;
+    line-height: 1.5;
 }
 
-.content {
-    margin-left: 320px;             
-    padding: 20px;                  
-    max-width: 75%;                 
-}
-
+/* Estilo de enlaces dentro del menú */
 .tocify-item a {
     color: #333;
-    font-weight: bold;
+    font-weight: normal;            /* Quitar negrita */
     text-decoration: none;
     display: block;
     padding: 8px 0;
+    font-size: 14px;                /* Reducir tamaño de letra */
 }
 
-.tocify-item a:hover {
-    color: #007acc;
+/* Efecto de selección */
+.tocify-item a:hover, .tocify-item a:active, .tocify-item a:focus {
+    color: #ffffff;                 /* Letra blanca en el enlace seleccionado */
+    background-color: #0056b3;      /* Fondo azul oscuro para indicar selección */
+    border-radius: 4px;
 }
-
 
 .tocify-header {
-    font-size: 1.1em;
+    font-size: 1em;                 /* Ajusta tamaño de letra en el encabezado del menú */
     margin-top: 10px;
-    font-weight: bold;
+    font-weight: normal;            /* Quitar negrita de los encabezados del menú */
     color: #333;
 }
 
-.tocify-item {
-    margin-left: 10px;
-    line-height: 1.5;
+/* Ajustar el contenido principal para que no se vea afectado por el ancho extra del menú */
+.content {
+    margin-left: 370px;             /* Desplaza el contenido principal hacia la derecha */
+    padding: 20px;                  
+    max-width: calc(100% - 370px);  /* Ajusta el ancho para que el contenido no se vea afectado */
 }

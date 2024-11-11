@@ -1,6 +1,5 @@
 ---
-title: "Análisis descriptivo del conjunto de datos"
-subtitle: "Descripción de tendencias y situaciones clave del conjunto de datos"
+title: "Análisis descriptivo de los casos registrados de violencia de género entre 2015 y 2023"
 output:
   html_document:
     toc: TRUE
@@ -9,8 +8,6 @@ output:
     smooth_scroll: TRUE
     code_download: TRUE
     theme: lumen
-bibliography: biblio.bib
-csl: apa.csl.txt 
 ---
 ```{r setup, include=FALSE}
 library(tidyverse)
@@ -19,7 +16,8 @@ library(flextable)
 library(knitr)
 library(kableExtra)
 library(dplyr)
-knitr::opts_chunk$set(echo = TRUE)  
+violencia_genero <- read_csv("Violencia_genero_5.csv")
+knitr::opts_chunk$set(echo = TRUE) 
 ```
 ```{css,echo=FALSE}
 .column {display:flex;}
@@ -27,8 +25,2060 @@ h1{color:rgb(26, 72, 112)}
 h2{color:rgb(26, 72, 112)}
 h3{color:rgb(26, 72, 112)}
 ```
+
+## 1.Análisis descriptivo inicial de los casos de violencia de género registrados
+
+<div style="text-align: justify">
+En Colombia, la violencia de género constituye un desafío significativo que afecta a diversas poblaciones. Este análisis descriptivo inicial se enfoca en los casos de violencia de género registrados entre 2015 y 2023, proporcionando un panorama general sobre la situación en el país. Se examinará la cantidad total de casos, desglosándolos por los diferentes tipos de violencia, como "abuso sexual", "violación" y "violencia física", entre otros. También se tendrán en cuenta las fluctuaciones anuales en la incidencia de estos casos, lo que permitirá identificar patrones y tendencias a lo largo del tiempo. Este enfoque estadístico inicial busca ofrecer una contextualización para las siguientes exploraciones descriptivas demográficas y situacionales de los casos de violencia de género registrados en la base de datos. A continuación, se presenta el número de casos registrados en los años de estudio:
+<div/>
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(ggplot2)
+library(dplyr)
+
+tipo_violencia_counts <- violencia_genero %>%
+  count(def_naturaleza) %>%
+  arrange(desc(n))  
+
+ggplot(tipo_violencia_counts, aes(x = reorder(def_naturaleza, n), y = n)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(aes(label = n), hjust = -0.2, color = "black", size = 3.5) + 
+  coord_flip() +  
+  labs(title = "Frecuencia de Casos de Violencia\npor Tipo de Violencia",
+       x = "Tipo de Violencia",
+       y = "Casos Registrados") +
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.title.x = element_text(face = "bold", size = 12),
+    axis.title.y = element_text(face = "bold", size = 12),
+    axis.text.x = element_text(size = 10),
+    axis.text.y = element_text(size = 10),
+    axis.line = element_line(color = "gray50", size = 0.5), 
+    panel.grid.major.x = element_line(color = "gray80", size = 0.3), 
+    panel.grid.minor = element_blank()  
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)), limits = c(0, 6000))
+
+```
 <br>
 <div style="text-align: justify">
-En este apartado se busca realizar los procedimientos pertinentes para una buena descripción estadística del conjunto de datos, es decir, una vez identificado las dimensiones y tipos de variables a tratar, se pretende organizar y resumir la información mediante el empelo medidas de tendencia central y dispersión, así como, el desarrollo y creación de tablas de frecuencia y graficas pertinentes que muestren de manera clara y concisa la información sobre hurtos y delincuencia en las distintas regiones del territorio nacional, para así poder realizar conclusiones útiles sobre la basa de datos. 
+Como se observa en la gráfica, la frecuencia de casos de violencia de género registrados en Colombia está marcada por una distribución desigual entre los diferentes tipos de violencia. La categoría de "Negligencia y abandono" es la más predominante, con 4,746 casos, lo que indica una gran cantidad de situaciones donde los menores están en riesgo debido a la falta de cuidado adecuado. Este alto número podría sugerir problemas sistémicos en la protección infantil, como la insuficiencia de recursos para las familias en situaciones de vulnerabilidad o la falta de intervención oportuna por parte de las autoridades competentes.
 <div/>
+<br>
+<div style="text-align: justify">
+La "Violencia física" también presenta un número significativo de casos, alcanzando 4,028, lo que sugiere que este tipo de abuso es una de las formas más comunes de violencia de género reportadas. Otras categorías, como el "Abuso sexual" con 953 casos y "Violencia psicológica" con 544 casos, reflejan un número considerable de incidentes que requieren atención. Además, la categoría "Sin información" presenta 638 casos, lo que indica que en muchos registros faltan detalles críticos que podrían ayudar a entender mejor la naturaleza de la violencia. Las modalidades menos comunes, como la "Explotación sexual, comercial de niños y adolescentes" (3 casos) y "Trata de personas" (1 caso), aunque representan una menor cantidad de incidentes, destacan la necesidad de vigilancia continua y recursos específicos para abordar estas cuestiones.
+<div/>
+<br>
+Esto, traducido en términos de probabilidad, proporciona un contexto cuantitativo que facilita la comprensión de la magnitud de cada tipo de violencia, lo que se presentará en la siguiente tabla:
+```{r,echo=FALSE,warning=FALSE}
+library(dplyr)
+library(kableExtra)
+
+violencia_datos_vi <- data.frame(
+  tipo_violencia = c("Negligencia y abandono", "Violencia física", "Abuso sexual", 
+                     "Sin información", "Violencia psicológica", "Acoso sexual", 
+                     "Actos sexuales", "Violación", "Acceso carnal", 
+                     "Actos sexuales de violencia", "Otras violencias sexuales", 
+                     "Otros actos sexuales", "Sin información", "Desconocida", 
+                     "Explotación sexual, comercial de niños y adolescentes", 
+                     "Trata de personas"),
+  casos = c(4746, 4028, 953, 630, 544, 287, 260, 239, 230, 
+            118, 96, 45, 8, 5, 3, 1)
+)
+
+total_casos_vi <- sum(violencia_datos_vi$casos)
+
+tabla_probabilidades_vi <- violencia_datos_vi %>%
+  mutate(
+    probabilidad = round(casos / total_casos_vi, 4),
+    porcentaje = paste0(round(probabilidad * 100, 2), "%"),
+    enunciado = paste0("P(<span style='font-size:0.8em; font-weight:bold; font-style:italic;'>", 
+                       tipo_violencia, "</span>)")  # Formatear el enunciado en HTML
+  ) %>%
+  select(enunciado, probabilidad, porcentaje)  
+
+caption_text_vi <- "Probabilidad de ser víctima de un tipo de violencia según la etapa de vida"
+
+tabla_probabilidades_vi %>%
+  kable("html", align = "c", digits = 4, 
+        col.names = c("Enunciado", "Probabilidad", "Porcentaje"),  
+        caption = caption_text_vi, escape = FALSE) %>%  
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
+                full_width = F, position = "center") %>%
+  row_spec(0, bold = TRUE, background = "#d0e4f5")  
+
+
+```
+
+<br>
+<div style="text-align: justify">
+La tabla de probabilidades presentada revela que las víctimas son más propensas a experimentar ciertos tipos de violencia, destacando la negligencia y el abandono como el tipo más común, con una probabilidad de 0.3892 (38.92%). Esto sugiere que casi 4 de cada 10 víctimas enfrentan este tipo de violencia, lo que indica que la negligencia y el abandono son problemas serios que requieren atención inmediata. La violencia física también es notable, con una probabilidad de 0.3304 (33.04%), reflejando que aproximadamente 1 de cada 3 víctimas experimenta esta forma de violencia, lo que resalta la necesidad de políticas y programas de intervención que aborden este problema de manera efectiva. Aunque el abuso sexual tiene una probabilidad más baja de 0.0728 (7.28%), sigue siendo una preocupación significativa. Además, la categoría sin información representa 0.5117 (5.17%) de los casos, lo que indica una falta de datos precisos sobre el tipo de violencia que las víctimas están experimentando y limita la capacidad de respuesta de las autoridades y organizaciones dedicadas a la prevención y tratamiento de la violencia.Por otro lado, al analizar los tipos de violencia menos frecuentes, como la violación (1.96%) y el acceso carnal (1.89%), se observa que, aunque su prevalencia es menor, estas formas de violencia son extremadamente graves.
+<div/>
+<br>
+<div style="text-align: justify">
+Con lo que respecta a la frecuencia de ocurrencia de los casos de violencia de género por los años de estudio, como se observa en la tabla inferior, aunque 2016 fue el año con la mayor cantidad de casos, alcanzando 2146, se observa una disminución gradual en los años siguientes, llegando a 1101 casos en 2018 y culminando en 420 casos en 2023. Esta caída podría interpretarse como una mejora en la situación de la violencia; sin embargo, es fundamental considerar que este descenso puede no reflejar la realidad completa. Factores como el subregistro de casos, cambios en los procedimientos de denuncia y barreras para que las víctimas accedan a servicios de apoyo pueden haber contribuido a la baja en los números reportados.
+<div/>
+<br>
+```{r,echo=FALSE,warning=TRUE}
+library(ggplot2)
+library(dplyr)
+
+violencia_por_ano <- violencia_genero %>%
+  count(año) %>%
+  arrange(año)
+
+ggplot(violencia_por_ano, aes(x = as.factor(año), y = n)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(aes(label = n), vjust = -0.2, color = "black", size = 3.5) +
+  labs(title = "Frecuencia de Casos de Violencia por Año",
+       x = "Año",
+       y = "Casos Registrados") +
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.title.x = element_text(face = "bold", size = 12),
+    axis.title.y = element_text(face = "bold", size = 12),
+    axis.text.x = element_text(size = 10),
+    axis.text.y = element_text(size = 10),
+    axis.line = element_line(color = "gray50", size = 0.5),
+    panel.grid.major.y = element_line(color = "gray80", size = 0.3),
+    panel.grid.minor = element_blank()
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) 
+
+```
+<br>
+
+
+## 2. Análisis descriptivos demográficos generales de víctimas de violencia de género en colombia entre los años 2015-2023
+
+
+<br>
+<div style="text-align: justify">
+Esta sección presenta un análisis descriptivo de los casos de violencia de género en Colombia durante el periodo 2015-2023. Se examinan las características demográficas de las víctimas, incluyendo edad, sexo y tipo de violencia experimentada, con el fin de identificar tendencias y patrones significativos. El análisis se basa en técnicas estadísticas que permiten obtener una comprensión integral de la situación actual de la violencia de género en el país, destacando las variaciones a lo largo del tiempo y entre diferentes grupos demográficos. 
+<div/>
+<br>
+
+### 2.1 Análisis general de casos de violencia por edades y ciclo de vida de las víctimas
+
+<br>
+<div style="text-align: justify">
+En este apartado se realiza un análisis estadístico de las edades de las víctimas de violencia, enfocándose en la frecuencia, medidas de tendencia central, distribución y variabilidad. Este análisis busca identificar los grupos etarios en los que se concentran más los casos de violencia a nivel nacional y perfilar las edades más susceptibles, conforme a los datos de la base. Al explorar estos aspectos estadísticos, se pretende obtener una comprensión precisa de la demografía de las víctimas y de cómo se distribuyen los casos de violencia de género en los años 2015-2023.
+<div/>
+<br>
+
+#### 2.1.1 Casos registrados por intervalo de edades y etapas de vida de las víctimas
+
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(kableExtra)
+
+violencia_genero$edad_victima <- as.numeric(as.character(violencia_genero$edad_victima))
+violencia_genero <- violencia_genero %>% filter(!is.na(edad_victima) & edad_victima >= 0 & edad_victima <= 100)
+
+# Crear intervalos de 10 en 10 con el intervalo [90-100] cerrado en ambos extremos
+violencia_genero$edad_intervalo <- cut(
+  violencia_genero$edad_victima, 
+  breaks = c(seq(0, 90, by = 10), 100), 
+  labels = c("[0-10)", "[10-20)", "[20-30)", "[30-40)", "[40-50)", "[50-60)", "[60-70)", "[70-80)", "[80-90)", "[90-100]"),
+  right = FALSE,  # Incluir el límite superior en los intervalos
+  include.lowest = TRUE  # Asegurar que el límite inferior de 0 esté incluido
+)
+
+# Modificar el último intervalo para que sea cerrado en 90 y 100
+violencia_genero$edad_intervalo <- recode(violencia_genero$edad_intervalo,
+                                           `"[90-100]"` = "[90-100]") # No se requiere cambio, solo asegurar la claridad
+
+tabla_frecuencia <- violencia_genero %>%
+  group_by(edad_intervalo) %>%
+  summarise(
+    fi = n(),
+    hi = round(fi / nrow(violencia_genero), 4)
+  ) %>%
+  mutate(
+    Fi = cumsum(fi),
+    Hi = round(cumsum(hi), 4),
+    `hi (%)` = round(hi * 100, 4),
+    `Hi (%)` = round(Hi * 100, 4)
+  )
+
+tabla_frecuencia %>%
+  rename(
+    `Edad Intervalo` = edad_intervalo,
+    `fi` = fi,
+    `hi` = hi,
+    `Fi` = Fi,
+    `Hi` = Hi
+  ) %>%
+  kable("html", align = "c", digits = 4, caption = "Tabla de Frecuencia de Edades de las Víctimas") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), full_width = F, position = "center") %>%
+  row_spec(0, bold = T, background = "#d0e4f5")
+
+
+```
+<br>
+<div style="text-align: justify">
+La tabla de frecuencia de edades de las víctimas revela que el grupo de edad de 0 a 10 años tiene la mayor frecuencia absoluta con 4,721 casos, representando el 38.72% de los incidentes. Este hallazgo sugiere que los niños en la primera infancia son especialmente vulnerables, probablemente debido a su dependencia de adultos y a su falta de recursos para protegerse. Además, este alto porcentaje podría estar relacionado con factores socioeconómicos y familiares que incrementan la exposición de los menores a situaciones de riesgo. La tendencia se mantiene en el grupo de 10 a 20 años, que incluye tanto a adolescentes como a jóvenes adultos, donde se reportan 3,292 casos (27.00%), lo que lleva la acumulación total al 65.72%. Esto indica que esta franja etaria representa un grupo significativo en el contexto de la violencia, sugiriendo que tanto la adolescencia como la juventud son periodos críticos de vulnerabilidad.
+<div/>
+<br>
+<div style="text-align: justify">
+A medida que avanzamos en los intervalos de edad, la frecuencia de víctimas disminuye notablemente. El grupo de 20 a 30 años representa el 15.81% de los casos, lo que sigue siendo relevante, pero la tendencia decreciente se acentúa en los adultos mayores, donde los intervalos de 50-65 y 65-100 años tienen frecuencias mucho menores, alcanzando solo el 2.96% y 0.85% respectivamente. Esta disminución puede reflejar una menor exposición a la violencia en las etapas más avanzadas de la vida o un cambio en la naturaleza de los incidentes a medida que las personas envejecen y asumen roles sociales distintos. Además, los factores culturales y la percepción de la violencia pueden evolucionar con la edad, llevando a que las personas mayores sean menos propensas a reportar incidentes de violencia o a estar en situaciones de riesgo. En resumen, los datos sugieren que los niños y jóvenes son los más afectados por la violencia, probablemente debido a su mayor exposición y vulnerabilidad, lo que resalta la necesidad de abordar la problemática de la violencia desde una perspectiva que considere el contexto social y cultural en el que se desarrollan estas dinámicas. A continuación, se puede observar de mejor manera la distribución de las edades de las víctimas de los diferentes tipos de violencia de género:
+<div/>
+<br>
+```{r, echo=FALSE, warning=FALSE}
+df_edadesvic <- data.frame(edadesvic_simetria = violencia_genero$edad_victima)
+ggplot(df_edadesvic, aes(x = edadesvic_simetria)) +
+  geom_histogram(aes(y = ..density..), breaks = seq(0, 100, by = 10), fill = "lightblue", color = "black", alpha = 0.5) +
+  geom_density(color = "darkblue", size = 1) +
+  labs(title = "Gráfica de Densidad e Histograma de Edades", x = "Edades", y = "Densidad") +
+  theme_minimal() +
+  theme(
+    axis.line = element_line(color = "black"),
+    axis.ticks = element_line(color = "black"),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10),
+    plot.margin = margin(10, 10, 10, 10),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  scale_x_continuous(breaks = seq(0, 100, by = 10), limits = c(0, 100), expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0))
+
+```
+<br>
+<div style="text-align: justify">
+Como se puede observar, la mayor concentración de edades se encuentra entre los 0 y 20 años, con una caída gradual hacia edades mayores, lo que sugiere que las víctimas son predominantemente jóvenes, con una disminución significativa en las edades más avanzadas. La distribución no sigue una distribución normal simétrica. En cambio, tiene una forma sesgada a la derecha, lo que indica que la mayoría de las víctimas tienen edades menores, mientras que las personas de mayor edad son mucho menos representadas. Este patrón podría sugerir que los tipos de violencia que afectan a personas más jóvenes (como niños y adolescentes) son más prevalentes. Además, la baja frecuencia en las edades mayores podría reflejar un menor número de registros o una menor incidencia de violencia en esas edades. En resumen, la gráfica resalta la alta vulnerabilidad de las personas jóvenes frente a ciertos tipos de violencia, mientras que las personas mayores parecen ser menos afectadas en comparación.
+<div/>
+<br>
+<div style="text-align: justify">
+Estos hallazgos sobre la prevalencia de la violencia en los grupos más jóvenes se pueden corroborar con el análisis de frecuencia de casos registrados por ciclo de vida de la víctima. Este análisis revela patrones similares, destacando cómo la violencia afecta desproporcionadamente a la infancia y la juventud. Tal correlación subraya la necesidad de abordar la violencia en función de las características específicas de cada etapa del ciclo de vida, como se muestra a continuación:
+<div/>
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(ggplot2)
+library(dplyr)
+
+ciclo_vida_counts <- violencia_genero %>%
+  count(`Ciclo de vida`) %>%
+  arrange(desc(n))
+
+ggplot(ciclo_vida_counts, aes(x = reorder(`Ciclo de vida`, n), y = n)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(aes(label = n), hjust = -0.2, color = "black", size = 3.5) + # Etiquetas de frecuencia
+  coord_flip() +
+  labs(title = "Frecuencia de casos de violencia por ciclo de vida de la víctima",
+       x = "Ciclo de Vida de la Víctima",
+       y = "Casos Registrados") +
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.title.x = element_text(face = "bold", size = 12),
+    axis.title.y = element_text(face = "bold", size = 12),
+    axis.text.x = element_text(size = 10),
+    axis.text.y = element_text(size = 10),
+    axis.line = element_line(color = "gray50", size = 0.5), 
+    panel.grid.major.x = element_line(color = "gray80", size = 0.3), 
+    panel.grid.minor = element_blank() 
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) 
+
+
+```
+<br>
+<div style="text-align: justify">
+La gráfica de frecuencia de casos de violencia por ciclo de vida de la víctima refuerza las observaciones previas sobre la vulnerabilidad de los grupos más jóvenes. La primera infancia presenta la mayor frecuencia de casos, con 3,687 incidentes, seguida por la juventud con 2,302 y la adolescencia con 2,253. Si sumamos los casos de infancia, primera infancia, adolescencia y juventud, se observa que estos grupos en conjunto representan una proporción significativa de las víctimas de violencia registradas entre los años 2015-2023, lo que resalta la preocupación por la exposición de los jóvenes a situaciones de riesgo. En contraste, los grupos de edad más avanzada, como la adultez (2,045) y las personas mayores (370), muestran una representación considerablemente menor. Esto evidencia que, aunque la violencia afecta a todas las etapas de la vida, los más jóvenes son, sin duda, los más expuestos, lo que subraya la urgencia de abordar esta problemática de manera integral. 
+<div/>
+<br>
+<div style="text-align: justify">
+Ahora bien, traduciendo estos datos en términos probabilísticos, de acuerdo a la tabla inferior, se puede afirmar que la "Primera infancia" presenta la mayor probabilidad de victimización por violencia de género, con un 30.24%. En términos comparativos, los jóvenes en "Juventud" (18.88%) y "Adolescencia" (18.48%) también muestran probabilidades elevadas de ser víctimas. En contraste, las probabilidades disminuyen en los grupos de "Adultez" (16.77%) e "Infancia" (12.60%), y son más bajas en "Persona Mayor" (3.03%). Esto sugiere una distribución no uniforme del riesgo, donde los más jóvenes son más propensos a experimentar violencia de género, destacando la necesidad de enfoques de prevención adaptados a cada grupo etario.
+<div/>
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(dplyr)
+library(kableExtra)
+
+violencia_datos_etapa <- data.frame(
+  ciclo_vida = c("Primera infancia", "Juventud", "Adolescencia", "Adultez", "Infancia", "Persona Mayor"),
+  casos = c(3687, 2302, 2253, 2045, 1536, 370)
+)
+
+total_casos_etapa <- sum(violencia_datos_etapa$casos)
+
+tabla_probabilidades_etapa <- violencia_datos_etapa %>%
+  mutate(
+    probabilidad = round(casos / total_casos_etapa, 4),
+    porcentaje = paste0(round(probabilidad * 100, 2), "%")  
+  ) %>%
+  select(ciclo_vida, probabilidad, porcentaje)  
+
+tabla_probabilidades_etapa %>%
+  kable("html", align = "c", digits = 4, 
+        col.names = c("Ciclo de Vida", "Probabilidad", "Porcentaje"),  
+        caption = "Probabilidades de ser víctima de algún tipo de violencia de género por etapa de vida") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
+                full_width = F, position = "center") %>%
+  row_spec(0, bold = TRUE, background = "#d0e4f5")
+
+
+```
+<br>
+
+#### 2.1.2 Estadísticos de edades de las víctimas por tipo de violencia de género
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+
+library(dplyr)
+library(kableExtra)
+
+violencia_genero$def_naturaleza <- as.factor(violencia_genero$def_naturaleza)
+
+estadisticos_por_naturaleza <- violencia_genero %>%
+  group_by(def_naturaleza) %>%
+  summarise(
+    `Tipo de Violencia` = first(def_naturaleza), 
+    `Media de Edad` = mean(edad_victima, na.rm = TRUE),
+    `Mediana de Edad` = median(edad_victima, na.rm = TRUE),
+    `Moda de Edad` = as.numeric(names(sort(table(edad_victima), decreasing = TRUE)[1])),
+    `Desviación Estándar` = sd(edad_victima, na.rm = TRUE),
+    `Varianza` = var(edad_victima, na.rm = TRUE),
+    `Coeficiente de Variación` = (sd(edad_victima, na.rm = TRUE) / mean(edad_victima, na.rm = TRUE)) * 100,
+    `Cuartil 1` = quantile(edad_victima, 0.25, na.rm = TRUE),
+    `Cuartil 2` = quantile(edad_victima, 0.5, na.rm = TRUE),
+    `Cuartil 3` = quantile(edad_victima, 0.75, na.rm = TRUE)
+  )
+
+estadisticos_por_naturaleza %>%
+  select(`Tipo de Violencia`, `Media de Edad`, `Mediana de Edad`, `Moda de Edad`, `Desviación Estándar`, `Varianza`, `Coeficiente de Variación`, `Cuartil 1`, `Cuartil 2`, `Cuartil 3`) %>%
+  kable("html", align = "c", digits = 2, 
+        caption = "Estadísticos de Edad de las Víctimas por Tipo de Violencia") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
+                full_width = F, position = "center") %>%
+  row_spec(0, bold = TRUE, background = "#d0e4f5")
+
+
+```
+<br>
+<div style="text-align: justify">
+La tabla ofrece un análisis estadístico exhaustivo de la edad de las víctimas según el tipo de violencia, proporcionando una comprensión detallada de cómo se distribuyen las edades en cada categoría de agresión. En cuanto a las medidas de centralización, se observa que el "Abuso Sexual" tiene una media de edad de 12.65 años y una mediana de 13, lo que indica que afecta principalmente a menores de edad. De manera similar, la "Explotación Sexual Comercial de Niños y Adolescentes" presenta una media aún más baja, de 7.67 años, y una mediana de solo 3 años, lo que refleja que las víctimas de este tipo de violencia suelen ser niños muy pequeños. En contraste, la "Violencia Física" y la "Violencia Psicológica" afectan a grupos de mayor edad, con medias de 29.58 y 27.99 años, respectivamente. Esto sugiere que estos tipos de violencia son más frecuentes en adultos y en etapas de vida con interacciones sociales y laborales más complejas.
+<div/>
+<br>
+<div style="text-align: justify">
+Las medidas de dispersión, como la desviación estándar y la varianza, revelan la variabilidad en la edad de las víctimas para cada tipo de violencia. La "Negligencia y Abandono" muestra una alta desviación estándar (16.09) y varianza (258.87), lo que indica una gran dispersión en las edades de las víctimas. Esto implica que este tipo de violencia afecta a personas de un amplio rango etario, desde la infancia hasta la vejez, lo cual puede estar relacionado con la dependencia que tanto los jóvenes como los adultos mayores tienen hacia sus cuidadores. En contraste, tipos de violencia como el "Acoso Sexual" y los "Actos Sexuales" muestran menor variabilidad relativa en la edad de sus víctimas, concentrándose en edades juveniles y reflejando una distribución más homogénea en estos grupos.
+<div/>
+<br>
+<div style="text-align: justify">
+Los percentiles, expresados como cuartiles, proporcionan una visión más detallada sobre la distribución etaria dentro de cada tipo de violencia, revelando patrones específicos para diferentes grupos. En el caso del Abuso Sexual, el primer cuartil de 6 años y el tercer cuartil de 16 años muestran que la mayoría de las víctimas son personas jóvenes, confirmando que este tipo de violencia afecta predominantemente a menores de edad. Por otro lado, la Violencia Física tiene un rango intercuartílico de 21 a 45 años, lo cual indica que se presenta principalmente en adultos jóvenes y de mediana edad, posiblemente debido a interacciones familiares o sociales más frecuentes en estas etapas. La Violencia Psicológica se concentra entre los 14 y 40 años, lo que sugiere que las víctimas suelen estar en etapas de vida con interacciones sociales y laborales intensas, donde los conflictos emocionales pueden ser más frecuentes. En cuanto a la Negligencia y Abandono, se observa un rango de edad aún más amplio, con un primer cuartil de 2 años y un tercer cuartil de 12 años, lo cual indica que una gran proporción de las víctimas son niños y adolescentes en etapas de desarrollo.
+<div/>
+<br>
+<div style="text-align: justify">
+En resumen, la tabla revela patrones importantes sobre cómo la edad y el tipo de violencia están vinculados. Los tipos de violencia sexual, como el abuso y el acoso, afectan predominantemente a menores y adolescentes, mientras que la negligencia, la violencia física y la psicológica abarcan un rango etario más amplio, afectando tanto a jóvenes como a adultos. Esta información es fundamental para formular intervenciones y políticas de prevención enfocadas en los grupos más vulnerables, adaptando las estrategias de apoyo a las características de cada tipo de violencia y al grupo etario más afectado. A continuación, se presenta una tabla de contigencia que ilustra la distribución de los tipos de violencia de género según el ciclo de vida de las víctimas. Esta visualización permite observar cómo varían las incidencias de diferentes formas de violencia a lo largo de las distintas etapas de la vida, destacando las vulnerabilidades específicas que enfrentan los individuos en cada fase y proporcionando una comprensión más clara de la naturaleza del problema en relación con el ciclo vital.
+<div/>
+<br>
+```{r,echo=FALSE}
+library(dplyr)
+library(tidyr)
+library(kableExtra)
+
+violencia_genero$def_naturaleza <- as.factor(violencia_genero$def_naturaleza)
+
+tabla_violencia <- violencia_genero %>%
+  group_by(def_naturaleza, `Ciclo de vida`) %>%
+  summarise(n = n(), .groups = 'drop') %>%
+  arrange(def_naturaleza, `Ciclo de vida`)
+
+tabla_ancha <- tabla_violencia %>%
+  pivot_wider(names_from = `Ciclo de vida`, values_from = n, values_fill = list(n = 0))
+
+column_order <- c("Primera infancia", "Infancia", "Adolescencia", "Juventud", "Adultez", "Persona Mayor")
+tabla_ancha <- tabla_ancha[, c("def_naturaleza", column_order)]
+
+tabla_final <- tabla_ancha %>%
+  rename(`Tipos de Violencia` = def_naturaleza)
+
+tabla_final %>%
+  kable("html", align = "c", digits = 0, 
+        caption = "Frecuencia de Casos de Violencia por Tipos de Violencia y Etapas de Vida") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
+                full_width = F, position = "center") %>%
+  row_spec(0, bold = TRUE, background = "#d0e4f5")
+
+```
+<br>
+<div style="text-align: justify">
+La tabla confirma que el tipo de violencia con mayor prevalencia en la mayoría de las etapas de vida es la Negligencia y Abandono, especialmente en la "Primera Infancia" con 2,773 casos. Sin embargo, también muestra una alta frecuencia en la "Adolescencia" (572 casos) y la "Juventud" (340 casos), lo que indica que los adolescentes y jóvenes también son considerablemente vulnerables a este tipo de violencia. La incidencia de negligencia y abandono disminuye en etapas de vida posteriores, pero aún se mantiene significativa en la "Persona Mayor" (171 casos). Este patrón sugiere que tanto los más jóvenes como los adolescentes y adultos mayores, quienes pueden tener mayores niveles de dependencia en su cuidado, están particularmente expuestos a este tipo de violencia.La Violencia Física muestra una frecuencia notablemente alta en la "Adultez" con 1,600 casos, seguida de la "Juventud" (1,300 casos) y la "Adolescencia" (445 casos). Estos datos indican que esta forma de violencia es especialmente prevalente en adultos y jóvenes, probablemente debido a factores de convivencia y conflictos interpersonales en etapas de mayor interacción social y laboral. La presencia significativa de violencia física en adolescentes también apunta a una posible vulnerabilidad en contextos familiares o escolares.
+<div/>
+<br>
+<div style="text-align: justify">
+El Abuso Sexual presenta su mayor incidencia en la "Adolescencia" con 401 casos, lo que la posiciona como la etapa más crítica de riesgo para este tipo de violencia. La "Primera Infancia" es la segunda etapa de mayor prevalencia con 234 casos, seguida de la "Infancia" con 171 casos. Estos datos reflejan que el abuso sexual afecta principalmente a menores y adolescentes, quienes pueden estar en situaciones de poder desigual que los exponen a este tipo de agresión. Otros tipos de violencia sexual, como el "Acoso Sexual" y el "Acceso Carnal," también se concentran principalmente en la adolescencia. En cuanto a la Violencia Psicológica, la "Juventud" es la etapa con mayor prevalencia, con 163 casos, seguida de la "Adultez" (156 casos). Esto sugiere que la violencia psicológica es más común entre adultos jóvenes, probablemente debido a la naturaleza de las relaciones personales y laborales que caracterizan esta etapa, donde las interacciones y los conflictos emocionales pueden intensificarse.
+<div/>
+<br>
+<div style="text-align: justify">
+Finalmente, es notable que ciertos tipos de violencia, como la Trata de Personas y la Explotación Sexual Comercial de Niños y Adolescentes, presentan frecuencias extremadamente bajas en todas las etapas, lo cual podría reflejar una menor incidencia de estos casos o, alternativamente, un subregistro debido a la dificultad de detección y denuncia de estas situaciones. En conclusión, la tabla muestra que la vulnerabilidad a diferentes tipos de violencia varía significativamente según la etapa de vida, con tipos de violencia específicos concentrándose en ciertos grupos: la negligencia en los más jóvenes y en adolescentes, la violencia física en adultos y jóvenes, el abuso sexual en adolescentes y niños, y la violencia psicológica en jóvenes adultos. Esta información es fundamental para orientar intervenciones específicas y políticas de protección dirigidas a los grupos más vulnerables. Lo anterior, se puede evidenciar de manera más clara en la gráfica posterior, la cual ilustra los 3 tipos de violencia con mayores casos y sus frecuencias por ciclo de vida asociados: 
+<div/>
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(dplyr)
+library(ggplot2)
+
+tabla_violencia_ciclo <- violencia_genero %>%
+  group_by(def_naturaleza, `Ciclo de vida`) %>%
+  summarise(n = n(), .groups = 'drop') %>%
+  arrange(desc(n))
+
+top_3_violencias <- tabla_violencia_ciclo %>%
+  group_by(def_naturaleza) %>%
+  summarise(total = sum(n)) %>%
+  arrange(desc(total)) %>%
+  head(3) %>%
+  pull(def_naturaleza)
+
+tabla_filtrada <- tabla_violencia_ciclo %>%
+  filter(def_naturaleza %in% top_3_violencias)
+
+tabla_filtrada$`Ciclo de vida` <- factor(tabla_filtrada$`Ciclo de vida`, 
+                                          levels = c("Primera infancia", "Infancia", "Adolescencia", 
+                                                     "Juventud", "Adultez", "Persona Mayor"))
+
+ggplot(tabla_filtrada, aes(x = reorder(def_naturaleza, n), y = n, fill = `Ciclo de vida`)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.8) +
+  geom_text(aes(label = n), position = position_dodge(width = 0.8), vjust = 0.5, hjust = -0.1, color = "black", size = 4) +
+  labs(title = "Frecuencia de los Tres Tipos de\nViolencia con Más Casos por Ciclo de Vida",
+       x = "Tipo de Violencia",
+       y = "Casos Registrados") +
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16, vjust = 2),
+    axis.title.x = element_text(face = "bold", size = 12),
+    axis.title.y = element_text(face = "bold", size = 12),
+    axis.text.x = element_text(size = 10),
+    axis.text.y = element_text(size = 10),
+    axis.line = element_line(color = "gray50", size = 0.5),
+    panel.grid.major.x = element_line(color = "gray80", size = 0.3),
+    panel.grid.minor = element_blank(),
+    legend.title = element_text(face = "bold"),
+    legend.text = element_text(size = 10)
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)), limits = c(0, 4000)) +
+  scale_fill_brewer(palette = "Blues") +
+  coord_flip()
+
+
+
+```
+<br>
+<div style="text-align: justify">
+A partir de esta visualización de la distribución de los casos registrados en los 3 tipos de violencia de género más recurrentes en los años de estudio, podemos calcular probabilidades condicionales, como se muestra en la tabla inferior, para comprender la factibilidad de que la víctima experimiente cierto tipo de violencia dado que está en cierto ciclo de vida. Como se puede observar, para el suceso de Negligencia y Abandono, observamos una probabilidad condicional especialmente alta en la "Primera Infancia" con un valor de 0.75 o 75.21%. Este resultado indica que, dado el evento de negligencia, es altamente probable que las víctimas pertenezcan a esta etapa de vida, lo cual puede estar relacionado con la gran dependencia de los niños pequeños hacia sus cuidadores. Esta probabilidad condicional disminuye en sucesos de etapas posteriores, tales como la "Infancia" (0.51 o 50.65%) y la "Adolescencia" (0.25 o 25.39%), alcanzando su punto más bajo en la "Adultez" con 0.05 (5.48%). Sin embargo, en la "Persona Mayor", la probabilidad condicional aumenta nuevamente a 0.46 (46.22%), lo cual sugiere que la negligencia es un suceso que se ve condicionado por factores de dependencia tanto en la niñez como en la vejez.
+<div/>
+<br>
+<div style="text-align: justify">
+El suceso de Abuso Sexual presenta una probabilidad condicional elevada en las etapas tempranas de la vida. En la "Primera Infancia", la probabilidad condicional es de 0.06 (6.43%), y aumenta en la "Infancia" a 0.22 (22.47%). Esto indica que, entre las víctimas de abuso sexual, una gran proporción se encuentra en estas etapas de vida, lo cual sugiere una mayor prevalencia de este tipo de violencia en los niños pequeños. En la "Adolescencia", la probabilidad condicional del abuso sexual baja a 0.05 (5.34%), y disminuye aún más en las etapas de "Juventud", "Adultez" y "Persona Mayor", donde las probabilidades son mínimas (0.01 o aproximadamente 1% en las dos últimas etapas). Este patrón muestra que el abuso sexual afecta desproporcionadamente a los más jóvenes, lo cual podemos describir como una distribución asimétrica: la probabilidad de este suceso es mucho mayor en la infancia y disminuye drásticamente en las etapas de vida posteriores. En otras palabras, el evento de abuso sexual está estrechamente relacionado con la etapa de desarrollo de la víctima, afectando principalmente a niños y adolescentes y siendo mucho menos frecuente en adultos y personas mayores.
+<div/>
+<br>
+<div style="text-align: justify">
+En el caso del suceso de Violencia Física, el patrón de probabilidad condicional difiere considerablemente. La probabilidad de este suceso aumenta en las etapas más avanzadas, comenzando en 0.12 (12.04%) en la "Primera Infancia" y alcanzando su máximo en la "Adultez" con 0.51 (50.51%). La "Juventud" también presenta una probabilidad condicional alta de 0.45 (44.77%), mientras que en la "Persona Mayor" desciende a 0.39 (39.32%). La alta variabilidad de la probabilidad condicional en este tipo de violencia sugiere que la violencia física es un suceso que se produce frecuentemente en la adultez y juventud, posiblemente condicionado por factores asociados a la interacción social y a los conflictos laborales o familiares que son más comunes en estas etapas.
+<div/>
+<br>
+<div style="text-align: justify">
+En conclusión, el análisis de estos sucesos y sus probabilidades condicionales permite identificar claramente la dependencia probabilística de cada tipo de violencia según la etapa de vida de la víctima. La probabilidad de que ocurra el suceso de negligencia es mayor en los extremos del ciclo de vida (primera infancia y persona mayor) debido a la alta dependencia en estas etapas. El suceso de abuso sexual muestra una alta probabilidad condicional en la infancia y adolescencia, reflejando la gran vulnerabilidad de estos grupos frente a este evento. Por último, la violencia física presenta una alta incidencia probabilística en la adultez y juventud, donde las interacciones sociales y los conflictos familiares y laborales influyen en la ocurrencia de este tipo de suceso. Este enfoque basado en probabilidades condicionadas y sucesos permite diseñar políticas de prevención y protección efectivas, adaptadas a las características y riesgos específicos de cada grupo etario frente a los distintos tipos de violencia.
+<div/>
+<br>
+```{r,echo=FALSE,warning=FALSE, warning=FALSE, r,echo=FALSE}
+
+library(DT)
+
+datos_condiciones <- data.frame(
+  Tipo_Violencia = c(rep("Negligencia y Abandono", 6), 
+                     rep("Abuso Sexual", 6),
+                     rep("Violencia Física", 6)),
+  Ciclo_de_Vida = rep(c("Primera Infancia", "Infancia", "Adolescencia", "Juventud", "Adultez", "Persona Mayor"), 3),
+  Probabilidad = c(2773/3687, 778/1536, 572/2253, 340/2302, 112/2045, 171/370, 
+                   237/3687, 171/761, 117/2192, 93/2904, 30/2574, 4/384,
+                   334/2773, 198/761, 445/2192, 1300/2904, 1300/2574, 151/384)
+)
+
+datos_condiciones$Porcentaje <- paste0(round(datos_condiciones$Probabilidad * 100, 2), "%")
+datos_condiciones$Enunciado <- paste("P(<sub><b><i>", datos_condiciones$Tipo_Violencia, " | ", datos_condiciones$Ciclo_de_Vida, "</i></b></sub>)")
+
+tabla_probabilidades <- datos_condiciones[, c("Enunciado", "Probabilidad", "Porcentaje")]
+
+datatable(tabla_probabilidades, 
+          colnames = c("Enunciado", "Probabilidad", "Porcentaje"),
+          caption = "Probabilidades Condicionales de Ser Víctima de un Tipo de Violencia por Ciclo de Vida",
+          escape = FALSE,
+          options = list(pageLength = 10, 
+                         scrollX = TRUE, 
+                         dom = 'tpi', 
+                         columnDefs = list(list(className = 'dt-center', targets = "_all")), 
+                         initComplete = JS(
+                           "function(settings, json) {",
+                           "$(this.api().table().header()).css({'background-color': '#d0e4f5', 'color': '#000'});",
+                           "}")),
+          class = "cell-border stripe") %>% 
+  formatRound(columns = c("Probabilidad"), digits = 2)
+
+
+```
+<br>
+
+### 2.2 Análisis general de casos de violencia por género de las Víctimas
+
+<br>
+<div style="text-align: justify">
+Este apartado presenta un análisis descriptivo estadístico de los casos de violencia por género, con el objetivo de identificar la distribución de las víctimas según su género y explorar cómo este factor se relaciona con los distintos tipos de violencia. Se analizará la cantidad de víctimas por género y qué género es más afectado por cada tipo de violencia. Este análisis es fundamental para comprender las tendencias y características de la violencia de género, lo que facilita la creación de estrategias de intervención específicas y basadas en datos, dirigidas a reducir y prevenir la violencia de manera más efectiva.
+<div/>
+<br>
+
+#### 2.2.1 Análisis inicial de número de víctimas registradas de violencia por género
+
+```{r,echo=FALSE,warning=FALSE}
+gender_count <- table(violencia_genero$sexo_victima)
+percentages <- round(gender_count / sum(gender_count) * 100, 1)
+labels <- paste(names(gender_count), "\n", gender_count, " (", percentages, "%)", sep = "")
+colors <- c("lightblue", "blue")
+
+par(mar = c(1, 2, 2, 1))  
+pie(gender_count, labels = labels, col = colors, main = "Distribución de Mujeres y Hombres Registrados", 
+    border = "black", clockwise = TRUE, init.angle = 90)
+
+```
+<br>
+<div style="text-align: justify">
+La gráfica muestra la distribución de mujeres y hombres registrados en los casos de violencia de género en Colombia, con los mujeres representando el 69.1% de los casos, mientras que los hombres constituyen el 30.9%. Este patrón refleja una prevalencia significativa de víctimas femeninas en los incidentes de violencia de género, lo cual es consistente con las estadísticas globales y nacionales que muestran que las mujeres, especialmente en contextos de violencia doméstica y sexual, son más vulnerables a estos abusos. Este análisis resalta la necesidad urgente de abordar la violencia de género de manera diferenciada según el género, con un enfoque especial en las mujeres, que en este caso representan casi el 70% de las víctimas. Además, aunque la proporción de hombres víctimas es menor, su presencia no debe ser ignorada, ya que también pueden enfrentar formas de violencia de género, aunque frecuentemente es menos reportado o reconocido en contextos sociales. Esto subraya la importancia de mejorar la recolección de datos y la visibilidad de los hombres como víctimas, especialmente en situaciones de violencia psicológica o en relaciones abusivas.
+<div/>
+<br>
+
+#### 2.2.2 Número de casos por tipo de violencia correspondiente a cada género
+
+```{r,echo=FALSE,warning=FALSE}
+library(dplyr)
+library(ggplot2)
+
+tabla_violencia_genero <- violencia_genero %>%
+  group_by(def_naturaleza, sexo_victima) %>%
+  summarise(n = n(), .groups = 'drop') %>%
+  arrange(desc(n))
+
+ggplot(tabla_violencia_genero, aes(x = reorder(def_naturaleza, n), y = n, fill = sexo_victima)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.8) +
+  geom_text(aes(label = n), position = position_dodge(width = 1), vjust = 0.5, hjust = -0.1, color = "black", size = 2.6) +
+  labs(title = "Frecuencia de Casos de Violencia\npor Género y Tipo de Violencia",
+       x = "Tipo de Violencia",
+       y = "Casos Registrados") +
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16, vjust = 2),
+    axis.title.x = element_text(face = "bold", size = 12),
+    axis.title.y = element_text(face = "bold", size = 12),
+    axis.text.x = element_text(size = 10),
+    axis.text.y = element_text(size = 10),
+    axis.line = element_line(color = "gray50", size = 0.5),
+    panel.grid.major.x = element_line(color = "gray80", size = 0.3),
+    panel.grid.minor = element_blank(),
+    legend.title = element_text(face = "bold"),
+    legend.text = element_text(size = 10)
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)), limits = c(0, 4000)) +
+  scale_fill_manual(values = c("steelblue", "lightblue"), name = "Sexo Víctimas") +
+  coord_flip()
+
+
+```
+<br>
+<div style="text-align: justify">
+La gráfica muestra que en el tipo de "Violencia física," las mujeres son las principales víctimas, con un total de 3,100 casos, mientras que en hombres la cifra es de 928 casos, lo cual resalta una disparidad significativa en la victimización de las mujeres en este tipo de violencia. En "Abuso sexual," se observa una tendencia similar, con 834 casos en mujeres frente a solo 119 en hombres, lo cual confirma que este tipo de violencia impacta de manera mucho más pronunciada al género femenino. Además, en "Violencia psicológica," las mujeres también presentan un número mayor de casos, alcanzando los 449, mientras que los hombres registran solo 95 casos. Estos datos reflejan un patrón en el que las mujeres son desproporcionadamente más afectadas por las formas de violencia física, sexual y psicológica.
+<div/>
+<br>
+<div style="text-align: justify">
+Por otro lado, en el caso de "Negligencia y abandono," la distribución entre géneros es más equilibrada, con 2,410 casos en mujeres y 2,338 en hombres, lo cual sugiere que esta forma de violencia no está tan marcada por el género de la víctima. En "Acoso sexual," las cifras vuelven a mostrar una diferencia notable, con 248 casos en mujeres frente a 39 en hombres, reafirmando que las agresiones de índole sexual afectan principalmente a las mujeres. Es importante también mencionar la categoría "Sin información," que cuenta con 539 casos, indicando una falta de detalle en la documentación que podría estar limitando la comprensión completa de la dinámica de género en la victimización. 
+<div/>
+<br>
+<div style="text-align: justify">
+Si traducimos lo anterior a términos probabilísticos, considerando la etapa de vida de las víctimas, su sexo y los tres tipos de violencia de género más reportados, podemos obtener los siguientes hallazgos: 
+<div/>
+<br>
+```{r,echo=FALSE,warning=FALSE}
+
+library(dplyr)
+library(DT)
+
+tipos_principales <- c("Negligencia y abandono", "Violencia física", "Abuso sexual")
+ciclos_de_vida_ordenados <- c("Primera infancia", "Infancia", "Adolescencia", "Juventud", "Adultez", "Persona Mayor")
+
+data_filtrada <- subset(violencia_genero, def_naturaleza %in% tipos_principales)
+
+tabla_conteo <- data_filtrada %>%
+  group_by(sexo_victima, `Ciclo de vida`, def_naturaleza) %>%
+  summarise(casos = n()) %>%
+  ungroup()
+
+total_ciclo_genero <- data_filtrada %>%
+  group_by(sexo_victima, `Ciclo de vida`) %>%
+  summarise(total = n()) %>%
+  ungroup()
+
+tabla_probabilidades <- tabla_conteo %>%
+  left_join(total_ciclo_genero, by = c("sexo_victima", "Ciclo de vida")) %>%
+  mutate(probabilidad = round(casos / total, 4),
+         porcentaje = paste0(round(probabilidad * 100, 2), "%"),
+         enunciado = paste0("P(", def_naturaleza, " | ", sexo_victima, " ∩ ", `Ciclo de vida`, ")")) %>%
+  arrange(factor(def_naturaleza, levels = tipos_principales), 
+          factor(`Ciclo de vida`, levels = ciclos_de_vida_ordenados)) %>% 
+  select(enunciado, probabilidad, porcentaje)
+
+datatable(tabla_probabilidades, 
+          colnames = c("Enunciado", "Probabilidad", "Porcentaje"),
+          caption = "Probabilidades Condicionales de Ser Víctima de un Tipo de Violencia por Ciclo de Vida",
+          options = list(pageLength = 10, 
+                         scrollX = TRUE, 
+                         dom = 'tpi', 
+                         columnDefs = list(list(className = 'dt-center', targets = "_all")), 
+                         initComplete = JS(
+                           "function(settings, json) {",
+                           "$(this.api().table().header()).css({'background-color': '#d0e4f5', 'color': '#000'});",
+                           "}")),
+          class = "cell-border stripe") %>%  
+  formatRound(columns = c("probabilidad"), digits = 2)
+
+
+```
+<br>
+<div style="text-align: justify">
+Como se evidencia, en particular, la probabilidad más alta en la tabla corresponde a hombres en la etapa de "Persona Mayor" para "Violencia Física", con un valor de 92.96%. Este dato indica que, en esta combinación específica, la probabilidad condicional de que un hombre mayor sufra violencia física es extremadamente alta en comparación con otros grupos. Del mismo modo, las mujeres en la etapa de "Juventud" presentan una probabilidad significativa del 72.51% para el mismo tipo de violencia, lo que señala que esta etapa es también un periodo de alta vulnerabilidad para el género femenino en términos de violencia física. Estos valores destacan eventos altamente probables y sugieren que tanto los hombres mayores como las mujeres jóvenes son grupos particularmente propensos a este tipo de agresión, haciendo que la violencia física sea un evento dependiente de género y edad.
+<div/>
+<br>
+<div style="text-align: justify">
+Por otro lado, los grupos con las probabilidades más bajas también revelan patrones importantes. Por ejemplo, la probabilidad de que una persona mayor, tanto hombre (0.78%) como mujer (1.02%), sufra "Abuso Sexual" es baja. Estos eventos de baja probabilidad indican que este tipo de violencia es relativamente poco frecuente en las etapas de vida más avanzadas, lo que podría estar relacionado con factores como la menor exposición o una disminución en la vulnerabilidad percibida por los agresores hacia este grupo. En otro extremo, encontramos que la "Negligencia y Abandono" es un suceso probable en etapas tempranas y avanzadas de la vida para ambos géneros, especialmente en la "Primera Infancia" para hombres, con una probabilidad de 87.41%, y en "Persona Mayor" para mujeres (47.72%).
+<div/>
+<br>
+<div style="text-align: justify">
+El análisis también nos permite observar una distribución condicional en la que ciertos grupos demográficos presentan un riesgo considerablemente elevado para un tipo específico de violencia, mientras que otros muestran menor susceptibilidad. Esto sugiere que las probabilidades no son independientes entre género, etapa de vida y tipo de violencia, sino que existe una correlación condicional donde algunas combinaciones específicas presentan un riesgo elevado. Estos patrones son cruciales para entender la naturaleza de la violencia y cómo ésta se manifiesta de manera diferencial en la población, lo cual es fundamental para la creación de políticas de prevención específicas y efectivas para cada grupo demográfico en riesgo.
+<div/>
+<br>
+
+### 2.3 Análisis de la mortalidad de la víctima en los casos registrados
+
+<br>
+<div style="text-align: justify">
+En este apartado, se analiza la mortalidad de las víctimas en casos de violencia de género, considerando cómo el género, el ciclo de vida y el tipo de violencia influyen en el desenlace fatal. Este enfoque permite identificar patrones de riesgo específicos y comprender mejor la vulnerabilidad de ciertos grupos, proporcionando una visión crítica sobre los factores que agravan las consecuencias de la violencia de género.
+<div/>
+<br>
+
+#### 2.3.1 Contexto general de mortalidad de las víctimas de caso de violencia
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+mortalidad_count <- table(violencia_genero$con_fin_)
+
+percentages <- round(mortalidad_count / sum(mortalidad_count) * 100, 1)
+
+labels <- paste(names(mortalidad_count), "\n", mortalidad_count, " (", percentages, "%)", sep = "")
+
+colors <- c("lightblue", "blue", "gray")
+
+par(mar = c(1, 2, 2, 1))  
+pie(mortalidad_count, labels = labels, col = colors, main = "Distribución de Víctimas Mortales, No Mortales y Desconocidos", 
+    border = "black", clockwise = TRUE, init.angle = 90)
+
+```
+<br>
+<div style="text-align: justify">
+La gráfica muestra la distribución de víctimas de violencia de género en tres categorías: vivas, muertas y desconocidas. La mayor proporción corresponde a víctimas vivas, representando el 46.2% del total (5,639 casos). Esto indica que casi la mitad de los casos de violencia de género no resultaron en mortalidad, lo que sugiere una alta prevalencia de violencia de género que, aunque no lleva a la muerte, sigue teniendo un impacto significativo en las víctimas.Por otro lado, un 24.5% (2,986 casos) corresponde a víctimas que fallecieron, lo que resalta una proporción considerable de mortalidad asociada a la violencia de género. Esto evidencia la gravedad de ciertos casos y destaca la letalidad potencial de esta forma de violencia. Además, un 29.3% de los casos (3,568) se clasifica como "desconocido," lo que indica una falta de información sobre el estado final de muchas víctimas. En resumen, la mayoría de las víctimas de violencia de género sobreviven, pero una proporción significativa fallece, mientras que casi un tercio de los casos carece de información sobre el estado final, lo que limita el análisis completo de la situación.
+<div/>
+<br>
+
+#### 2.3.2 Mortalidad de las víctimas de caso de violencia por género
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+mortalidad_femenino <- table(violencia_genero$con_fin_[violencia_genero$sexo_victima == "Femenino"])
+mortalidad_masculino <- table(violencia_genero$con_fin_[violencia_genero$sexo_victima == "Masculino"])
+
+percentages_femenino <- round(mortalidad_femenino / sum(mortalidad_femenino) * 100, 1)
+labels_femenino <- paste(names(mortalidad_femenino), "\n", mortalidad_femenino, " (", percentages_femenino, "%)", sep = "")
+
+percentages_masculino <- round(mortalidad_masculino / sum(mortalidad_masculino) * 100, 1)
+labels_masculino <- paste(names(mortalidad_masculino), "\n", mortalidad_masculino, " (", percentages_masculino, "%)", sep = "")
+
+colors <- c("lightblue", "blue", "gray")
+
+par(mfrow = c(1, 2), mar = c(2, 2, 1, 4), oma = c(0.5, 1, 1, 1))
+
+pie(mortalidad_femenino, labels = labels_femenino, col = colors, 
+    border = "black", clockwise = TRUE, init.angle = 90)
+mtext("Distribución en Femenino", side = 3, line = -2, cex = 1.2, font = 2)
+
+pie(mortalidad_masculino, labels = labels_masculino, col = colors, 
+    border = "black", clockwise = TRUE, init.angle = 90)
+mtext("Distribución en Masculino", side = 3, line = -2, cex = 1.2, font = 2)
+
+
+```
+<br>
+<div style="text-align: justify">
+La gráfica muestra la distribución de la mortalidad de las víctimas de violencia de género desglosada por género y revela que la mortalidad es mayor en mujeres que en hombres, tanto en términos relativos como absolutos. En el caso de las mujeres, el 23.4% (1,973 casos) de las víctimas falleció, mientras que el 46.9% (3,951 casos) sobrevivió y un 29.7% (2,499 casos) se clasifica como "desconocido". Para los hombres, el 26.9% (1,013 casos) de las víctimas falleció, mientras que el 44.8% (1,688 casos) sobrevivió y el 28.4% (1,069 casos) corresponde a la categoría de "desconocido". Aunque el porcentaje de mortalidad en relación con los hombres también es considerable, la cantidad absoluta de mujeres fallecidas es notablemente mayor, evidenciando que la violencia de género resulta en una mayor letalidad para las mujeres.
+<div/>
+<br>
+<div style="text-align: justify">
+En cuanto a los sobrevivientes, se observa que tanto en hombres como en mujeres, la proporción de quienes sobreviven a estos episodios de violencia es significativa, aunque levemente mayor en las mujeres (46.9% frente a 44.8% en hombres). Este dato sugiere que, aunque la letalidad es alta, existe una considerable cantidad de víctimas que logran sobrevivir. Sin embargo, este alto porcentaje de sobrevivientes también implica una potencial carga emocional, física y social prolongada para estas personas, quienes pueden enfrentar consecuencias duraderas debido a la violencia experimentada. La significativa proporción de casos "desconocidos" limita el análisis completo del impacto de la violencia en términos de supervivencia y mortalidad, subrayando la importancia de un registro más detallado.
+<div/>
+<br>
+
+#### 2.3.3 Mortalidad de las víctimas de caso de violencia por ciclo de vida
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(ggplot2)
+library(dplyr)
+
+violencia_genero$`Ciclo de vida` <- factor(violencia_genero$`Ciclo de vida`, 
+                                           levels = c("Primera infancia", "Infancia", "Adolescencia", "Juventud", "Adultez", "Persona Mayor"))
+
+datos_agrupados_mortalidad <- violencia_genero %>%
+  group_by(`Ciclo de vida`, con_fin_) %>%
+  summarise(Conteo = n(), .groups = 'drop')
+
+ggplot(datos_agrupados_mortalidad, aes(x = `Ciclo de vida`, y = Conteo, fill = con_fin_)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
+  geom_text(aes(label = Conteo), vjust = -0.3, position = position_dodge(width = 0.9), size = 3) +
+  scale_fill_manual(values = c("#1f78b4", "#6baed6", "#a6cee3")) +
+  scale_y_continuous(limits = c(0, 1700), breaks = seq(0, 1700, by = 200), expand = c(0, 0)) +  
+  labs(
+    title = "Distribución de Mortalidad por Ciclo de Vida",
+    x = "Ciclo de Vida",
+    y = "Número de Casos",
+    fill = "Mortalidad"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.line.x = element_line(color = "black"),
+    axis.line.y = element_line(color = "black"),
+    plot.title = element_text(hjust = 0.5, face = "bold")
+  )
+
+
+
+```
+<br>
+<div style="text-align: justify">
+La gráfica ilustra la distribución de casos de violencia de género por ciclo de vida, resaltando las diferencias en mortalidad y supervivencia en cada etapa. A través de las categorías "vivo," "muerto," y "desconocido," se puede observar cómo la violencia de género afecta de manera distinta a cada grupo etario. En la Primera Infancia, se registran 1,586 víctimas en estado "vivo", 1,141 fallecidas y 960 en estado "desconocido". La elevada cantidad de fallecimientos en este grupo subraya su alta vulnerabilidad frente a la violencia de género, probablemente debido a su dependencia y limitada capacidad de defensa. Este grupo enfrenta un riesgo significativo de sufrir consecuencias graves, y el número considerable de casos "desconocidos" indica posibles deficiencias en los reportes, lo cual podría dificultar la identificación precisa de los factores de riesgo.
+<div/>
+<br>
+<div style="text-align: justify">
+En la Juventud y Adolescencia, también se observa una notable cantidad de víctimas vivas y fallecidas. La juventud destaca por presentar una mayor proporción de sobrevivientes, lo cual podría estar vinculado a mejores oportunidades de recibir atención oportuna y mayor capacidad para reportar incidentes de violencia. Sin embargo, la probabilidad de mortalidad en ambas etapas es significativa, lo que indica que los adolescentes y jóvenes enfrentan riesgos considerables de violencia con graves consecuencias. La alta incidencia en estas etapas sugiere una exposición sostenida a la violencia, posiblemente relacionada con factores como las dinámicas sociales y familiares en esta fase de la vida.
+<div/>
+<br>
+<div style="text-align: justify">
+En la Adultez, aunque se observa una menor mortalidad en comparación con las etapas más tempranas, el riesgo de fallecimiento continúa siendo alto. Esto podría interpretarse como una mayor capacidad de defensa o de denuncia en los adultos, pero al mismo tiempo resalta que la violencia de género sigue teniendo consecuencias graves en esta etapa de la vida. Finalmente, el grupo de Personas Mayores muestra una incidencia menor de casos de violencia, con una proporción considerable de desconocidos, lo cual podría indicar tanto una menor exposición como una posible subestimación en los reportes. La probabilidad de mortalidad sigue siendo relevante en este grupo, posiblemente debido a factores de salud y a una menor capacidad de resistencia frente a la violencia.
+<div/>
+<br>
+<div style="text-align: justify">
+En resumen, el análisis sugiere que la violencia de género afecta de manera desproporcionada a los más jóvenes, especialmente en la primera infancia, donde el riesgo de mortalidad es elevado. La adolescencia y juventud también muestran una alta exposición y riesgo, mientras que la adultez y la vejez presentan menor incidencia, aunque con una mortalidad significativa. La presencia de casos "desconocidos" en todos los grupos destaca la necesidad de mejorar la calidad del registro de datos para una comprensión más completa del impacto de la violencia a lo largo del ciclo de vida. Lo anterior, se puede traducir en las siguientes probabilidades condicionales que muestran la probabilidad de que la víctima muera, viva o su reporte sea desconocido, dado que está en cierto ciclo de vida: 
+<div/>
+<br>
+
+```{r}
+library(dplyr)
+library(DT)
+
+ciclos_de_vida_ordenados <- c("Primera infancia", "Infancia", "Adolescencia", "Juventud", "Adultez", "Persona Mayor")
+
+tabla_conteo_mortalidadc <- violencia_genero %>%
+  group_by(`Ciclo de vida`, con_fin_) %>%
+  summarise(casos = n(), .groups = 'drop')
+
+total_ciclo_vi <- violencia_genero %>%
+  group_by(`Ciclo de vida`) %>%
+  summarise(total = n(), .groups = 'drop')
+
+tabla_probabilidades_mortiv <- tabla_conteo_mortalidadc %>%
+  left_join(total_ciclo_vi, by = "Ciclo de vida") %>%
+  mutate(
+    probabilidad = round(casos / total, 4),
+    porcentaje = paste0(round(probabilidad * 100, 2), "%"),
+    enunciado = paste0("P(<b><i><sub>", con_fin_, "</sub></i></b> | <b><i><sub>", `Ciclo de vida`, "</sub></i></b>)")
+  ) %>%
+  arrange(factor(`Ciclo de vida`, levels = ciclos_de_vida_ordenados)) %>%
+  select(enunciado, probabilidad, porcentaje)
+
+datatable(tabla_probabilidades_mortiv, 
+          colnames = c("Enunciado", "Probabilidad", "Porcentaje"),
+          caption = "Probabilidad de que la Víctima Muera o Viva dado el Ciclo de Vida",
+          escape = FALSE,
+          options = list(pageLength = 10, 
+                         scrollX = TRUE, 
+                         dom = 'tpi', 
+                         columnDefs = list(list(className = 'dt-center', targets = "_all")), 
+                         initComplete = JS(
+                           "function(settings, json) {",
+                           "$(this.api().table().header()).css({'background-color': '#d0e4f5', 'color': '#000'});",
+                           "}")),
+          class = "cell-border stripe") %>%  
+  formatRound(columns = c("probabilidad"), digits = 2)
+
+
+```
+<br>
+<div style="text-align: justify">
+En Primera Infancia, la probabilidad condicional de que la víctima esté "viva" es de 43.02%, la más alta en este grupo, mientras que la probabilidad de fallecimiento alcanza el 30.95% y la probabilidad de un estado "desconocido" es de 26.04%. Este conjunto de probabilidades sugiere que, aunque existe una mayor probabilidad de supervivencia en este grupo, el riesgo de un desenlace fatal también es notable, indicando una alta vulnerabilidad en esta etapa, donde las víctimas no tienen los recursos para defenderse ni para escapar de situaciones violentas.
+<div/>
+<br>
+<div style="text-align: justify">
+En Infancia y Adolescencia, se observa una tendencia similar, aunque con ligeras variaciones en la probabilidad de cada estado. La probabilidad condicional de supervivencia en infancia es de 42.64%, mientras que en adolescencia se incrementa ligeramente a 44.52%. La probabilidad de fallecimiento en ambos ciclos es cercana al 28%, lo que implica que, aunque el riesgo de mortalidad sigue siendo significativo, estas etapas de vida ofrecen una mayor probabilidad de sobrevivir en comparación con la primera infancia. Este cambio puede reflejar un aumento en la capacidad de autodefensa o de acceso a ayuda externa a medida que las víctimas crecen.
+<div/>
+<br>
+<div style="text-align: justify">
+En Juventud, la probabilidad de sobrevivir es la más alta (49.13%), sugiriendo que en esta etapa las víctimas tienen una mayor probabilidad de recuperación o acceso a apoyo y asistencia tras un incidente de violencia. Sin embargo, la probabilidad de muerte sigue siendo relevante (19.07%), lo que evidencia que, aunque las condiciones para sobrevivir son mejores en este ciclo de vida, el riesgo de un desenlace fatal aún está presente y no debe subestimarse.
+<div/>
+<br>
+<div style="text-align: justify">
+Para el grupo de Adultez, se observa la probabilidad de supervivencia más elevada entre todos los grupos etarios (53.45%), acompañada de una probabilidad relativamente baja de fallecimiento (12.42%). Este patrón podría deberse a que los adultos cuentan con más recursos y habilidades para enfrentar situaciones de violencia, lo que reduce su riesgo condicional de mortalidad. Sin embargo, el estado "desconocido" sigue siendo común, con una probabilidad de 34.13%, lo que sugiere que la documentación de estos casos podría estar incompleta o que existen dificultades en el seguimiento de esta población.
+<div/>
+<br>
+<div style="text-align: justify">
+Finalmente, en Personas Mayores, la probabilidad condicional de estar vivo disminuye a 46.22%, mientras que la probabilidad de muerte alcanza un 24.59%. A pesar de la menor cantidad de casos en este grupo, la proporción de mortalidad es considerable, lo cual puede estar asociado con factores de salud preexistentes y menor capacidad de resistencia. La alta probabilidad de resultados graves en este grupo evidencia su vulnerabilidad probabilística frente a incidentes de violencia, donde las consecuencias pueden ser más letales.
+<div/>
+<br>
+<div style="text-align: justify">
+En resumen, el análisis de estas probabilidades condicionales refleja cómo la vulnerabilidad ante la violencia de género y la gravedad de sus consecuencias varían significativamente según el ciclo de vida. La infancia temprana y las personas mayores presentan un alto riesgo de desenlaces graves, mientras que los adultos y los jóvenes muestran mejores probabilidades de supervivencia. La categoría "desconocido" en todas las etapas enfatiza la necesidad de mejorar los registros para comprender completamente el impacto de la violencia de género en cada grupo etario.
+<div/>
+<br>
+
+#### 2.3.3 Mortalidad de las víctimas de caso de violencia por tipo de violencia de género
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(kableExtra)
+
+column_order_tipo <- c("Vivo", "Muerto", "Desconocido")
+
+tabla_ancha_tipo <- violencia_genero %>%
+  count(def_naturaleza, con_fin_) %>%
+  pivot_wider(names_from = con_fin_, values_from = n, values_fill = 0) %>%
+  select(def_naturaleza, all_of(column_order_tipo))
+
+tabla_final_tipo <- tabla_ancha_tipo %>%
+  rename(`Tipos de Violencia` = def_naturaleza)
+
+tabla_final_tipo %>%
+  kable("html", align = "c", digits = 0, 
+        caption = "Frecuencia de Casos de Violencia por Tipos de Violencia y Estado de la Víctima") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
+                full_width = F, position = "center") %>%
+  row_spec(0, bold = TRUE, background = "#d0e4f5")
+
+
+
+```
+<br>
+<div style="text-align: justify">
+La tabla presenta la distribución de casos de violencia de género clasificados por tipo de violencia y el estado de las víctimas (vivo, muerto, desconocido). Este análisis permite observar cómo la gravedad de los incidentes y sus desenlaces pueden variar según el tipo de violencia, mostrando ciertos patrones en términos de supervivencia y mortalidad. Violencia física es el tipo de violencia con la mayor cantidad de casos en estado "vivo," con 2,255 víctimas, seguido de 1,516 casos de mortalidad y 616 con estado "desconocido." Esto indica que, aunque muchos sobreviven a la violencia física, esta también representa un riesgo significativo de mortalidad. Este patrón refleja la naturaleza potencialmente letal de la violencia física, con un notable número de casos en los tres estados.
+<div/>
+<br>
+<div style="text-align: justify">
+Negligencia y abandono también presenta cifras elevadas en todas las categorías, con 1,945 casos en estado "vivo" y 1,606 en estado "muerto," además de un número considerable de casos con estado "desconocido" (1,195). Este tipo de violencia parece tener un impacto particularmente grave, dado que la proporción de fallecimientos es alta, lo que sugiere una falta de cuidados básicos que en muchos casos resulta fatal. En el caso de abuso sexual, se registran 411 víctimas en estado "vivo" y 309 fallecimientos, mientras que 233 casos se encuentran en estado "desconocido." La notable cantidad de fallecimientos en casos de abuso sexual destaca los riesgos letales asociados a esta forma de violencia, especialmente para las víctimas más vulnerables. Otros tipos de violencia sexual, como acoso sexual y actos sexuales, también presentan un número relevante de víctimas fallecidas y desconocidas, lo que enfatiza la peligrosidad de estos tipos de abuso.
+<div/>
+<br>
+<div style="text-align: justify">
+Tipos de violencia con una menor frecuencia, como otras violencias sexuales y otros actos sexuales, aunque en menor cantidad total, siguen mostrando un patrón de casos en estado "vivo" y "muerto." Es importante destacar que, aunque los números absolutos son más bajos, la presencia de casos en todas las categorías (vivo, muerto y desconocido) subraya la seriedad de cualquier tipo de violencia de género, independientemente de su frecuencia. La categoría de sin información es notable, con 275 casos en estado "vivo," 207 en "muerto" y 146 en "desconocido." Esto sugiere posibles dificultades en la clasificación o el seguimiento de los casos, limitando el análisis completo de sus desenlaces.
+<div/>
+<br>
+<div style="text-align: justify">
+En resumen, la tabla revela que la violencia física y la negligencia y abandono son los tipos de violencia más letales, con altos números de víctimas fallecidas. La violencia sexual, especialmente el abuso sexual, también tiene una elevada tasa de mortalidad. Esta distribución evidencia la variabilidad en las consecuencias de la violencia de género según el tipo, destacando la necesidad de enfoques específicos para prevenir y atender las distintas formas de violencia en función de su impacto en la supervivencia y el estado de las víctimas.
+<div/>
+<br>
+<div style="text-align: justify">
+A continuación, se presentan las probabilidades condicionales de mortalidad dado el sexo de la víctima y el tipo de violencia experimentado, teniendo en consideración los tres principales casos de violencia de género reportados:
+<div/>
+<br>
+```{r,echo=FALSE, warning=FALSE}
+library(dplyr)
+library(DT)
+
+tipos_principales_vi <- c("Negligencia y abandono", "Violencia física", "Abuso sexual")
+
+data_filtrada_vi <- violencia_genero %>%
+  filter(def_naturaleza %in% tipos_principales)
+
+total_sexo_violencia_vi <- data_filtrada_vi %>%
+  group_by(sexo_victima, def_naturaleza) %>%
+  summarise(total = n()) %>%
+  ungroup()
+
+tabla_probabilidades_vi <- data_filtrada_vi %>%
+  group_by(sexo_victima, def_naturaleza, con_fin_) %>%
+  summarise(casos = n()) %>%
+  ungroup() %>%
+  left_join(total_sexo_violencia_vi, by = c("sexo_victima", "def_naturaleza")) %>%
+  mutate(probabilidad = round(casos / total, 4),
+         porcentaje = paste0(round(probabilidad * 100, 2), "%"),
+         enunciado = paste0("P(", con_fin_, " | ", sexo_victima, " ∩ ", def_naturaleza, ")")) %>%
+  arrange(factor(def_naturaleza, levels = tipos_principales)) %>%
+  select(enunciado, probabilidad, porcentaje)
+
+datatable(tabla_probabilidades_vi, 
+          colnames = c("Enunciado", "Probabilidad", "Porcentaje"),
+          caption = "Probabilidades Condicionales de Mortalidad por Sexo y Tipo de Violencia",
+          options = list(pageLength = 10, 
+                         scrollX = TRUE, 
+                         dom = 'tpi', 
+                         columnDefs = list(list(className = 'dt-center', targets = "_all")), 
+                         initComplete = JS(
+                           "function(settings, json) {",
+                           "$(this.api().table().header()).css({'background-color': '#d0e4f5', 'color': '#000'});",
+                           "}")),
+          class = "cell-border stripe") %>%  
+  formatRound(columns = c("probabilidad"), digits = 2)
+
+```
+<br>
+<div style="text-align: justify">
+Como se evidencia, para los casos de "Negligencia y Abandono," la probabilidad condicional de que una mujer sobreviva, dado que ha sido víctima de este tipo de violencia, es del 41%, mientras que la probabilidad de que fallezca es del 34%. Estas probabilidades sugieren una considerable exposición a desenlaces graves para las mujeres en situaciones de negligencia. En el caso de los hombres, observamos una probabilidad similar de supervivencia del 40.97% y una probabilidad de fallecimiento del 33.6%. Esto indica que ambos géneros tienen probabilidades comparables de un desenlace fatal cuando el evento de violencia es de tipo negligencia y abandono.
+<div/>
+<br>
+<div style="text-align: justify">
+En el contexto de "Violencia Física," las probabilidades de supervivencia son notablemente altas en ambos géneros. La probabilidad condicional de supervivencia para mujeres víctimas de violencia física es del 55.81%, mientras que la probabilidad de fallecimiento es mucho menor, alcanzando solo un 6.32%. Para los hombres, esta relación se mantiene, con una probabilidad de supervivencia del 56.57% y de fallecimiento del 6.57%. Este patrón probabilístico refleja que, aunque la violencia física tiene consecuencias severas, la mayoría de las víctimas, independientemente de su género, tienen una mayor probabilidad de sobrevivir, lo que podría estar relacionado con intervenciones oportunas.
+<div/>
+<br>
+<div style="text-align: justify">
+Por otro lado, en casos de "Abuso Sexual," la probabilidad de que una mujer sobreviva es del 42.45%, mientras que la probabilidad de fallecimiento se eleva a un 33.21%, destacando una mayor vulnerabilidad ante desenlaces fatales en situaciones de abuso sexual. Para los hombres, la probabilidad de supervivencia es de 47.9%, con una probabilidad de fallecimiento del 26.89%. Estas probabilidades sugieren que ambos géneros están expuestos a riesgos significativos en casos de abuso sexual, aunque la probabilidad de un desenlace fatal es ligeramente menor para los hombres en comparación con las mujeres.
+<div/>
+<br>
+<div style="text-align: justify">
+En general, este análisis de probabilidades condicionales evidencia que cada tipo de violencia conlleva distintos riesgos de mortalidad, variando por género. Las probabilidades de desenlaces letales son más altas en casos de negligencia y abuso sexual, mientras que la violencia física presenta mayores probabilidades de supervivencia. Este enfoque probabilístico proporciona una visión crítica sobre los patrones de riesgo y permite identificar los tipos de violencia que representan una mayor amenaza para la vida, contribuyendo a la formulación de estrategias de intervención y prevención más específicas y efectivas para los grupos en mayor riesgo.
+<div/>
+<br>
+### 2.4 Análisis general de presencia de casos de violencia de género por departamento, escenario y estrato de la víctima
+
+<br>
+<div style="text-align: justify">
+En este apartado se presenta un análisis general de la presencia de casos de violencia de género, considerando tres dimensiones clave: el departamento, el escenario en el que ocurrieron los incidentes y el estrato socioeconómico de las víctimas. Este enfoque permite identificar patrones geográficos, contextuales y económicos en la incidencia de la violencia de género, proporcionando una comprensión más detallada de los factores de riesgo y de vulnerabilidad en distintas áreas y contextos. A través de este análisis, se busca establecer las bases para futuras intervenciones y políticas públicas enfocadas en reducir la violencia de género en los grupos y espacios más afectados.
+<div/>
+<br>
+### 2.4.1 Número de casos de violencia de género registrados por departamento
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(dplyr)
+library(DT)
+
+tipos_principales <- c("Negligencia y abandono", "Violencia física", "Abuso sexual")
+
+data_filtrada <- subset(violencia_genero, def_naturaleza %in% tipos_principales)
+
+tabla_conteo <- data_filtrada %>%
+  group_by(Departamento) %>%
+  summarise(casos = n()) %>%
+  ungroup()
+
+total_casos <- sum(tabla_conteo$casos)
+
+tabla_conteo <- tabla_conteo %>%
+  mutate(proporcion = round(casos / total_casos, 4),
+         porcentaje = paste0(round(proporcion * 100, 2), "%"))
+
+datatable(tabla_conteo, 
+          colnames = c("Departamento", "Número de Casos", "Proporción", "Porcentaje"),
+          caption = "Número de Casos Registrados por Departamento, Proporción y Porcentaje",
+          options = list(pageLength = 10, 
+                         scrollX = TRUE, 
+                         dom = 'tpi', 
+                         columnDefs = list(list(className = 'dt-center', targets = "_all")),
+                         initComplete = JS(
+                           "function(settings, json) {",
+                           "$(this.api().table().header()).css({'background-color': '#d0e4f5', 'color': '#000'});",
+                           "}")),
+          class = "cell-border stripe") %>%  
+  formatRound(columns = c("proporcion"), digits = 4)
+
+
+```
+<br>
+<div style="text-align: justify">
+La tabla muestra el número de casos registrados desglosado por departamento, junto con la proporción y el porcentaje que representa cada uno respecto al total de casos. Este desglose permite identificar patrones geográficos en la incidencia de los casos y observar cuáles departamentos presentan una carga más significativa en relación con el fenómeno en estudio. En primer lugar, destacan los departamentos de Cundinamarca, Valle del Cauca y Antioquia, que presentan las cifras absolutas más altas. Cundinamarca lidera con 500 casos, lo cual representa un 5.14% del total, seguido por el Valle del Cauca con 424 casos (4.36%) y Antioquia con 392 casos (4.03%). La alta incidencia en estos departamentos podría estar influenciada por factores como una mayor densidad poblacional o un sistema más desarrollado para reportar y registrar incidentes, lo que facilita la visibilización de estos casos. Estos valores sugieren que estas áreas son focos importantes de atención, ya que agrupan un porcentaje significativo del total de casos registrados.
+<div/>
+<br>
+<div style="text-align: justify">
+A nivel de proporciones y porcentajes, observamos que la mayoría de los departamentos se encuentran en un rango entre el 2% y el 4% del total de casos. Por ejemplo, departamentos como Guaviare y Huila tienen proporciones de 3.71% y 3.4%, respectivamente. Esta dispersión indica que el fenómeno no está centralizado en una sola región, sino que tiene presencia en diversas áreas del país, lo cual sugiere que el problema es de carácter nacional. Esta distribución porcentual relativamente homogénea también apunta a que, aunque algunos departamentos tienen mayores números absolutos de casos, otros mantienen una proporción considerable cuando se compara con el total, haciendo que su incidencia relativa sea relevante.
+<div/>
+<br>
+<div style="text-align: justify">
+En contraste, algunos departamentos muestran una menor incidencia de casos, tanto en términos absolutos como relativos. San Andrés y Providencia presenta uno de los registros más bajos, con solo 165 casos, lo cual representa un 1.7% del total. Otros departamentos como Cesar (1.63%) y Vichada (2.17%) también registran cifras bajas. Esto podría estar relacionado con menor población o acceso limitado a servicios de denuncia, lo que podría reducir la visibilidad de los casos en estas áreas y generar un subregistro.
+<div/>
+<br>
+<div style="text-align: justify">
+En conclusión, la tabla resalta tanto los focos de mayor incidencia como las áreas con menor número de casos, brindando una visión completa de la distribución del fenómeno a nivel nacional. Los departamentos con porcentajes más altos, como Cundinamarca, Valle del Cauca y Antioquia, podrían requerir una asignación de recursos más significativa para la intervención y prevención. Sin embargo, la presencia de casos en casi todas las regiones confirma la naturaleza dispersa del fenómeno y la necesidad de políticas de atención integral que respondan a las particularidades de cada región.
+<div/>
+<br>
+<div style="text-align: justify">
+A continuación, se presentan los casos reportados por tipo de violencia en cada departamento para darle mayor profundidad al análisis:
+<div/>
+<br>
+```{r,echo=FALSE,warning=FALSE,include=FALSE}
+
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+if (!requireNamespace("leaflet", quietly = TRUE)) install.packages("leaflet")
+if (!requireNamespace("readxl", quietly = TRUE)) install.packages("readxl")
+if (!requireNamespace("sf", quietly = TRUE)) install.packages("sf")
+if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr")
+
+library(leaflet)
+library(readxl)
+library(sf)
+library(dplyr)
+
+datos_departamentos <- read_xlsx("Frecuencia_def_naturaleza_por_Departamento_con_Total.xlsx")
+geojson_url <- "https://gist.githubusercontent.com/john-guerra/43c7656821069d00dcbc/raw/be6a6e239cd5b5b803c6e7c2ec405b793a9064dd/Colombia.geo.json"
+departamentos <- st_read(geojson_url)
+
+datos_departamentos$Departamento <- toupper(datos_departamentos$Departamento)
+departamentos$NOMBRE_DPT <- toupper(departamentos$NOMBRE_DPT)
+
+datos_unidos <- departamentos %>%
+  left_join(datos_departamentos, by = c("NOMBRE_DPT" = "Departamento"))
+
+paleta_colores <- colorNumeric(
+  palette = "GnBu",
+  domain = datos_unidos$Total_casos
+)
+
+mapa <- leaflet(data = datos_unidos) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  setView(lng = -74.2973, lat = 4.5709, zoom = 6) %>%
+  addPolygons(
+    fillColor = ~paleta_colores(Total_casos),
+    weight = 2,
+    opacity = 1,
+    color = 'black',
+    dashArray = '3',
+    fillOpacity = 0.7,
+    highlightOptions = highlightOptions(
+      weight = 5,
+      color = '#666',
+      dashArray = '',
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    ),
+    popup = ~paste(
+      "<b>Departamento:</b> ", NOMBRE_DPT, "<br>",
+      "<b>Total de casos:</b> ", Total_casos, "<br>",
+      "<table>",
+      "<tr><td><b>Abuso sexual:</b> ", `Abuso sexual`, "</td></tr>",
+      "<tr><td><b>Acceso carnal:</b> ", `Acceso carnal`, "</td></tr>",
+      "<tr><td><b>Acoso sexual:</b> ", `Acoso sexual`, "</td></tr>",
+      "<tr><td><b>Actos sexuales:</b> ", `Actos sexuales`, "</td></tr>",
+      "<tr><td><b>Actos sexuales de violencia:</b> ", `Actos sexuales de violencia`, "</td></tr>",
+      "<tr><td><b>Desconocida:</b> ", Desconocida, "</td></tr>",
+      "<tr><td><b>Explotación sexual comercial:</b> ", `Explotación sexual, comercial de niños y adolescentes`, "</td></tr>",
+      "<tr><td><b>Negligencia y abandono:</b> ", `Negligencia y abandono`, "</td></tr>",
+      "<tr><td><b>Otras violencias sexuales:</b> ", `Otras violencias sexuales`, "</td></tr>",
+      "<tr><td><b>Otros actos sexuales:</b> ", `Otros actos sexuales`, "</td></tr>",
+      "<tr><td><b>Sin información:</b> ", `Sin información`, "</td></tr>",
+      "<tr><td><b>Trata de personas:</b> ", `Trata de personas`, "</td></tr>",
+      "<tr><td><b>Violación:</b> ", Violación, "</td></tr>",
+      "<tr><td><b>Violencia física:</b> ", `Violencia física`, "</td></tr>",
+      "<tr><td><b>Violencia psicológica:</b> ", `Violencia psicologica`, "</td></tr>",
+      "</table>"
+    )
+  ) %>%
+  addLegend(
+    pal = paleta_colores,
+    values = ~Total_casos,
+    title = "Total de Casos",
+    position = "bottomright"
+  )
+
+```
+```{r,echo=FALSE,warning=FALSE}
+mapa
+```
+
+<br>
+<div style="text-align: justify">
+El mapa revela patrones de violencia diversos y complejos que varían entre los departamentos, con algunos tipos específicos que afectan de manera particular a cada región. En Antioquia, además de las altas incidencias de "Violencia física" y "Negligencia y abandono," también se observa un número significativo de casos de "Acoso sexual" y "Violación," lo cual podría relacionarse con factores culturales y socioeconómicos que requieren atención focalizada en temas de educación y prevención en ámbitos tanto públicos como privados. En Bogotá, la distribución de casos es equilibrada entre "Negligencia y abandono" y "Violencia física," pero con una presencia relevante de "Acoso sexual," "Actos sexuales" y "Explotación sexual comercial de niños y adolescentes." Este perfil urbano sugiere desafíos específicos de seguridad y vulnerabilidad infantil que podrían estar vinculados a la densidad poblacional y movilidad social constante, destacando la necesidad de programas de intervención en prevención y protección infantil.
+<div/>
+<br>
+<div style="text-align: justify">
+Amazonas, aunque con cifras más bajas en algunas categorías, presenta un perfil particular de violencia con un alto número de casos en "Negligencia y abandono" y "Violencia física," junto con incidentes de "Abuso sexual." Esto puede estar asociado a la falta de acceso a recursos básicos y a la atención para poblaciones en áreas rurales y remotas, lo que destaca una necesidad crítica de apoyo en infraestructuras sociales y de protección. Cundinamarca, por otro lado, muestra una alta prevalencia de "Violencia física" y "Negligencia y abandono," además de casos de "Acoso sexual" y "Otros actos sexuales." Estos datos subrayan una complejidad en la dinámica de violencia, donde el acoso y otros actos sexuales requieren un enfoque multidimensional para mejorar las políticas de prevención y control, especialmente en contextos con mayor interacción social.
+<div/>
+<br>
+<div style="text-align: justify">
+En Valle del Cauca, junto a las categorías dominantes de "Violencia física" y "Negligencia y abandono," hay una incidencia importante de "Violación" y "Trata de personas." Esto indica desafíos urbanos adicionales relacionados con la seguridad y la explotación, lo que sugiere la necesidad de políticas más estrictas para enfrentar situaciones de tráfico y abuso, así como de fortalecer la protección en áreas vulnerables. En departamentos con menos casos reportados, como Vaupés y Guainía, aunque las cifras son bajas, existe la presencia de "Negligencia y abandono," "Violencia física" y algunos casos de "Abuso sexual." La limitación en la recolección de datos en estas áreas puede ocultar problemáticas mayores en términos de violencia, especialmente en contextos de población indígena y rural, donde el acceso a servicios de protección y denuncia es limitado.
+<div/>
+<br>
+<div style="text-align: justify">
+Este análisis refleja cómo diferentes tipos de violencia —incluyendo abuso, explotación sexual, trata de personas y acoso— se distribuyen de manera diferenciada entre las regiones de Colombia. Las particularidades demográficas, geográficas y socioeconómicas de cada departamento influyen en la prevalencia de cada tipo de violencia, subrayando la necesidad de políticas regionales adaptadas y recursos adecuados para abordar estas problemáticas de forma eficiente.
+<div/>
+<br>
+
+### 2.4.2 Número de casos de violencia de género registrados por escenario
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(dplyr)
+library(kableExtra)
+
+total_casos <- violencia_genero %>% summarise(total = n()) %>% pull(total)
+
+tabla_escenarios <- violencia_genero %>%
+  group_by(escenario) %>%
+  summarise(`Número de Casos` = n(), .groups = 'drop') %>%
+  mutate(Proporción = format(round(`Número de Casos` / total_casos, 4), nsmall = 4),
+         Porcentaje = paste0(format(round(`Número de Casos` / total_casos * 100, 2), nsmall = 2), "%")) %>%
+  arrange(desc(`Número de Casos`))
+
+tabla_escenarios %>%
+  kable("html", align = "c", digits = 0, 
+        caption = "Frecuencia de Casos por Escenario") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
+                full_width = F, position = "center") %>%
+  row_spec(0, bold = TRUE, background = "#d0e4f5")
+
+
+```
+<br>
+<div style="text-align: justify">
+La tabla muestra la frecuencia de casos de violencia desglosada por escenario donde ocurrieron los incidentes, expresando tanto el número absoluto de casos como la proporción y el porcentaje que representa cada escenario en el total. Este desglose permite observar cómo ciertos contextos presentan una mayor probabilidad de ser escenarios de violencia en comparación con otros. El hogar o domicilio destaca como el escenario más frecuente, con 8,132 casos, lo que representa un 66.69% del total. Esta cifra implica que es altamente probable que la violencia ocurra en el ámbito doméstico, probablemente debido a la cercanía y las relaciones de dependencia que se dan en este espacio. La proporción de 0.6669 indica que, en términos relativos, casi dos tercios de los incidentes se concentran en el hogar, lo cual subraya la importancia de políticas de prevención centradas en el entorno familiar.
+<div/>
+<br>
+<div style="text-align: justify">
+La vía pública es el segundo escenario más común, con 2,183 casos (17.90%). Esto sugiere que, aunque menos frecuente que en el hogar, es relativamente probable que la violencia ocurra en espacios públicos. Factores como la exposición al entorno y la posibilidad de encuentros casuales pueden influir en la incidencia de estos casos en lugares públicos. La probabilidad de que un incidente de violencia ocurra en la vía pública sigue siendo significativa, ya que representa casi una quinta parte de los casos. 
+<div/>
+<br>
+<div style="text-align: justify">
+El grupo de "otros" aparece como el tercer escenario más frecuente, con 975 casos (8.00%), lo cual podría abarcar una variedad de lugares no especificados que aún representan una cantidad considerable de incidentes. Aunque no hay una especificidad en este grupo, su proporción indica que existen otros contextos relevantes que deberían investigarse más a fondo para entender mejor los escenarios de riesgo.
+<div/>
+<br>
+<div style="text-align: justify">
+Otros escenarios, como los establecimientos educativos y espacios abiertos, presentan frecuencias menores, con 331 casos (2.71%) y 164 casos (1.35%), respectivamente. Aunque estos lugares no son los más frecuentes, su presencia en la tabla indica que existe una baja probabilidad de que incidentes de violencia ocurran en ellos, pero no se puede descartar. Espacios como comercios, instituciones de salud, y lugares de trabajo tienen aún menores incidencias, todos con porcentajes inferiores al 1.1%. Estos valores sugieren que la violencia en estos lugares es relativamente poco probable en comparación con el hogar o la vía pública.
+<div/>
+<br>
+<div style="text-align: justify">
+Finalmente, los lugares de esparcimiento con expendio de alcohol (0.53%) y las áreas deportivas y recreativas (0.24%) tienen las frecuencias más bajas de casos de violencia. La baja proporción y porcentaje en estos contextos indican que es poco probable que ocurra violencia en estos lugares en comparación con otros escenarios.
+<div/>
+<br>
+<div style="text-align: justify">
+En conclusión, la tabla indica que es muy probable que los casos de violencia ocurran en el ámbito doméstico, seguido por la vía pública, mientras que es menos probable en espacios como establecimientos educativos, lugares de trabajo y áreas de esparcimiento. Esta información es crucial para orientar las estrategias de prevención de acuerdo con la probabilidad de incidencia en cada tipo de escenario.
+<div/>
+<br>
+<div style="text-align: justify">
+A continuación, se presentan los casos reportados por tipo de violencia en cada escenario para darle mayor profundidad al análisis:
+<div/>
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(plotly)
+library(readxl)
+library(dplyr)
+
+tabla_escenario <- read_xlsx("Frecuencia_def_naturaleza_por_Escenario.xlsx")
+
+tabla_escenario$popup_label <- paste(
+  "<b>Escenario:</b> ", tabla_escenario$escenario, "<br>",
+  "<b>Total de casos:</b> ", tabla_escenario$Total, "<br>",
+  "Abuso sexual: ", ifelse(is.na(tabla_escenario$`Abuso sexual`), 0, tabla_escenario$`Abuso sexual`), "<br>",
+  "Acceso carnal: ", ifelse(is.na(tabla_escenario$`Acceso carnal`), 0, tabla_escenario$`Acceso carnal`), "<br>",
+  "Acoso sexual: ", ifelse(is.na(tabla_escenario$`Acoso sexual`), 0, tabla_escenario$`Acoso sexual`), "<br>",
+  "Actos sexuales: ", ifelse(is.na(tabla_escenario$`Actos sexuales`), 0, tabla_escenario$`Actos sexuales`), "<br>",
+  "Actos sexuales de violencia: ", ifelse(is.na(tabla_escenario$`Actos sexuales de violencia`), 0, tabla_escenario$`Actos sexuales de violencia`), "<br>",
+  "Desconocida: ", ifelse(is.na(tabla_escenario$Desconocida), 0, tabla_escenario$Desconocida), "<br>",
+  "Explotación sexual comercial: ", ifelse(is.na(tabla_escenario$`Explotación sexual, comercial de niños y adolescentes`), 0, tabla_escenario$`Explotación sexual, comercial de niños y adolescentes`), "<br>",
+  "Negligencia y abandono: ", ifelse(is.na(tabla_escenario$`Negligencia y abandono`), 0, tabla_escenario$`Negligencia y abandono`), "<br>",
+  "Otras violencias sexuales: ", ifelse(is.na(tabla_escenario$`Otras violencias sexuales`), 0, tabla_escenario$`Otras violencias sexuales`), "<br>",
+  "Otros actos sexuales: ", ifelse(is.na(tabla_escenario$`Otros actos sexuales`), 0, tabla_escenario$`Otros actos sexuales`), "<br>",
+  "Sin información: ", ifelse(is.na(tabla_escenario$`Sin información`), 0, tabla_escenario$`Sin información`), "<br>",
+  "Trata de personas: ", ifelse(is.na(tabla_escenario$`Trata de personas`), 0, tabla_escenario$`Trata de personas`), "<br>",
+  "Violación: ", ifelse(is.na(tabla_escenario$Violación), 0, tabla_escenario$Violación), "<br>",
+  "Violencia física: ", ifelse(is.na(tabla_escenario$`Violencia física`), 0, tabla_escenario$`Violencia física`), "<br>",
+  "Violencia psicológica: ", ifelse(is.na(tabla_escenario$`Violencia psicologica`), 0, tabla_escenario$`Violencia psicologica`)
+)
+
+color_map <- c(
+  "Hogar o domicilio" = "lightblue",
+  "Comercio y áreas de servicios" = "lightgreen",
+  "Establecimiento educativo" = "orange",
+  "Institución de salud" = "pink",
+  "Lugar de trabajo" = "purple",
+  "Lugares de esparcimiento con expendido de alcohol" = "red",
+  "Otros" = "gray",
+  "Otros espacios abiertos" = "yellow",
+  "Vía pública" = "brown",
+  "Área deportiva y recreativa" = "darkblue"
+)
+
+tabla_escenario$color <- color_map[tabla_escenario$escenario]
+
+plot <- plot_ly(
+  data = tabla_escenario,
+  type = "treemap",
+  labels = ~escenario,
+  values = ~Total,
+  parents = NA,
+  marker = list(
+    colors = ~color,
+    line = list(color = "black", width = 2)
+  ),
+  text = ~escenario,
+  textinfo = "label",  
+  textposition = "middle center",
+  textfont = list(color = "black", size = 14, family = "Arial", weight = "bold"),
+  hoverinfo = "text",
+  hovertext = ~popup_label,
+  hoverlabel = list(bgcolor = "white", font = list(color = "black"), align = "left")
+) %>%
+  layout(
+    title = list(
+      text = "<b>Casos de Violencia por Escenario y Tipo</b>",
+      x = 0.5,
+      y = 0.95,
+      xanchor = "center",
+      yanchor = "top",
+      font = list(size = 16)
+    ),
+    uniformtext = list(minsize = 10, mode = "hide"),  
+    showlegend = FALSE,
+    margin = list(r = 50, b = 100)  
+  )
+
+plot
+```
+<br>
+<div style="text-align: justify">
+Como se evidencia en el mosaico, el contexto de hogar o domicilio, se destaca notablemente, concentrando altos números en diversas categorías de agresión. Los casos de "negligencia y abandono" presentan un valor de 3150, lo que sugiere que es muy probable que, en el entorno doméstico, se reporte este tipo de violencia con frecuencia significativa. La violencia física sigue de cerca, con 2724 casos, lo que refuerza la tendencia de que en los hogares no solo se presentan descuidos graves, sino también incidentes físicos, mientras que el abuso sexual, con 611 casos, añade una preocupación seria sobre la seguridad en este ámbito.
+<div/>
+<br>
+<div style="text-align: justify">
+En la vía pública, se evidencia también una alta frecuencia de violencia física, con 1159 casos registrados, y de actos sexuales de violencia, con 290 incidentes, consolidándose como un espacio donde es probable que ocurran agresiones. Estos incidentes sugieren que las personas están expuestas a varios tipos de violencia cuando se encuentran en espacios abiertos y accesibles. Esto subraya la necesidad de implementar mayores medidas de seguridad y control en estas áreas para disminuir el riesgo de exposición a distintos tipos de violencia.
+<div/>
+<br>
+<div style="text-align: justify">
+En la categoría de "otros", que abarca una variedad de escenarios no específicamente clasificados, se observan incidentes de violencia en diversas tipologías, destacándose la violencia física con un 24% de los casos reportados en este grupo. A esto se suman casos de violencia psicológica y negligencia, que también presentan una incidencia significativa. La naturaleza diversa de estos escenarios sugiere que, aunque no se delimiten en un contexto específico, representan espacios con una probabilidad considerable de exposición a distintos tipos de violencia.
+<div/>
+<br>
+<div style="text-align: justify">
+En los establecimientos educativos, los datos muestran que la negligencia es la forma de violencia más recurrente, abarcando un 29.3% de los casos en este entorno. Le siguen la violencia física y el abuso sexual, con un 17.8% y un 12%, respectivamente. Este perfil de incidentes en entornos educativos sugiere que, además de ser espacios vulnerables a situaciones de descuido o falta de supervisión, también presentan una probabilidad preocupante de violencia física y abuso sexual.
+<div/>
+<br>
+<div style="text-align: justify">
+En las instituciones de salud, aunque la frecuencia de incidentes es menor que en otros contextos, predominan los casos de negligencia, que representan el 76.1% de los casos en estos entornos. También se registran incidentes de violencia física en menor proporción. Este patrón sugiere que, a pesar de ser lugares destinados al cuidado y atención, existen áreas en las que los pacientes pueden estar expuestos a situaciones de descuido o negligencia, lo que destaca la necesidad de reforzar medidas de protección y supervisión dentro de estos espacios.
+<div/>
+<br>
+<div style="text-align: justify">
+Por último, en los lugares de trabajo, los incidentes de violencia incluyen en su mayoría casos de violencia física, acoso sexual y negligencia. La violencia física representa el 68.9% de los casos reportados en este contexto, mientras que el acoso sexual tiene una incidencia menor, pero relevante, lo cual enfatiza la necesidad de asegurar entornos laborales seguros y respetuosos. Aunque el ambiente laboral cuenta con normativas, estos datos sugieren que aún existen vulnerabilidades que requieren atención para mantener un entorno seguro para los empleados.
+<div/>
+<br>
+<div style="text-align: justify">
+En resumen, los entornos de hogar y vía pública son los escenarios con mayor incidencia de violencia, destacándose principalmente la negligencia, violencia física y abuso sexual en el hogar, y actos de violencia física en la vía pública. Otros contextos, como establecimientos educativos y lugares de trabajo, también presentan tipos específicos de violencia, aunque en menor medida. Estos datos subrayan la necesidad de medidas de protección y políticas de intervención adaptadas a cada entorno, con especial atención al hogar y la vía pública, donde se concentra la mayor frecuencia de casos.
+<div/>
+<br>
+
+#### 2.4.2 Número de casos de violencia de género por estrato de la víctima
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(ggplot2)
+library(dplyr)
+
+violencia_por_estrato <- violencia_genero %>%
+  count(estrato) %>%
+  arrange(estrato)
+
+ggplot(violencia_por_estrato, aes(x = as.factor(estrato), y = n)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(aes(label = n), vjust = -0.2, color = "black", size = 3.5) +
+  labs(
+    title = "Frecuencia de Casos de Violencia por Estrato",
+    x = "Estrato",
+    y = "Casos Registrados"
+  ) +
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.title.x = element_text(face = "bold", size = 12),
+    axis.title.y = element_text(face = "bold", size = 12),
+    axis.text.x = element_text(size = 10),
+    axis.text.y = element_text(size = 10),
+    axis.line = element_line(color = "gray50", size = 0.5),
+    panel.grid.major.y = element_line(color = "gray80", size = 0.3),
+    panel.grid.minor = element_blank()
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+
+
+```
+<br>
+<div style="text-align: justify">
+La gráfica presenta la frecuencia de casos de violencia de género según el estrato socioeconómico, destacando una notable concentración de incidentes en los estratos más bajos. A medida que el nivel socioeconómico disminuye, se observa un incremento en la cantidad de casos registrados, lo cual sugiere que la violencia de género tiene una prevalencia mayor en contextos de menor nivel socioeconómico. El estrato 1 es donde se registra el mayor número de casos, con un total de 4,924, seguido del estrato 2 con 3,660 y el estrato 3 con 2,393. Esto indica que en los estratos socioeconómicos más bajos es más probable que ocurra violencia de género. Factores como la inestabilidad económica, el acceso limitado a recursos de apoyo, y condiciones de vida menos seguras pueden contribuir a que las personas en estos estratos experimenten una mayor vulnerabilidad ante situaciones de violencia de género. La elevada incidencia en estos grupos sugiere que la situación económica puede ser un factor de riesgo en la exposición a este tipo de violencia.
+<div/>
+<br>
+<div style="text-align: justify">
+En contraste, en los estratos más altos, como el estrato 4 (589 casos), el estrato 5 (377 casos), y el estrato 6 (250 casos), la frecuencia de violencia de género disminuye de forma significativa. Este descenso en los estratos altos puede estar asociado con factores como una mayor estabilidad económica, acceso a redes de apoyo, y un entorno menos propenso a la violencia, lo cual reduce la probabilidad de que se presenten incidentes de este tipo. Desde una perspectiva de probabilidad, la distribución en la gráfica sugiere que la probabilidad de ser víctima de violencia de género es mayor en los estratos socioeconómicos bajos y va disminuyendo a medida que aumenta el estrato. Esta tendencia tiene implicaciones relevantes para la formulación de políticas públicas, destacando la importancia de dirigir recursos y estrategias de prevención hacia los sectores más vulnerables, donde el riesgo de violencia de género es considerablemente más alto. En resumen, la gráfica evidencia que los estratos socioeconómicos bajos concentran la mayoría de los casos de violencia de género, resaltando la necesidad de intervenciones específicas para abordar las causas de esta violencia en comunidades que enfrentan mayores desafíos económicos y sociales.
+<div/>
+<br>
+<div style="text-align: justify">
+A continuación, se muestran unas tablas que presentan las probabilidades condicionales de ser víctima de violencia de género en función del género, el estrato socioeconómico y el ciclo de vida de las personas afectadas. A través de este análisis probabilístico, se busca identificar cómo la probabilidad de experimentar violencia de género varía según estos factores, resaltando patrones de riesgo específicos que pueden orientar intervenciones focalizadas en los grupos más vulnerables.
+<div/>
+<br>
+```{r,echo=FALSE,warning=FALSE}
+
+library(dplyr)
+library(DT)
+
+ciclos_de_vida_ordenados <- c("Primera infancia", "Infancia", "Adolescencia", "Juventud", "Adultez", "Persona Mayor")
+
+data_filtrada_estrato <- violencia_genero
+
+tabla_conteo_estrato <- data_filtrada_estrato %>%
+  group_by(sexo_victima, `Ciclo de vida`, estrato) %>%
+  summarise(casos = n()) %>%
+  ungroup()
+
+total_ciclo_genero_estrato <- data_filtrada_estrato %>%
+  group_by(sexo_victima, `Ciclo de vida`) %>%
+  summarise(total = n()) %>%
+  ungroup()
+
+tabla_probabilidades_estrato <- tabla_conteo_estrato %>%
+  left_join(total_ciclo_genero_estrato, by = c("sexo_victima", "Ciclo de vida")) %>%
+  mutate(probabilidad = round(casos / total, 4),
+         porcentaje = paste0(round(probabilidad * 100, 2), "%"),
+         enunciado = paste0("P(", sexo_victima, " | ", estrato, " ∩ ", `Ciclo de vida`, ")")) %>%
+  arrange(factor(`Ciclo de vida`, levels = ciclos_de_vida_ordenados)) %>%
+  select(enunciado, probabilidad, porcentaje)
+
+datatable(tabla_probabilidades_estrato, 
+          colnames = c("Enunciado", "Probabilidad", "Porcentaje"),
+          caption = "Probabilidades Condicionales de Ser Víctima de Violencia de Género por Ciclo de Vida y Estrato",
+          options = list(pageLength = 10, 
+                         scrollX = TRUE, 
+                         dom = 'tpi', 
+                         columnDefs = list(list(className = 'dt-center', targets = "_all")), 
+                         initComplete = JS(
+                           "function(settings, json) {",
+                           "$(this.api().table().header()).css({'background-color': '#d0e4f5', 'color': '#000'});",
+                           "}")),
+          class = "cell-border stripe") %>%  
+  formatRound(columns = c("probabilidad"), digits = 2)
+
+
+```
+<br>
+<div style="text-align: justify">
+En la Primera Infancia, las probabilidades condicionales revelan que el evento de victimización es más probable para niñas y niños en el estrato socioeconómico más bajo, con un riesgo cercano al 40% para ambos géneros en este contexto. Esta probabilidad disminuye gradualmente en los estratos superiores, lo que sugiere una relación de dependencia entre la condición socioeconómica y la exposición a situaciones de violencia. Este fenómeno puede explicarse en parte por la vulnerabilidad asociada a las limitaciones económicas, que crean un entorno propicio para la ocurrencia de este tipo de eventos en los hogares con menos recursos.
+<div/>
+<br>
+<div style="text-align: justify">
+En la Infancia, el patrón de dependencia estadística se mantiene, con una alta probabilidad de que el suceso de violencia de género ocurra en el estrato bajo. Las niñas presentan una probabilidad ligeramente superior a los niños, lo que indica que el género también puede jugar un rol en la exposición al riesgo en esta etapa, aunque el estrato socioeconómico sigue siendo el factor dominante. Esto sugiere que, condicionada al estrato bajo, la infancia es un ciclo de vida especialmente vulnerable, ya que las condiciones económicas desfavorables parecen intensificar el riesgo de que ocurra el evento de violencia.
+<div/>
+<br>
+<div style="text-align: justify">
+Durante la Adolescencia, el riesgo de victimización sigue siendo elevado en el estrato más bajo para ambos géneros, lo que refleja una distribución de probabilidad sesgada hacia los estratos bajos en esta etapa crítica del desarrollo. La persistencia de una alta probabilidad de que ocurra este suceso en el contexto de bajos recursos sugiere que existen condiciones estructurales específicas en estos entornos que favorecen la incidencia de violencia. La adolescencia, una etapa marcada por el aumento de interacciones sociales y vulnerabilidades propias del desarrollo, amplifica la susceptibilidad a este tipo de sucesos, particularmente en los contextos económicos más desfavorecidos.
+<div/>
+<br>
+<div style="text-align: justify">
+En las etapas de Juventud y Adultez, se observa una disminución en las probabilidades de que ocurra el evento de violencia de género, especialmente en comparación con las etapas anteriores de vida. No obstante, el estrato 1 continúa mostrando el mayor riesgo relativo para ambos géneros. Aunque el riesgo disminuye en términos absolutos, la probabilidad condicional de que una persona en el estrato bajo sea víctima sigue siendo notablemente mayor que en los estratos superiores. Esto evidencia que, aunque el suceso de violencia se vuelve menos común con la edad, el entorno socioeconómico sigue jugando un papel importante en la probabilidad de su ocurrencia.
+<div/>
+<br>
+<div style="text-align: justify">
+En la etapa de Persona Mayor, las probabilidades condicionales se reducen aún más, pero el estrato más bajo continúa siendo el contexto de mayor riesgo. Aunque la incidencia de violencia de género disminuye en esta etapa, los adultos mayores en el estrato bajo presentan una vulnerabilidad constante, lo que indica que, a lo largo de la vida, el estrato socioeconómico influye en la probabilidad de exposición a la violencia. La persistencia de esta relación sugiere una fuerte interdependencia entre la situación económica y la exposición a este tipo de eventos, destacando la relevancia de las condiciones materiales en la protección o vulnerabilidad frente a la violencia.
+<div/>
+<br>
+<div style="text-align: justify">
+En resumen, el análisis probabilístico muestra una clara dependencia entre el estrato socioeconómico y la probabilidad de ser víctima de violencia de género en todas las etapas de la vida, con un mayor riesgo en los estratos más bajos. Este patrón indica una fuerte correlación entre las condiciones económicas y la vulnerabilidad a la violencia de género, subrayando la importancia de dirigir esfuerzos e intervenciones a los grupos socioeconómicos más desfavorecidos para reducir la probabilidad de estos sucesos.
+<div/>
+<br>
+
+##  3. Análisis descriptivos demográficos generales de los agresores de violencia de género en colombia entre los años 2015-2023
+
+<br>
+<div style="text-align: justify">
+En este apartado se presenta un análisis descriptivo de las características demográficas de los agresores de violencia de género en Colombia entre 2015 y 2023, abordando aspectos clave como la edad, género, antecedentes, parentesco con la víctima y si se registró su captura. Estos factores ofrecen una visión integral sobre el perfil de los agresores, lo que resulta fundamental para entender los patrones de violencia y orientar estrategias preventivas. La relevancia de este análisis radica en su potencial para identificar factores de riesgo específicos y contribuir a políticas de intervención más efectivas en la prevención y reducción de la violencia de género.
+<div/>
+<br>
+
+###  3.1 Análisis general de las edades de los agresores de violencia de género
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(dplyr)
+library(kableExtra)
+
+violencia_genero$edad_agre <- as.numeric(as.character(violencia_genero$edad_agre))
+violencia_genero <- violencia_genero %>% filter(!is.na(edad_agre) & edad_agre >= 0 & edad_agre <= 100)
+
+violencia_genero$edad_intervalo_agresor <- cut(
+  violencia_genero$edad_agre, 
+  breaks = c(seq(0, 90, by = 10), 100), 
+  labels = c("[0-10)", "[10-20)", "[20-30)", "[30-40)", "[40-50)", "[50-60)", "[60-70)", "[70-80)", "[80-90)", "[90-100]"),
+  right = FALSE,
+  include.lowest = TRUE
+)
+
+tabla_frecuencia_agresores <- violencia_genero %>%
+  group_by(edad_intervalo_agresor) %>%
+  summarise(
+    fi = n(),
+    hi = round(fi / nrow(violencia_genero), 3)
+  ) %>%
+  mutate(
+    Fi = cumsum(fi),
+    Hi = round(cumsum(hi), 3),
+    `hi (%)` = round(hi * 100, 3),
+    `Hi (%)` = round(Hi * 100, 3)
+  )
+
+tabla_frecuencia_agresores %>%
+  rename(
+    `Edad Intervalo` = edad_intervalo_agresor,
+    `fi` = fi,
+    `hi` = hi,
+    `Fi` = Fi,
+    `Hi` = Hi
+  ) %>%
+  kable("html", align = "c", digits = 4, caption = "Tabla de Frecuencia de Edades de los Agresores") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), full_width = F, position = "center") %>%
+  row_spec(0, bold = T, background = "#d0e4f5")
+
+```
+<br>
+<div style="text-align: justify">
+La tabla de frecuencia de edades de los agresores revela que el intervalo de 20 a 30 años presenta la mayor frecuencia absoluta, con 2,854 casos, representando el 23.4% de la población total de agresores. Esto destaca que los agresores jóvenes adultos constituyen el grupo de mayor incidencia en los casos de violencia de género. Siguiendo este grupo, el intervalo de 30 a 40 años presenta la segunda mayor frecuencia con 2,178 casos (17.9%), y luego el intervalo de 40 a 50 años, con 1,385 casos (11.4%). Esta concentración en los primeros años de la adultez sugiere que las agresiones están fuertemente asociadas a individuos en edades de alta actividad social y económica.
+<div/>
+<br>
+<div style="text-align: justify">
+El análisis de la frecuencia acumulada y su porcentaje acumulado indica que la mayoría de los agresores se concentran en los grupos etarios de 20 a 50 años, un rango asociado con etapas social y laboralmente activas. Este patrón podría estar influido por factores culturales, personales y contextuales que aumentan la probabilidad de involucrarse en actos de violencia en estas etapas de la vida. Por otro lado, la baja frecuencia de agresores en el grupo de 0 a 10 años es coherente con lo que se esperaría, considerando las limitaciones naturales de esta etapa en términos de desarrollo. Aunque no se puede afirmar categóricamente, es probable que la falta de registros en este rango refleje factores como la inmadurez física, emocional y social que caracterizan a los individuos en esta edad, los cuales pueden disminuir significativamente su participación en este tipo de comportamientos violentos.
+<div/>
+<br>
+<div style="text-align: justify">
+En conclusión, el análisis de la distribución etaria de los agresores de violencia de género revela patrones importantes que pueden guiar el diseño de políticas preventivas y de intervención. La mayor concentración de agresores en los grupos de 20 a 50 años sugiere que las etapas de vida con mayor actividad social y laboral son también las de mayor riesgo en términos de comportamientos violentos. Este patrón podría estar vinculado con factores de estrés, relaciones de pareja y contexto social, lo cual resalta la necesidad de intervenciones específicas en estos rangos de edad. Además, la baja representación de agresores en edades tempranas y avanzadas apunta a un posible vínculo entre la madurez psicosocial y la propensión a involucrarse en actos violentos de esta naturaleza. Lo anterior, se puede evidenciar con mayor claridad en la siguiente gráfica: 
+<div/>
+<br>
+```{r,echo=FALSE,warning=FALSE}
+df_edadesagre <- data.frame(edadesagre_simetria = violencia_genero$edad_agre)
+ggplot(df_edadesagre, aes(x = edadesagre_simetria)) +
+  geom_histogram(aes(y = ..density..), breaks = seq(0, 100, by = 10), fill = "lightblue", color = "black", alpha = 0.5) +
+  geom_density(color = "darkblue", size = 1) +
+  labs(title = "Gráfica de Densidad e Histograma de Edades", x = "Edades", y = "Densidad") +
+  theme_minimal() +
+  theme(
+    axis.line = element_line(color = "black"),
+    axis.ticks = element_line(color = "black"),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10),
+    plot.margin = margin(10, 10, 10, 10),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  scale_x_continuous(breaks = seq(0, 100, by = 10), limits = c(0, 100), expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0))
+
+```
+<br>
+<div style="text-align: justify">
+La gráfica de densidad e histograma de edades de los agresores presenta una distribución asimétrica, claramente sesgada hacia la derecha, lo cual indica que la mayoría de los agresores se concentran en edades tempranas y medias de la vida adulta. La curva de densidad alcanza su punto máximo alrededor del intervalo de 20 a 30 años, lo que sugiere que esta es la edad con mayor incidencia de agresores.A diferencia de una distribución normal, que tiende a ser simétrica con una única moda en el centro, esta distribución es unimodal pero sesgada hacia los valores más bajos, con una cola que se extiende a la derecha hacia edades más avanzadas. Este sesgo indica que es menos probable encontrar agresores en rangos de edad más altos, especialmente después de los 50 años, donde la densidad disminuye considerablemente.
+<div/>
+<br>
+<div style="text-align: justify">
+La disminución progresiva en la densidad a partir de los 30 años podría estar asociada a factores tanto sociales como psicológicos, donde se observa una reducción en comportamientos agresivos a medida que la edad avanza, posiblemente debido a cambios en el estilo de vida, aumento de la madurez emocional o menor exposición a contextos de riesgo. Además, la baja densidad en los extremos (particularmente en los menores de 10 años y mayores de 80 años) es esperable, ya que estos grupos no suelen estar involucrados en comportamientos de esta naturaleza debido a limitaciones tanto físicas como contextuales. En resumen, la distribución de edades sugiere una mayor probabilidad de encontrar agresores en edades tempranas y medias de la adultez, mientras que en edades avanzadas esta probabilidad disminuye notablemente, reflejando un patrón de incidencia de violencia que está lejos de la simetría de una distribución normal y más alineado con una distribución sesgada hacia la derecha.
+<div/>
+<br>
+A continuación se presenta una tabla de probabilidades de donde se conclomeran los intervalos de edades en 6 diferentes etapas, esto con el propósito de mostrar cómo la incidencia de este comportamientos violentos varía con la edad: 
+```{r}
+library(dplyr)
+library(DT)
+
+intervalos_edad_ordenados_agre<- c("[0-10)", "[10-20)", "[20-30)", "[30-40)", "[40-50)", "[50-60)", "[60-70)", "[70-80)", "[80-90)", "[90-100]")
+
+violencia_genero <- violencia_genero %>%
+  mutate(edad_intervalo_agresor_agre = cut(
+    edad_agre,
+    breaks = c(seq(0, 90, by = 10), 100),
+    labels = intervalos_edad_ordenados_agre,
+    right = FALSE,
+    include.lowest = TRUE
+  ))
+
+tabla_conteo_edad <- violencia_genero %>%
+  group_by(edad_intervalo_agresor) %>%
+  summarise(casos = n(), .groups = 'drop')
+
+total_agresores <- sum(tabla_conteo_edad$casos)
+tabla_probabilidades_edad <- tabla_conteo_edad %>%
+  mutate(
+    probabilidad = round(casos / total_agresores, 4),
+    porcentaje = paste0(round(probabilidad * 100, 2), "%"),
+    enunciado = paste0("P(", edad_intervalo_agresor, ")")
+  ) %>%
+  arrange(factor(edad_intervalo_agresor, levels = intervalos_edad_ordenados_agre)) %>%
+  select(enunciado, probabilidad, porcentaje)
+
+datatable(tabla_probabilidades_edad, 
+          colnames = c("Enunciado", "Probabilidad", "Porcentaje"),
+          caption = "Probabilidad de que un Agresor se Encuentre en Cada Intervalo de Edad",
+          escape = FALSE,
+          options = list(pageLength = 10, 
+                         scrollX = TRUE, 
+                         dom = 'tpi', 
+                         columnDefs = list(list(className = 'dt-center', targets = "_all")), 
+                         initComplete = JS(
+                           "function(settings, json) {",
+                           "$(this.api().table().header()).css({'background-color': '#d0e4f5', 'color': '#000'});",
+                           "}")),
+          class = "cell-border stripe") %>%  
+  formatRound(columns = c("probabilidad"), digits = 4)
+
+```
+<br>
+<div style="text-align: justify">
+Esta tabla presenta la probabilidad de que un agresor se encuentre en cada intervalo de edad, ofreciendo una visión sobre cómo se distribuyen los agresores en distintos rangos etarios. El intervalo de edad con la probabilidad más alta es el de 20 a 30 años, con un valor de 0.2341, lo cual representa un 23.41%. Esto indica que casi una cuarta parte de los agresores se encuentran en este rango de edad, sugiriendo que este grupo es particularmente prevalente en términos de participación en los actos de violencia registrados. Le sigue el intervalo de 30 a 40 años, con una probabilidad de 0.1786 (17.86%), y el de 40 a 50 años, con una probabilidad de 0.1136 (11.36%).
+<div/>
+<br>
+<div style="text-align: justify">
+Los intervalos superiores, como 90 a 100 años y 80 a 90 años, presentan probabilidades mucho menores, con valores de aproximadamente 0.0680 y 0.0684, respectivamente. Esto refleja que es menos probable que los agresores pertenezcan a estas edades avanzadas, lo cual podría deberse a limitaciones físicas o a factores sociales que disminuyen la participación en conductas violentas en estas etapas de la vida.
+<div/>
+<br>
+<div style="text-align: justify">
+En conclusión, la distribución de probabilidades en estos intervalos sugiere que la mayor concentración de agresores se encuentra en edades jóvenes y adultas tempranas, disminuyendo progresivamente en los rangos de edad más avanzados. Este tipo de análisis probabilístico ayuda a identificar los grupos etarios con mayor prevalencia, lo cual puede ser relevante para orientar estrategias de intervención y prevención en función de la edad de los agresores.
+<div/>
+<br>
+
+#### 3.1.1 Estadísticos de las edades de los agresores por tipo de violencia de género
+
+<br>
+```{r,echo=FALSE, warning=FALSE}
+library(dplyr)
+library(kableExtra)
+
+# Convertir el tipo de violencia a factor si aún no está
+violencia_genero$def_naturaleza <- as.factor(violencia_genero$def_naturaleza)
+
+# Calcular estadísticos por tipo de violencia para las edades de los agresores
+estadisticos_por_naturaleza_agresores <- violencia_genero %>%
+  group_by(def_naturaleza) %>%
+  summarise(
+    `Tipo de Violencia` = first(def_naturaleza), 
+    `Media de Edad` = mean(edad_agre, na.rm = TRUE),
+    `Mediana de Edad` = median(edad_agre, na.rm = TRUE),
+    `Moda de Edad` = as.numeric(names(sort(table(edad_agre), decreasing = TRUE)[1])),
+    `Desviación Estándar` = sd(edad_agre, na.rm = TRUE),
+    `Varianza` = var(edad_agre, na.rm = TRUE),
+    `Coeficiente de Variación` = (sd(edad_agre, na.rm = TRUE) / mean(edad_agre, na.rm = TRUE)) * 100,
+    `Cuartil 1` = quantile(edad_agre, 0.25, na.rm = TRUE),
+    `Cuartil 2` = quantile(edad_agre, 0.5, na.rm = TRUE),
+    `Cuartil 3` = quantile(edad_agre, 0.75, na.rm = TRUE)
+  )
+
+# Mostrar la tabla con formato
+estadisticos_por_naturaleza_agresores %>%
+  select(`Tipo de Violencia`, `Media de Edad`, `Mediana de Edad`, `Moda de Edad`, `Desviación Estándar`, `Varianza`, `Coeficiente de Variación`, `Cuartil 1`, `Cuartil 2`, `Cuartil 3`) %>%
+  kable("html", align = "c", digits = 2, 
+        caption = "Estadísticos de Edad de los Agresores por Tipo de Violencia") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
+                full_width = F, position = "center") %>%
+  row_spec(0, bold = TRUE, background = "#d0e4f5")
+
+
+```
+<br>
+<div style="text-align: justify">
+Esta tabla presenta un análisis detallado de las edades de los agresores en casos de violencia de género, segmentados por tipo de violencia. En términos generales, se observa que el promedio de edad de los agresores varía significativamente entre los distintos tipos de violencia, lo cual podría reflejar patrones de comportamiento asociados a ciertas etapas de la vida. Los agresores involucrados en "Explotación sexual, comercial de niños y adolescentes" presentan la mayor media de edad (61.33 años) y la mediana más alta (78 años), lo que sugiere que este tipo de violencia podría estar asociado a individuos de mayor edad. Esto se apoya además en el coeficiente de variación, que es relativamente alto (66.28%), indicando una gran dispersión en las edades de los agresores dentro de esta categoría.
+<div/>
+<br>
+<div style="text-align: justify">
+En contraste, "Negligencia y abandono" muestra una media de edad significativamente más baja (40.34 años), lo cual es coherente con el perfil de agresores que posiblemente tengan responsabilidades de cuidado directo y, por lo tanto, pertenezcan a un grupo de edad más joven y activo. Este grupo también presenta una desviación estándar de 22.26, lo que implica una menor dispersión en comparación con otros tipos de violencia, sugiriendo una mayor concentración de agresores en torno a edades medias. Los tipos de violencia con mayores desviaciones estándar, como "Violencia física" (24.10) y "Violencia psicológica" (23.96), evidencian una variabilidad considerable en la edad de los agresores, lo cual podría indicar que estos tipos de violencia se manifiestan en diferentes etapas de la vida y no están restringidos a un rango etario específico. Además, el coeficiente de variación para estos tipos de violencia es moderado, lo que confirma que las edades de los agresores están distribuidas de forma relativamente amplia.
+<div/>
+<br>
+<div style="text-align: justify">
+Por otro lado, tipos de violencia como "Actos sexuales de violencia" y "Acoso sexual" tienen una media de edad cercana a los 50 años, con cuartiles que se concentran en la mediana y la tercera parte de la vida adulta. Esto podría sugerir una tendencia hacia agresores en edades intermedias para este tipo de comportamientos. Finalmente, el análisis de los cuartiles revela que, para la mayoría de los tipos de violencia, el primer cuartil se sitúa en torno a los 20-30 años, lo que podría señalar que algunos agresores comienzan a incurrir en conductas violentas a edades tempranas.
+<div/>
+<br>
+A continuación, se presenta la tabla de frecuencia de los tipos de violencia por intervalos de edades de los agresores, para brindar mayor profundidad al análisis: 
+```{r}
+library(dplyr)
+library(tidyr)
+library(kableExtra)
+
+violencia_genero$edad_intervalo_agresor <- cut(
+  violencia_genero$edad_agre, 
+  breaks = c(seq(0, 90, by = 10), 100), 
+  labels = c("[0-10)", "[10-20)", "[20-30)", "[30-40)", "[40-50)", "[50-60)", "[60-70)", "[70-80)", "[80-90)", "[90-100]"),
+  right = FALSE,
+  include.lowest = TRUE
+)
+
+tabla_contingencia_agre <- violencia_genero %>%
+  group_by(def_naturaleza, edad_intervalo_agresor) %>%
+  summarise(frecuencia = n(), .groups = 'drop') %>%
+  complete(def_naturaleza, edad_intervalo_agresor, fill = list(frecuencia = 0)) %>%
+  pivot_wider(names_from = edad_intervalo_agresor, values_from = frecuencia) %>%
+  rename(`Tipo de Violencia` = def_naturaleza)
+
+tabla_contingencia_agre %>%
+  kable("html", align = "c", digits = 4, caption = "Tabla de Contingencia entre Tipos de Violencia y Edades de los Agresores") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), full_width = F, position = "center") %>%
+  row_spec(0, bold = T, background = "#d0e4f5")
+
+```
+<br>
+<div style="text-align: justify">
+Esta tabla de contingencia ofrece una visión amplia sobre la relación entre los tipos de violencia y la edad de los agresores, lo que permite identificar patrones significativos en el comportamiento de los agresores en diferentes etapas de la vida. La tabla organiza la información en rangos de edad de diez años, desde 0-10 hasta 90-100, permitiendo así una comparación precisa entre diferentes grupos etarios y los tipos de violencia asociados. En primer lugar, el tipo de violencia "Negligencia y abandono" destaca por su alta frecuencia en casi todos los rangos de edad, especialmente a partir de los 10 años. Esto refleja un fenómeno de violencia que no está restringido a una etapa de vida específica del agresor, sino que aparece de manera constante en todas las edades. La consistencia en la frecuencia de estos casos a través de los rangos de edad indica que la negligencia y el abandono son formas de violencia presentes de manera transversal, probablemente influenciadas por factores sociales y económicos que impactan a agresores de múltiples edades.
+<div/>
+<br>
+<div style="text-align: justify">
+La "Violencia física" también muestra una alta incidencia, especialmente en los rangos de edad de 10-20 hasta 80-90. Este tipo de violencia parece ser un fenómeno común a lo largo de casi todas las edades adultas, con menores frecuencias solo en los extremos de la escala (0-10 y 90-100). La dispersión de la violencia física en edades tan amplias sugiere un patrón de comportamiento violento que se mantiene activo durante gran parte de la vida del agresor. 
+<div/>
+<br>
+<div style="text-align: justify">
+Dentro de las formas de violencia sexual, como "Abuso sexual" y "Acoso sexual," se observa una alta concentración en los grupos etarios de 10-20 y 20-30 años. Este patrón sugiere que los agresores jóvenes están más asociados con este tipo de delitos en comparación con otros rangos de edad. De manera similar, otros actos sexuales, como "Acceso carnal," presentan una distribución significativa en estos mismos rangos, lo que parece indicar una inclinación de los agresores jóvenes hacia formas de violencia sexual. Esta concentración en los rangos de edad juvenil-adulta podría estar vinculada a factores de tipo social y cultural, donde la violencia sexual se manifiesta de forma más frecuente en estas edades.
+<div/>
+<br>
+<div style="text-align: justify">
+Los grupos de edad en los extremos de la tabla, como 0-10 y 90-100 años, muestran una baja frecuencia en casi todos los tipos de violencia. Esto sugiere que los agresores en estos rangos son menos comunes o menos propensos a cometer ciertos tipos de violencia. La baja incidencia en estos extremos podría indicar una menor capacidad o propensión a cometer actos violentos en estas edades, o bien reflejar una menor visibilidad de este grupo en los registros de casos.
+<br>
+<div style="text-align: justify">
+La categoría de "Sin información" también destaca en esta tabla, con un número considerable de casos distribuidos en todos los grupos etarios, especialmente en los rangos de 10-20 y 20-30. La cantidad de datos sin especificar en cuanto a la edad del agresor limita la precisión del análisis y señala un vacío en la calidad de los registros que puede afectar la comprensión detallada de los patrones de edad.
+<div/>
+<br>
+<div style="text-align: justify">
+Otros tipos de violencia, como la "Trata de personas," muestran una baja frecuencia en toda la tabla, lo que podría sugerir una menor prevalencia o visibilidad de estos casos en comparación con formas de violencia más comunes. La "Violación," por su parte, presenta un número moderado de casos, principalmente concentrado en los rangos de 20-30 y 30-40 años, lo que indica un patrón menos disperso que otros tipos de violencia.
+<div/>
+<br>
+<div style="text-align: justify">
+En conjunto, este análisis de la tabla revela patrones significativos en la asociación entre la edad del agresor y ciertos tipos de violencia. La presencia de algunos tipos de violencia a lo largo de todas las edades, en contraste con la concentración de otros en edades específicas, ofrece una perspectiva detallada sobre la dinámica de la violencia y el perfil etario de los agresores. La tabla proporciona un panorama robusto que permite identificar la variabilidad en las manifestaciones de violencia, siendo fundamental en la comprensión de los diferentes comportamientos violentos en función de la edad.
+<div/>
+<br>
+A continuación, se presenta una tabla de probabilidades condicionales que relaciona los 3 tipos de violencia de género más reportados con el intervalo de edad del agresor, con el fin de comprender la incidencia o propensión a actos de violencia en diferentes grupos etarios:
+```{r,echo=FALSE,warning=FALSE}
+
+library(dplyr)
+library(DT)
+intervalos_edad_ordenados_agre <- c("[0-10)", "[10-20)", "[20-30)", "[30-40)", "[40-50)", "[50-60)", "[60-70)", "[70-80)", "[80-90)", "[90-100]")
+
+violencia_genero <- violencia_genero %>%
+  mutate(edad_intervalo_agresor = cut(
+    edad_agre,
+    breaks = c(seq(0, 90, by = 10), 100),
+    labels = intervalos_edad_ordenados_agre,
+    right = FALSE,
+    include.lowest = TRUE
+  ))
+
+tipos_principales_agre <- c("Negligencia y abandono", "Violencia física", "Abuso sexual") 
+violencia_genero_filtrada_agre <- violencia_genero %>%
+  filter(def_naturaleza %in% tipos_principales_agre)
+
+
+tabla_conteo_violencia_agre <- violencia_genero_filtrada_agre %>%
+  group_by(def_naturaleza, edad_intervalo_agresor) %>%
+  summarise(casos = n(), .groups = 'drop')
+
+
+total_tipo_violencia_agre <- violencia_genero_filtrada_agre %>%
+  group_by(def_naturaleza) %>%
+  summarise(total = n(), .groups = 'drop')
+
+
+tabla_probabilidades_violencia_agre <- tabla_conteo_violencia_agre %>%
+  left_join(total_tipo_violencia_agre, by = "def_naturaleza") %>%
+  mutate(
+    probabilidad = round(casos / total, 4),
+    porcentaje = paste0(round(probabilidad * 100, 2), "%"),
+    enunciado = paste0("P(", edad_intervalo_agresor, " | ", def_naturaleza, ")")
+  ) %>%
+  arrange(factor(edad_intervalo_agresor, levels = intervalos_edad_ordenados_agre)) %>%
+  select(enunciado, probabilidad, porcentaje)
+
+datatable(tabla_probabilidades_violencia_agre, 
+          colnames = c("Enunciado", "Probabilidad", "Porcentaje"),
+          caption = "Probabilidad de que un Agresor Esté en un Intervalo de Edad Dado el Tipo de Violencia",
+          escape = FALSE,
+          options = list(pageLength = 10, 
+                         scrollX = TRUE, 
+                         dom = 'tpi', 
+                         columnDefs = list(list(className = 'dt-center', targets = "_all")), 
+                         initComplete = JS(
+                           "function(settings, json) {",
+                           "$(this.api().table().header()).css({'background-color': '#d0e4f5', 'color': '#000'});",
+                           "}")),
+          class = "cell-border stripe") %>%  
+  formatRound(columns = c("probabilidad"), digits = 4)
+
+```
+<br>
+<div style="text-align: justify">
+La tabla presenta probabilidades de que un agresor esté en un intervalo de edad específico dado el tipo de violencia que comete, lo que permite identificar tendencias demográficas relacionadas con los actos violentos. En esta distribución, el intervalo de edad de 20 a 30 años muestra probabilidades destacables para actos de abuso sexual y violencia física, con una probabilidad de 0.1805 (18.05%) para abuso sexual y 0.2113 (21.13%) para violencia física, lo cual indica que los jóvenes adultos son más propensos a estar involucrados en estos sucesos. En contraste, para "Negligencia y abandono," la probabilidad máxima se observa en el mismo rango de edad, con 0.3139 (31.39%), reflejando que esta conducta es también prevalente en este grupo.
+<div/>
+<br>
+<div style="text-align: justify">
+Conforme aumenta la edad, las probabilidades tienden a disminuir para la mayoría de los tipos de violencia, lo cual puede estar asociado con cambios en el comportamiento y el contexto social a lo largo del ciclo de vida. Por ejemplo, en el rango de edad de 50 a 60 años, la probabilidad de estar involucrado en "Abuso sexual" baja a 0.0839 (8.39%) y en "Negligencia y abandono" a 0.0653 (6.53%), reflejando una tendencia decreciente. Este patrón podría indicar que los individuos de mediana edad están menos expuestos a contextos o conductas que derivan en estos tipos de violencia, lo cual puede ser atribuible a factores como estabilidad familiar o laboral.
+<div/>
+<br>
+<div style="text-align: justify">
+Sin embargo, los datos también muestran que aunque las probabilidades son más bajas en edades avanzadas, estas no desaparecen completamente. En el grupo de 70 a 80 años, aún existen probabilidades de 0.0546 (5.46%) para "Negligencia y abandono" y de 0.0782 (7.82%) para "Violencia física." Esto es relevante, ya que indica que ciertos tipos de violencia, especialmente el abandono, pueden afectar tanto a los jóvenes como a las personas mayores, reflejando posiblemente vulnerabilidades específicas de estas etapas de vida.
+<div/>
+<br>
+<div style="text-align: justify">
+En conclusión, esta tabla evidencia una relación clara entre la edad y los tipos de violencia cometidos, con una mayor probabilidad de actos violentos en edades jóvenes y una disminución progresiva en etapas avanzadas, aunque con persistencia de ciertos tipos de violencia en estos últimos grupos. Este análisis permite entender mejor los perfiles de edad de los agresores en función del tipo de violencia, lo que resulta relevante para orientar estrategias de prevención y mitigación dirigidas a grupos etarios específicos.
+<div/>
+<br>
+
+### 3.2 Análisis general del género de los agresores de violencia de género
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+genero_agresores_count <- table(violencia_genero$sexo_agre)
+
+percentages <- round(genero_agresores_count / sum(genero_agresores_count) * 100, 1)
+
+labels <- paste(names(genero_agresores_count), "\n", genero_agresores_count, " (", percentages, "%)", sep = "")
+
+colors <- c("lightblue", "deepskyblue", "dodgerblue4")
+
+par(mar = c(1, 2, 2, 1))  
+
+pie(genero_agresores_count, labels = labels, col = colors, 
+    main = "Distribución de Agresores por Género", border = "black", 
+    clockwise = TRUE, init.angle = 90)
+
+```
+<br>
+<div style="text-align: justify">
+La gráfica de distribución de agresores por género revela una notable diferencia en la representación de cada grupo. La mayoría de los agresores se identifican como masculinos, con un 58.6% (7,141 casos), lo cual destaca una clara tendencia de predominio masculino en los actos de violencia. En contraste, el grupo femenino representa el 41.3% (5,040 casos), indicando que, aunque es menor, también tiene una presencia significativa en los registros de agresores. Es importante señalar que la proporción de personas identificadas como intersexuales es extremadamente baja, con solo un 0.1% (12 casos), lo cual podría deberse tanto a factores de subregistro como a la baja prevalencia de esta identificación de género en la base de datos.
+<div/>
+<br>
+<div style="text-align: justify">
+Esta distribución de género de los agresores sugiere que las intervenciones preventivas y de educación deben tener en cuenta la predominancia masculina, pero sin dejar de lado la relevancia de otros géneros, ya que ambos tienen una presencia notable en la perpetuación de la violencia. Este análisis también resalta la importancia de una mejor recolección de datos que incluya a todos los géneros, para proporcionar una visión completa del perfil de los agresores y poder diseñar políticas de prevención efectivas y específicas.
+<div/>
+<br>
+
+#### 3.2.2 Análisis de la relación entre el género  y los intervalos de edad del agresor
+```{r, echo=FALSE, warning=FALSE}
+library(dplyr)
+library(kableExtra)
+
+intervalos_edad_agre <- c("[0-10)", "[10-20)", "[20-30)", "[30-40)", "[40-50)", "[50-60)", "[60-70)", "[70-80)", "[80-90)", "[90-100]")
+
+violencia_genero <- violencia_genero %>%
+  mutate(intervalos_edad_agre = cut(
+    edad_agre,
+    breaks = c(seq(0, 90, by = 10), 100),
+    labels = intervalos_edad_agre,
+    right = FALSE,
+    include.lowest = TRUE
+  ))
+
+tabla_frecuencia_gea <- violencia_genero %>%
+  group_by(intervalos_edad_agre, sexo_agre) %>%
+  summarise(frecuencia = n(), .groups = 'drop') %>%
+  pivot_wider(names_from = sexo_agre, values_from = frecuencia, values_fill = 0) %>%
+  rename(`Intervalos de Edad` = intervalos_edad_agre)
+
+tabla_frecuencia_gea %>%
+  kable("html", align = "c", digits = 2, 
+        caption = "Frecuencia de Agresores por Intervalo de Edad y Género") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
+                full_width = F, position = "center") %>%
+  row_spec(0, bold = TRUE, background = "#d0e4f5")
+
+```
+<br>
+<div style="text-align: justify">
+La tabla de frecuencia de agresores por intervalo de edad y género muestra una distribución significativa en los diferentes grupos etarios, destacando tendencias importantes tanto en género como en edad. En los primeros intervalos de edad, como de 0 a 10 años, la presencia de agresores es mínima, con solo 5 casos femeninos y 29 masculinos. Esto es esperable debido a la baja probabilidad de que individuos de tan corta edad participen en conductas de agresión. A partir del intervalo de 10 a 20 años, la frecuencia de agresores aumenta considerablemente, especialmente en el género masculino, con 692 casos frente a 541 en el género femenino.
+<div/>
+<br>
+<div style="text-align: justify">
+El intervalo de edad de 20 a 30 años presenta la mayor frecuencia absoluta de agresores en ambos géneros, con 1,519 casos en mujeres y 1,335 en hombres, lo que sugiere que esta etapa de la vida es particularmente crítica en términos de conductas agresivas. Este patrón continúa siendo alto en el intervalo de 30 a 40 años, con 984 casos femeninos y 1,193 masculinos, aunque ya se observa una ligera disminución respecto al intervalo anterior.
+<div/>
+<br>
+<div style="text-align: justify">
+A partir de los 40 años, se observa una tendencia de disminución progresiva en el número de agresores, en ambos géneros, lo que podría estar relacionado con factores sociales y personales, como la madurez emocional y la reducción de conductas impulsivas. No obstante, aún persisten casos relevantes en intervalos como el de 50 a 60 años, donde se registran 369 casos femeninos y 675 masculinos.
+<div/>
+<br>
+<div style="text-align: justify">
+En los intervalos de edades avanzadas, como de 70 a 80 y 80 a 90 años, los casos siguen disminuyendo, pero se mantiene cierta frecuencia, especialmente en el género masculino. Es interesante observar que, incluso en el último intervalo de edad (90-100 años), hay 261 casos femeninos y 570 masculinos, lo que indica que la violencia no es exclusiva de edades tempranas o intermedias.
+<div/>
+<br>
+<div style="text-align: justify">
+El grupo intersexual tiene una representación mínima en todos los intervalos de edad, con un máximo de 3 casos en el grupo de 90-100 años. Esta baja frecuencia podría reflejar tanto la baja prevalencia como posibles subregistros en la identificación de género.
+<div/>
+<br>
+<div style="text-align: justify">
+En conclusión, esta distribución por intervalo de edad y género sugiere que la juventud y la adultez temprana son las etapas más críticas en términos de participación en actos de agresión, especialmente en el género masculino, pero también con una significativa representación femenina. Estos datos destacan la importancia de intervenciones focalizadas en los grupos etarios y de género más representativos para abordar efectivamente las causas subyacentes de la violencia.
+<div/>
+<br>
+
+#### 3.2.2 Análisis de la relación entre el género del agresor y los tipos de violencia de género reportados
+
+<br>
+```{r, echo=FALSE, warning=FALSE}
+
+library(dplyr)
+library(kableExtra)
+
+tabla_frecuencia_violencia_genero1 <- violencia_genero %>%
+  group_by(def_naturaleza, sexo_agre) %>%
+  summarise(frecuencia = n(), .groups = 'drop') %>%
+  pivot_wider(names_from = sexo_agre, values_from = frecuencia, values_fill = 0) %>%
+  rename(`Tipo de Violencia` = def_naturaleza)
+
+tabla_frecuencia_violencia_genero1 %>%
+  kable("html", align = "c", digits = 2, 
+        caption = "Frecuencia de Agresores por Tipo de Violencia y Género") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
+                full_width = F, position = "center") %>%
+  row_spec(0, bold = TRUE, background = "#d0e4f5")
+
+```
+<br>
+<div style="text-align: justify">
+La tabla de frecuencia de agresores por tipo de violencia y género revela patrones específicos en cuanto a la participación de agresores masculinos, femeninos e intersexuales en diversos tipos de violencia de género. En primer lugar, se observa que los hombres constituyen una mayoría significativa en varios tipos de violencia. En particular, en casos de abuso sexual y violencia física, los agresores masculinos representan la mayoría, con 881 y 3,038 casos respectivamente, frente a 70 y 987 casos de agresoras femeninas. Este patrón resalta que ciertos tipos de violencia, especialmente aquellos que involucran contacto físico directo, son cometidos principalmente por hombres.
+<div/>
+<br>
+<div style="text-align: justify">
+La violencia de negligencia y abandono es un caso excepcional en el que las mujeres representan la mayoría de los agresores, con 3,740 casos frente a 1,004 casos de agresores masculinos. Esto podría sugerir que la negligencia y abandono están asociados con roles sociales y familiares, donde las mujeres tienen una mayor responsabilidad en el cuidado y, en situaciones de conflicto, pueden ser las principales agresoras en este contexto.
+<div/>
+<br>
+<div style="text-align: justify">
+Para tipos de violencia menos frecuentes, como otros actos sexuales y otras violencias sexuales, los números son bajos, pero nuevamente predomina la presencia masculina. Esto refleja que, incluso en formas menos comunes de violencia, el género masculino sigue teniendo una representación predominante.
+<div/>
+<br>
+<div style="text-align: justify">
+El grupo intersexual muestra una baja representación en todos los tipos de violencia, con un máximo de 3 casos en violencia física y 2 casos en abuso sexual y otras violencias sexuales. Esto podría estar relacionado tanto con la menor población de personas intersexuales como con posibles limitaciones en la identificación de género en los registros.
+<div/>
+<br>
+<div style="text-align: justify">
+En cuanto a violencia psicológica, aunque los casos masculinos (418) superan a los femeninos (125), la brecha es menos pronunciada en comparación con otros tipos de violencia física. Esto sugiere que tanto hombres como mujeres participan en conductas de violencia psicológica, reflejando una distribución más equilibrada en este tipo de agresión no física.
+<div/>
+<br>
+<div style="text-align: justify">
+En general, esta distribución sugiere una marcada diferencia de género en la participación en distintos tipos de violencia. Los hombres tienden a ser los principales agresores en la mayoría de los tipos de violencia de género, especialmente aquellos que involucran contacto físico directo. La excepción significativa es la negligencia y abandono, donde las mujeres representan la mayoría. Esta información es fundamental para el diseño de políticas y programas de prevención enfocados en abordar los factores de riesgo específicos asociados con cada tipo de violencia y género.
+<div/>
+<br>
+<div style="text-align: justify">
+a continuación se presenta una tabla que presenta las probabilidades condicionales de que un agresor, en función de su género, se encuentre en un intervalo de edad específico dado el tipo de violencia que ejerce, considerando únicamente los 3 casos de violencia más registrados para facilidad del análisis. Al analizar estos datos, se pueden identificar patrones de riesgo asociados a ciertos tipos de violencia según las características demográficas de los agresores, lo que permite una comprensión más precisa de los perfiles comunes en cada tipo de agresión.
+<div/>
+<br>
+```{r}
+library(dplyr)
+library(DT)
+
+edad_intervals <- c("[0-10)", "[10-20)", "[20-30)", "[30-40)", "[40-50)", "[50-60)", "[60-70)", "[70-80)", "[80-90)", "[90-100]")
+
+tipos_principales_agresores <- c("Negligencia y abandono", "Violencia física", "Abuso sexual")
+data_filtrada_agresores <- violencia_genero %>%
+  filter(def_naturaleza %in% tipos_principales_agresores) %>%
+  mutate(intervalo_edad_agresor = cut(
+    edad_agre,
+    breaks = c(seq(0, 90, by = 10), 100),
+    labels = edad_intervals,
+    right = FALSE,
+    include.lowest = TRUE
+  ))
+
+total_por_violencia <- data_filtrada_agresores %>%
+  group_by(def_naturaleza) %>%
+  summarise(total_violencia = n(), .groups = 'drop')
+
+conteo_violencia_genero_edad <- data_filtrada_agresores %>%
+  group_by(def_naturaleza, sexo_agre, intervalo_edad_agresor) %>%
+  summarise(cantidad = n(), .groups = 'drop')
+
+tabla_probabilidades_violencia <- conteo_violencia_genero_edad %>%
+  left_join(total_por_violencia, by = "def_naturaleza") %>%
+  mutate(
+    probabilidad = round(cantidad / total_violencia, 4),
+    porcentaje = paste0(round(probabilidad * 100, 2), "%"),
+    enunciado = paste0("P(", sexo_agre, " ∩ ", intervalo_edad_agresor, " | ", def_naturaleza, ")")
+  ) %>%
+  arrange(factor(def_naturaleza, levels = tipos_principales_agresores)) %>%
+  select(enunciado, probabilidad, porcentaje)
+
+datatable(tabla_probabilidades_violencia, 
+          colnames = c("Enunciado", "Probabilidad", "Porcentaje"),
+          caption = "Probabilidades Condicionales de Género y Edad Dado el Tipo de Violencia",
+          options = list(pageLength = 10, 
+                         scrollX = TRUE, 
+                         dom = 'tpi', 
+                         columnDefs = list(list(className = 'dt-center', targets = "_all")), 
+                         initComplete = JS(
+                           "function(settings, json) {",
+                           "$(this.api().table().header()).css({'background-color': '#d0e4f5', 'color': '#000'});",
+                           "}")),
+          class = "cell-border stripe") %>%  
+  formatRound(columns = c("probabilidad"), digits = 4)
+
+```
+<br>
+<div style="text-align: justify">
+En el caso de "Negligencia y abandono" en agresores femeninos, las probabilidades más altas se observan en el intervalo de edad de 20 a 30 años, con una probabilidad de 26.61%, seguida por los intervalos de 10 a 20 años y 30 a 40 años. Esto sugiere que los eventos de negligencia y abandono perpetrados por mujeres tienden a concentrarse en individuos más jóvenes. Este patrón puede interpretarse como un indicador de ciertos factores sociales o económicos que afectan a este grupo de edad.
+<div/>
+<br>
+<div style="text-align: justify">
+Para agresores masculinos en el mismo tipo de violencia, las probabilidades más altas se encuentran en los intervalos de edad de 20 a 30 y 30 a 40 años, aunque con valores menores comparados a sus contrapartes femeninas. Este detalle es significativo porque podría sugerir que, dentro de este tipo de violencia, las mujeres jóvenes tienen una mayor propensión a involucrarse en situaciones de negligencia y abandono.
+<div/>
+<br>
+<div style="text-align: justify">
+En el caso de "Violencia física", observamos una distribución más equilibrada, con agresores masculinos predominando en intervalos de edad de 50 a 60 y 60 a 70 años, con probabilidades cercanas al 6% en cada intervalo. Esto puede interpretarse como una presencia significativa de violencia física perpetrada por hombres de mediana edad, lo que podría estar relacionado con factores de agresividad o contextos culturales en edades avanzadas.
+<div/>
+<br>
+<div style="text-align: justify">
+Finalmente, en "Abuso sexual", es interesante notar que la probabilidad se distribuye de manera que los hombres mayores (en el rango de 40 a 50 años y en adelante) presentan una probabilidad más elevada, alcanzando hasta un 20.06% en algunos intervalos. Este dato subraya la prevalencia de agresores masculinos en edades avanzadas en este tipo de violencia, lo cual puede estar influenciado por factores individuales y contextuales que persisten con la edad.
+<div/>
+<br>
+<div style="text-align: justify">
+En resumen, la tabla destaca diferencias significativas en la distribución de las probabilidades de edad de los agresores en relación con el tipo de violencia y género, proporcionando una visión profunda sobre cómo estos factores interactúan y manifestándose en patrones específicos según el tipo de acto violento. Este análisis permite identificar focos de riesgo según género, edad y tipo de violencia, lo cual es esencial para el diseño de intervenciones efectivas.
+<div/>
+<br>
+
+#### 3.2.2 Análisis del parentezco del agresor con la víctima
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+library(ggplot2)
+library(dplyr)
+
+parentesco_counts <- violencia_genero %>%
+  count(parentezco_vict) %>%
+  arrange(desc(n))
+
+ggplot(parentesco_counts, aes(x = reorder(parentezco_vict, n), y = n)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(aes(label = n), hjust = -0.2, color = "black", size = 3.5) + 
+  coord_flip() +
+  labs(title = "Frecuencia de casos de violencia por parentesco del agresor con la víctima",
+       x = "Parentesco con la Víctima",
+       y = "Casos Registrados") +
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.title.x = element_text(face = "bold", size = 12),
+    axis.title.y = element_text(face = "bold", size = 12),
+    axis.text.x = element_text(size = 10),
+    axis.text.y = element_text(size = 10),
+    axis.line = element_line(color = "gray50", size = 0.5), 
+    panel.grid.major.x = element_line(color = "gray80", size = 0.3), 
+    panel.grid.minor = element_blank() 
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+
+```
+<br>
+<div style="text-align: justify">
+Esta gráfica muestra la frecuencia de casos de violencia de género según el parentesco entre el agresor y la víctima. Se observa que el rol de "Madre" es el más alto, con 3,973 casos registrados, lo que podría señalar una prevalencia significativa de violencia dentro del ámbito familiar cercano. En segundo lugar, los agresores sin vínculo familiar directo ("Ninguno") representan 2,227 casos, lo cual indica que la violencia también ocurre fuera del núcleo familiar.
+<div/>
+<br>
+<div style="text-align: justify">
+Las relaciones de pareja, tanto actuales como pasadas, representan un número considerable de casos, con "Pareja" acumulando 1,490 casos y "Ex pareja" 723 casos, lo que resalta la persistencia de la violencia en relaciones sentimentales, incluso después de su finalización. Otros miembros familiares, como "Padre" (980 casos) y "Familiar" (1,214 casos), también contribuyen de manera importante, lo que destaca la complejidad de la violencia dentro del entorno familiar.
+<div/>
+<br>
+<div style="text-align: justify">
+Otros roles como "Esposo," "Compañero permanente," y "Novio(a)" también aparecen en la gráfica, aunque con menos frecuencia, indicando que las relaciones sentimentales y de convivencia tienen una relevancia particular en estos casos. Las categorías con menos frecuencia, como "Amante," "Madrasta," y "Sobrino(a)," sugieren una menor incidencia de violencia de género en relaciones menos comunes o periféricas.
+<div/>
+<br>
+<div style="text-align: justify">
+En general, esta distribución refleja cómo las dinámicas familiares y las relaciones sentimentales son contextos en los que, lamentablemente, la violencia de género se presenta con mayor frecuencia, lo cual enfatiza la necesidad de intervenciones dirigidas tanto a la prevención en el entorno familiar como en el ámbito de las relaciones interpersonales.
+<div/>
+<br>
+Para observar lo anterior con mayor claridad, se procederá a presentar una tabla que presenta las probabilidades asociadas a los distintos tipos de parentesco entre el agresor y la víctima en casos de violencia de género. El análisis de estas relaciones permite identificar los vínculos familiares y personales que predominan en los incidentes reportados, proporcionando una base para comprender mejor el contexto de estos actos y orientar intervenciones preventivas específicas.
+
+```{r,echo=FALSE,warning=FALSE}
+library(dplyr)
+library(DT)
+
+parentesco_counts <- violencia_genero %>%
+  count(parentezco_vict) %>%
+  rename(cantidad = n)
+
+total_casos4 <- sum(parentesco_counts$cantidad)
+
+tabla_probabilidades_parentesco <- parentesco_counts %>%
+  mutate(
+    probabilidad = round(cantidad / total_casos4, 4),
+    porcentaje = paste0(round(probabilidad * 100, 2), "%"),
+    enunciado = paste0("P(",parentezco_vict , ")")
+  ) %>%
+  select(enunciado, probabilidad, porcentaje)
+
+datatable(tabla_probabilidades_parentesco, 
+          colnames = c("Enunciado", "Probabilidad", "Porcentaje"),
+          caption = "Probabilidades de Cada Tipo de Parentesco entre el Agresor y la Víctima",
+          options = list(pageLength = 10, 
+                         scrollX = TRUE, 
+                         dom = 'tpi', 
+                         columnDefs = list(list(className = 'dt-center', targets = "_all")), 
+                         initComplete = JS(
+                           "function(settings, json) {",
+                           "$(this.api().table().header()).css({'background-color': '#d0e4f5', 'color': '#000'});",
+                           "}")),
+          class = "cell-border stripe") %>%  
+  formatRound(columns = c("probabilidad"), digits = 4)
+```
+<br>
+<div style="text-align: justify">
+Como se evidencia, la probabilidad más alta corresponde a la figura materna, con un valor de 0.3258 o 32.58%. Esto indica que existe una alta prevalencia de casos en los que el vínculo entre el agresor y la víctima es la madre, lo cual puede ser indicativo de contextos de dependencia y convivencia prolongada en entornos familiares. Las relaciones de pareja, que incluyen tanto parejas actuales como exparejas, también muestran probabilidades notables de 12.22% y 5.93%, respectivamente. La presencia de estos eventos en la categoría de agresores refleja que los incidentes de violencia son recurrentes en relaciones íntimas, donde la cercanía emocional y la convivencia pueden aumentar el riesgo de conflictos que derivan en agresión. En términos probabilísticos, la probabilidad de que el agresor sea la pareja actual o una expareja es considerablemente mayor en comparación con relaciones más periféricas.
+<div/>
+<br>
+<div style="text-align: justify">
+En contraste, los eventos en los que el agresor es un familiar distante o con un vínculo más periférico, como un primo (0.26%) o un suegro (0.05%), presentan probabilidades significativamente menores. Esto sugiere que los incidentes de violencia de género tienden a ocurrir con menor frecuencia en relaciones menos cercanas o en aquellas donde el nivel de interacción cotidiana es menor. A nivel probabilístico, esta distribución muestra una concentración de eventos en las relaciones familiares cercanas y de pareja. Este patrón implica que los eventos de violencia no se distribuyen de manera uniforme entre todos los tipos de relaciones, sino que se concentran en contextos de alta interacción y cercanía emocional. La probabilidad condicionada de que el agresor sea un familiar directo o una pareja es mucho mayor en comparación con otros tipos de relación. Este tipo de análisis probabilístico subraya la necesidad de medidas preventivas y de intervención específicamente dirigidas a los entornos familiares e íntimos, donde el riesgo de agresión es más elevado según los datos registrados.
+<div/>
+<br>
+
+#### 3.2.2 Análisis de agresores con y sin antecedentes 
+
+<br>
+
+```{r,echo=FALSE, warning=FALSE}
+antecedentes_agresores_count <- table(violencia_genero$antecedentes_agresor)
+
+percentages_antecedentes <- round(antecedentes_agresores_count / sum(antecedentes_agresores_count) * 100, 1)
+
+labels <- paste(names(antecedentes_agresores_count), "\n", antecedentes_agresores_count, " (", percentages_antecedentes, "%)", sep = "")
+
+colors <- c("lightblue", "deepskyblue", "dodgerblue4")
+
+par(mar = c(1, 2, 2, 1))  
+
+pie(antecedentes_agresores_count, labels = labels, col = colors, 
+    main = "Distribución de Agresores por Antecedentes", border = "black", 
+    clockwise = TRUE, init.angle = 90)
+
+```
+<br>
+<div style="text-align: justify">
+En esta gráfica sobre la distribución de agresores según sus antecedentes, observamos tres sucesos: aquellos con antecedentes conocidos (representados como "Sí"), aquellos sin antecedentes ("No") y un grupo de casos donde la información es desconocida. El hecho de que el 41% de los agresores tenga antecedentes sugiere que es muy probable que un historial previo de comportamiento violento esté presente en una porción considerable de esta población. Esto podría indicar una tendencia o patrón de reincidencia, hecho que refuerza la probabilidad de que los antecedentes sean un factor de riesgo importante a considerar en el análisis de conductas violentas.
+<div/>
+<br>
+<div style="text-align: justify">
+Por otro lado, el 35.3% de los agresores sin antecedentes muestra que una fracción relevante de esta población comete actos de violencia sin historial previo, un suceso que puede indicar que factores externos o contextuales desencadenan el comportamiento agresivo en estas personas, sin que necesariamente haya una predisposición documentada. El grupo de datos desconocidos, que representa el 23.7%, introduce un nivel de incertidumbre en el análisis. Este suceso de “información faltante” muestra que es probable que el desconocimiento de antecedentes limite una interpretación completa de los patrones de riesgo. En términos probabilísticos, esta categoría afecta la capacidad de precisar las probabilidades de reincidencia o de identificar factores de riesgo asociados a los antecedentes en los agresores.
+<div/>
+<br>
+<div style="text-align: justify">
+En conjunto, la distribución observada en esta gráfica apunta a que, dentro de esta población, es probable que los antecedentes sean un factor influyente en la conducta violenta, aunque también es común la aparición de agresores sin antecedentes previos, sugiriendo que los factores inmediatos o ambientales también juegan un rol relevante en la ocurrencia de estos sucesos.
+<div/>
+<br>
+
+#### 3.2.2 Análisis de la proporción de agresores capturados por los actos de violencia de género
+
+<br>
+```{r,echo=FALSE,warning=FALSE}
+captura_agresores_count <- table(violencia_genero$captura_agresor)
+
+percentages_captura<- round(captura_agresores_count / sum(captura_agresores_count) * 100, 1)
+
+labels <- paste(names(captura_agresores_count), "\n", captura_agresores_count, " (", percentages_captura, "%)", sep = "")
+
+colors <- c("lightblue", "deepskyblue", "dodgerblue4")
+
+par(mar = c(1, 2, 2, 1))  
+
+pie(captura_agresores_count, labels = labels, col = colors, 
+    main = "Distribución de Agresores Capturados", border = "black", 
+    clockwise = TRUE, init.angle = 90)
+
+```
+
 <br>

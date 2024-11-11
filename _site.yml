@@ -1,7 +1,7 @@
 name: "my-website"
 output_dir: "."
 navbar:
-  title: "🧠 Redes Sociales y Salud Mental"
+  title: "👥 Casos de Violencia de Género"
   left:
     - text: "Introducción"
       icon: fa-home
@@ -21,4 +21,4 @@ output:
     toc_depth: 3              
     css: styles.css          
     include:
-      after_body: footer.html
+      ##after_body: footer.html
